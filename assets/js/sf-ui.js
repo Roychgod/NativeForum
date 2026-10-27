@@ -1059,7 +1059,7 @@ document.querySelectorAll('.sf-pwqs[data-sf-pwqs="1"]').forEach(function(root){
   }
 })();
 
-/* Readability guard (1.0.5): if a host theme or a Design Studio colour makes forum text
+/* Readability guard: if a host theme or a Design Studio colour makes forum text
    unreadable on its own background (e.g. a dark label colour on a dark preset), switch that
    element to a readable colour. Only touches elements whose contrast is really broken (< 2:1). */
 (function(){

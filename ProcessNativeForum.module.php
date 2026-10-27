@@ -7,9 +7,10 @@ class ProcessNativeForum extends Process implements Module {
   public static function getModuleInfo() {
     return [
       'title' => 'Native Forum Admin',
-      'version' => 104,
-      'summary' => 'Admin for Native Forum: dashboard, reports, groups & categories, topics, messages, members and settings.',
+      'version' => 100,
+      'summary' => 'Admin for Native Forum: dashboard, reports, groups & categories, topics, messages, members, settings and export/import.',
       'author' => 'Gregor Rojko (Pyxios)',
+      'href' => 'https://processwire.com/modules/native-forum/',
       'icon' => 'comments',
       'requires' => ['ProcessWire>=3.0.200', 'NativeForum'],
       'permissions' => ['native-forum'],

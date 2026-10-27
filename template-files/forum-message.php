@@ -58,18 +58,27 @@ if($to && $to->id === $user->id && $page->hasField('forum_is_read') && !$page->f
 
 // Quick reply (reply to sender)
 $replyToUser = ($from && $from->id === $user->id) ? $to : $from;
+$replyError = '';
 if($input->post->pm_reply && $replyToUser && $replyToUser->id) {
   $subject = (string) $page->title;
   if(stripos($subject, 'Re:') !== 0) $subject = 'Re: ' . $subject;
   $body = (string) $input->post->body;
-  if(trim($body) !== '') {
-    $forum->sendMessage($user, $replyToUser, $subject, $body);
-    $root = $forum->messagesRoot();
-    if($root && $root->id) {
-      $toUrl = $root->url . ($config->usePageSegments ? 'sent/' : '?box=sent');
-      $session->redirect($toUrl);
+  if(!$session->CSRF->hasValidToken('sfpmreply')) {
+    $replyError = 'Security token expired. Please try again.';
+  } elseif(trim($body) === '') {
+    $replyError = 'Message body is required.';
+  } else {
+    try {
+      $forum->sendMessage($user, $replyToUser, $subject, $body);
+      $root = $forum->messagesRoot();
+      if($root && $root->id) {
+        $toUrl = $root->url . ($config->usePageSegments ? 'sent/' : '?box=sent');
+        $session->redirect($toUrl);
+      }
+      $session->redirect('/');
+    } catch(WireException $e) {
+      $replyError = $e->getMessage();
     }
-    $session->redirect('/');
   }
 }
 
@@ -99,7 +108,9 @@ if($replyToUser && $replyToUser->id) {
   $theme = function_exists(__NAMESPACE__ . '\\sf_forum_theme') ? sf_forum_theme($forum) : ((string)($forum->get('frontendTheme') ?: 'simple'));
   $taClass = ($theme === 'bootstrap') ? 'form-control' : 'sf-textarea';
   $btnClass = ($theme === 'bootstrap') ? 'btn btn-primary' : 'sf-button-primary';
+  if($replyError) echo "<div class='sf-alert sf-alert-error'>" . $sanitizer->entities($replyError) . "</div>";
   echo "<form method='post' class='sf-form'>";
+  echo $session->CSRF->renderInput('sfpmreply');
   echo "<p><textarea name='body' rows='5' class='{$taClass}' placeholder='Write your reply...'></textarea></p>";
   echo "<p><button type='submit' name='pm_reply' value='1' class='{$btnClass}'>Send reply</button></p>";
   echo "</form>";

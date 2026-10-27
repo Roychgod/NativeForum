@@ -55,7 +55,7 @@
       });
     });
 
-    // 1.0.6: Section switch happens in the browser (all sections are rendered); no reload.
+    // Section switch happens in the browser (all sections are rendered); no reload.
     var selTpl = document.querySelector('select[name="dsUiTpl"]');
     var selSec = document.querySelector('select[name="dsUiSection"]');
     function showSection(){
@@ -201,7 +201,7 @@
   else initAll();
 })();
 
-/* 1.0.5 — read the admin page background so native <option> lists match light/dark admin themes */
+/* Read the admin page background so native <option> lists match light/dark admin themes */
 (function(){
   function bg(e){ while(e){ var c = getComputedStyle(e).backgroundColor; if(c && c !== 'transparent' && !/rgba\(.*,\s*0\)$/.test(c)) return c; e = e.parentElement; } return ''; }
   function set(){

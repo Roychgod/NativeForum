@@ -43,14 +43,15 @@ class NativeForum extends WireData implements Module, ConfigurableModule {
   public static function getModuleInfo() {
     return [
       'title'    => 'Native Forum',
-      'version'  => 107,
-      'summary'  => 'A complete community forum for ProcessWire: topics, replies, private messages, moderation, anti-spam, SEO/GEO and ready-made designs.',
+      'version'  => 100,
+      'summary'  => 'A complete community forum for ProcessWire: groups, categories, topics, replies, private messages, moderation, anti-spam, SEO/GEO and ready-made designs.',
       'author'   => 'Gregor Rojko (Pyxios)',
+      'href'     => 'https://processwire.com/modules/native-forum/',
       'icon'     => 'comments',
       'installs' => ['ProcessNativeForum'], // installing Native Forum also installs its admin
       'autoload' => true, // autoload needed for reliable AJAX uploads
       'singular' => true,
-      'requires' => 'ProcessWire>=3.0.200',
+      'requires' => ['ProcessWire>=3.0.200', 'PHP>=7.4'],
     ];
   }
   /**
@@ -1358,7 +1359,7 @@ class NativeForum extends WireData implements Module, ConfigurableModule {
       'activityWindowMin'        => 5,
 
 
-      // Settings added in v50+ (defaults also used at runtime)
+      // Settings added during development (defaults also used at runtime)
       'showTopicSummaries'      => 1,
       'topicsPerPage'           => 20,
       'allowRegistration'       => 1,
@@ -2621,7 +2622,7 @@ $fsFrontend->add($st);
       ],
     ];
 
-    // 1.0.6: every section is rendered at once and switched in the browser (no page reload, open
+    // Every section is rendered at once and switched in the browser (no page reload, open
     // panels stay open). Each section lives in its own fieldset; the Section dropdown only shows/hides.
     $sfDsActiveSec = $uiSec;
     $sfDsRoot = $fsDesignStudio;
@@ -3103,7 +3104,7 @@ $fsFrontend->add($st);
         $field->attr('placeholder', $ph);
       }
 
-      // 1.0.6: empty values show what the selected preset really uses (measured per preset/theme),
+      // Empty values show what the selected preset really uses (measured per preset/theme),
       // so the admin sees the preset's colours/sizes and can tweak from there. Values equal to the
       // preset are not stored on save (hookBeforeSaveConfig), so switching presets keeps working.
       $presetVal = (string)($sfDsPresetNow["{$realSec}.{$realKey}"] ?? '');
@@ -4351,7 +4352,7 @@ public function applyAutoRank($u, bool $force = false): string {
     }
   }
 
-  public function canReadForum(User $u = null, Page $context = null): bool {
+  public function canReadForum(?User $u = null, ?Page $context = null): bool {
   if(!$u) $u = $this->wire('user');
 
   // If a context is given, enforce category restrictions
@@ -4372,7 +4373,7 @@ public function applyAutoRank($u, bool $force = false): string {
 }
 
 
-  public function canPost(User $u = null): bool {
+  public function canPost(?User $u = null): bool {
     if(!$u) $u = $this->wire('user');
     $allowGuestsPost = (int) $this->get('allowGuestsPost');
 
@@ -4393,7 +4394,7 @@ public function applyAutoRank($u, bool $force = false): string {
     return false;
   }
 
-  public function canVote(User $u = null): bool {
+  public function canVote(?User $u = null): bool {
     if(!$u) $u = $this->wire('user');
     $allowGuestsVote = (int) $this->get('allowGuestsVote');
 
@@ -4413,7 +4414,7 @@ public function applyAutoRank($u, bool $force = false): string {
   /**
    * Is user a forum moderator/admin? (frontend moderation privileges)
    */
-  public function isModerator(User $u = null): bool {
+  public function isModerator(?User $u = null): bool {
     if(!$u) $u = $this->wire('user');
     if(!$u || !$u->id) return false;
     if($u->isSuperuser()) return true;
@@ -4445,7 +4446,7 @@ public function applyAutoRank($u, bool $force = false): string {
   /**
    * Can user edit the given topic/reply post?
    */
-  public function canEditPost(Page $post, User $u = null): bool {
+  public function canEditPost(Page $post, ?User $u = null): bool {
     if(!$u) $u = $this->wire('user');
     if(!$u || !$u->id) return false;
     if($this->isModerator($u)) return true;
@@ -4641,7 +4642,7 @@ public function applyAutoRank($u, bool $force = false): string {
  * If no roles are selected, falls back to module allowGuestsRead / logged-in.
  * If category is marked VIP and has no explicit role lists, default VIP roles from module config apply.
  */
-public function canReadCategory(User $u = null, Page $category = null): bool {
+public function canReadCategory(?User $u = null, ?Page $category = null): bool {
   if(!$u) $u = $this->wire('user');
   if(!$category || !$category->id) return $this->canReadForum($u);
 
@@ -4683,7 +4684,7 @@ if($this->isVipCategory($category)) {
  * If no roles are selected, falls back to module canPost (guest settings etc.).
  * If category is marked VIP and has no explicit role lists, default VIP roles from module config apply.
  */
-public function canWriteCategory(User $u = null, Page $category = null): bool {
+public function canWriteCategory(?User $u = null, ?Page $category = null): bool {
   if(!$u) $u = $this->wire('user');
   if(!$category || !$category->id) return $this->canPost($u);
 
@@ -4777,7 +4778,7 @@ public function isVipGroup(Page $group): bool {
  * Can the given user read/view this group page?
  * If the group is VIP, uses default VIP read roles from module settings.
  */
-public function canReadGroup(User $u = null, Page $group = null): bool {
+public function canReadGroup(?User $u = null, ?Page $group = null): bool {
   if(!$u) $u = $this->wire('user');
   if(!$group || !$group->id) return $this->canReadForum($u);
 
@@ -4840,7 +4841,7 @@ public function canReadGroup(User $u = null, Page $group = null): bool {
   /**
    * Can the given user post a reply to the given topic (takes topic lock into account).
    */
-  public function canPostToTopic(Page $topic, User $u = null): bool {
+  public function canPostToTopic(Page $topic, ?User $u = null): bool {
     if(!$u) $u = $this->wire('user');
     if(!$this->canPost($u)) return false;
     if($topic->template->name !== 'forum-topic') return false;
@@ -4850,7 +4851,7 @@ public function canReadGroup(User $u = null, Page $group = null): bool {
     return true;
   }
 
-  public function setTopicLocked(Page $topic, bool $locked, User $u = null): void {
+  public function setTopicLocked(Page $topic, bool $locked, ?User $u = null): void {
     if(!$u) $u = $this->wire('user');
     if(!$this->isModerator($u)) throw new WireException('Not allowed.');
     if($topic->template->name !== 'forum-topic') throw new WireException('Not a topic.');
@@ -4860,7 +4861,7 @@ public function canReadGroup(User $u = null, Page $group = null): bool {
     $topic->of(true);
   }
 
-  public function setTopicPinned(Page $topic, bool $pinned, User $u = null): void {
+  public function setTopicPinned(Page $topic, bool $pinned, ?User $u = null): void {
     if(!$u) $u = $this->wire('user');
     if(!$this->isModerator($u)) throw new WireException('Not allowed.');
     if($topic->template->name !== 'forum-topic') throw new WireException('Not a topic.');
@@ -4870,7 +4871,7 @@ public function canReadGroup(User $u = null, Page $group = null): bool {
     $topic->of(true);
   }
 
-  public function moveTopic(Page $topic, Page $newCategory, User $u = null): void {
+  public function moveTopic(Page $topic, Page $newCategory, ?User $u = null): void {
     if(!$u) $u = $this->wire('user');
     if(!$this->isModerator($u)) throw new WireException('Not allowed.');
     if($topic->template->name !== 'forum-topic') throw new WireException('Not a topic.');
@@ -4882,7 +4883,7 @@ public function canReadGroup(User $u = null, Page $group = null): bool {
     $topic->of(true);
   }
 
-  public function setReplyDeleted(Page $reply, bool $deleted, User $u = null): void {
+  public function setReplyDeleted(Page $reply, bool $deleted, ?User $u = null): void {
     if(!$u) $u = $this->wire('user');
     if(!$this->isModerator($u)) throw new WireException('Not allowed.');
     if($reply->template->name !== 'forum-reply') throw new WireException('Not a reply.');
@@ -6426,7 +6427,10 @@ protected function installTemplateFiles(): void {
 
     $imgExt = ['jpg','jpeg','png','gif','webp'];
     $fileExt = preg_split('/\\s+/', trim((string)$this->get('attachmentsAllowedExt')), -1, PREG_SPLIT_NO_EMPTY);
-    $fileExt = array_map('strtolower', $fileExt ?: []);
+    $fileExt = array_map(function($e) { return strtolower(ltrim($e, '.')); }, $fileExt ?: []);
+    // never accept files a web server could execute or a browser could run as script, whatever the settings say
+    $denyExt = ['php','php3','php4','php5','php7','php8','phtml','phar','pht','phps','inc','cgi','pl','py','sh','asp','aspx','jsp','exe','bat','cmd','com','htaccess','htpasswd','html','htm','shtml','xhtml','svg','svgz','js','mjs','xml'];
+    $fileExt = array_values(array_diff($fileExt, $denyExt));
     $allExt = array_unique(array_merge($imgExt, $fileExt));
 
     // accept both; we'll classify after upload
@@ -6877,7 +6881,7 @@ public function createTopic(Page $category, User $author, string $title, string 
     return $p;
   }
 
-  public function createReply(Page $topic, User $author, string $body, Page $replyTo = null, string $uploadCtx = ''): Page {
+  public function createReply(Page $topic, User $author, string $body, ?Page $replyTo = null, string $uploadCtx = ''): Page {
     if(!$this->canPost($author)) throw new WireException("Posting not allowed.");
     if($topic->template->name !== 'forum-topic') throw new WireException("Not a forum topic.");
 $cat = $topic->parent;
@@ -7679,7 +7683,7 @@ JS;
     $this->ensureReportsTable();
     $this->adoptOldReports();
     $this->clearProCacheAll();
-    // v59: until v56 the "Native Forum → Settings" screen showed these switches as OFF and
+    // Pre-release builds (v59): until v56 the "Native Forum → Settings" screen showed these switches as OFF and
     // saved 0 on every save (checkbox→toggle conversion bug). Restore their defaults once.
     if((int) $fromVersion < 59) {
       $cfg = $this->wire('modules')->getConfig($this);
@@ -7700,15 +7704,7 @@ JS;
         $this->wire('modules')->saveConfig($this, $cfg);
       }
     }
-    // 1.0.4: topic following on for everyone (the "Followed topics" tab is part of every profile)
-    if((int) $fromVersion < 104) {
-      $cfg = $this->wire('modules')->getConfig($this);
-      if(is_array($cfg) && isset($cfg['enableTopicFollow']) && !(int) $cfg['enableTopicFollow']) {
-        $cfg['enableTopicFollow'] = 1;
-        $this->wire('modules')->saveConfig($this, $cfg);
-      }
-    }
-    // v73: preset "pekarna" renamed to "obsidian"
+    // Pre-release builds (v73): legacy preset name renamed to "obsidian"
     if((int) $fromVersion < 73) {
       $cfg = $this->wire('modules')->getConfig($this);
       if(($cfg['designPreset'] ?? '') === 'pekarna') {

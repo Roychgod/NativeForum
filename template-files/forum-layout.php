@@ -1616,7 +1616,7 @@ $cssVars = '';
     }
     // Design preset selection
     $preset = (string) sf_cfg('designPreset', 'obsidian');
-    if($preset === 'pekarna') $preset = 'obsidian'; // renamed in v73
+    if($preset === 'pekarna') $preset = 'obsidian'; // legacy preset name (pre-release builds)
     $presetFile = $preset;
     if($presetFile === 'monochromatic' || $presetFile === 'monochrome') $presetFile = 'mono';
 

@@ -689,16 +689,24 @@ if($tab === 'overview') {
 } elseif($tab === 'settings' && $isSelf) {
   // Inline settings form (same as forum-profile)
   $msg = '';
-  if($input->post->save_profile) {
+  $msgErr = '';
+  if($input->post->save_profile && !$session->CSRF->hasValidToken('sfprofile')) $msgErr = 'Security token expired. Please try again.';
+  if($input->post->save_profile && $msgErr === '') {
     $user->of(false);
     if($user->hasField('forum_nickname')) $user->forum_nickname = $sanitizer->text($input->post->forum_nickname);
     $email = $sanitizer->email($input->post->email);
-    if($email) $user->email = $email;
+    if($email && strcasecmp($email, (string) $user->email) !== 0) {
+      if(wire('users')->get('email=' . $sanitizer->selectorValue($email) . ", include=all, id!={$user->id}")->id) {
+        $msgErr = 'This e-mail address is already used by another account.';
+      } else {
+        $user->email = $email;
+      }
+    }
     if($user->hasField('forum_signature')) $user->forum_signature = $sanitizer->textarea($input->post->forum_signature);
     if($user->hasField('forum_show_email')) $user->forum_show_email = (int) $input->post->forum_show_email ? 1 : 0;
 
     // avatar upload (single)
-    if($user->hasField('forum_avatar') && isset($_FILES['forum_avatar']) && !empty($_FILES['forum_avatar']['name'])) {
+    if((int) $forum->get('allowAvatarUpload') && $user->hasField('forum_avatar') && isset($_FILES['forum_avatar']) && !empty($_FILES['forum_avatar']['name'])) {
       $tmpDir = rtrim($config->paths->cache, '/\\') . DIRECTORY_SEPARATOR . 'NativeForumAvatars' . DIRECTORY_SEPARATOR;
       if(!is_dir($tmpDir)) wireMkdir($tmpDir);
 
@@ -721,7 +729,7 @@ if($tab === 'overview') {
 
     $user->save();
     $user->of(true);
-    $msg = 'Saved.';
+    $msg = $msgErr === '' ? 'Saved.' : '';
   }
 
   $nickVal = $user->hasField('forum_nickname') ? (string)$user->forum_nickname : '';
@@ -734,18 +742,20 @@ if($fieldVal instanceof Pageimages) $img = $fieldVal->first();
 elseif($fieldVal instanceof Pageimage) $img = $fieldVal;
 if($img) $av = $img->size(80,80)->url;
 
+  if($msgErr) echo "<div class='alert alert-danger py-2'>" . $sanitizer->entities($msgErr) . "</div>";
   if($msg) echo "<div class='alert alert-success py-2'>{$msg}</div>";
 
   echo "<div class='row g-3 align-items-start'>";
   echo "<div class='col-md-8'>";
   echo "<form method='post' enctype='multipart/form-data'>";
+  echo $session->CSRF->renderInput('sfprofile');
   echo "<div class='mb-3'><label class='form-label'>Nickname</label><input class='form-control' type='text' name='forum_nickname' value='" . $sanitizer->entities($nickVal) . "'></div>";
   echo "<div class='mb-3'><label class='form-label'>Email</label><input class='form-control' type='email' name='email' value='" . $sanitizer->entities((string)$user->email) . "'></div>";
   echo "<div class='mb-3'><label class='form-label'>Signature</label><textarea class='form-control' rows='5' name='forum_signature'>" . $sanitizer->entities($sigVal) . "</textarea></div>";
   $countryVal = $user->hasField('forum_country') ? (string)$user->forum_country : '';
   if($user->hasField('forum_country')) echo "<div class='mb-3'><label class='form-label'>Country</label><input class='form-control' type='text' name='forum_country' value='" . $sanitizer->entities($countryVal) . "' placeholder='e.g. Slovenia'></div>";
   echo "<div class='form-check mb-3'><input class='form-check-input' type='checkbox' name='forum_show_email' value='1' id='sfShowEmail' " . ($showVal ? 'checked' : '') . "><label class='form-check-label' for='sfShowEmail'>Show email on forum</label></div>";
-  echo "<div class='mb-3'><label class='form-label'>Avatar</label><input class='form-control form-control-sm' type='file' name='forum_avatar'></div>";
+  if((int) $forum->get('allowAvatarUpload')) echo "<div class='mb-3'><label class='form-label'>Avatar</label><input class='form-control form-control-sm' type='file' name='forum_avatar'></div>";
   echo "<button type='submit' name='save_profile' value='1' class='btn btn-primary'>Save</button>";
   echo "</form>";
   echo "</div>";
