@@ -1,0 +1,517 @@
+/*
+  NativeForum Design Studio runtime layer
+  - Must work for BOTH themes: Simple + Bootstrap
+  - Uses the same CSS variables that forum-layout.php outputs ( --sf-* )
+  - Loaded AFTER theme CSS so it can actually apply visual changes.
+*/
+
+/* Base wrapper: typography + base colors */
+.sf-wrap{
+  font-family: var(--sf-font-family, inherit);
+  font-size: var(--sf-font-size, 16px);
+  line-height: var(--sf-line-height, 1.5);
+  color: var(--sf-text, inherit);
+}
+
+/* Wrapper background: applies to Bootstrap theme (.sf-wrap-bootstrap sets its own background)
+   and Simple theme (if it doesn't). */
+.sf-wrap,
+.sf-wrap.sf-wrap-bootstrap,
+.sf-wrap.sf-wrap-simple{
+  /* Overall forum background (behind everything) */
+  background-color: var(--sf-bg, transparent) !important;
+  background-image: none !important;
+}
+
+/* Make sure the Bootstrap container wrapper doesn't paint over the forum background */
+.sf-wrap .sf-container{
+  background-color: var(--sf-bg, transparent) !important;
+  background-image: none !important;
+}
+
+/* Only force transparency for inner wrappers when the user explicitly enables it */
+.sf-wrap.sf-bg-transparent,
+.sf-wrap.sf-bg-transparent.sf-wrap-bootstrap,
+.sf-wrap.sf-bg-transparent.sf-wrap-simple{
+  background-color: transparent !important;
+}
+.sf-wrap.sf-bg-transparent .sf-container,
+.sf-wrap.sf-bg-transparent .sf-content,
+.sf-wrap.sf-bg-transparent .sf-main,
+.sf-wrap.sf-bg-transparent .sf-page,
+.sf-wrap.sf-bg-transparent .sf-pagewrap,
+.sf-wrap.sf-bg-transparent .sf-forum,
+.sf-wrap.sf-bg-transparent .sf-forum-grid,
+.sf-wrap.sf-bg-transparent .sf-forum-rowgrid{
+  background: transparent !important;
+}
+
+/* Headings */
+.sf-wrap h1, .sf-wrap .sf-h1{ font-size: var(--sf-h1-size, inherit); }
+.sf-wrap h2, .sf-wrap .sf-h2{ font-size: var(--sf-h2-size, inherit); }
+
+/* Links */
+.sf-wrap a{ color: var(--sf-link, var(--sf-primary, inherit)); }
+.sf-wrap a:hover{ color: var(--sf-link-hover, var(--sf-accent, var(--sf-primary, inherit))); }
+
+/* Muted/meta */
+.sf-wrap .sf-muted,
+.sf-wrap .sf-muted-sm,
+.sf-wrap .text-muted{
+  color: var(--sf-muted, inherit);
+}
+.sf-wrap .sf-muted-sm{ font-size: var(--sf-small-text-size, inherit); }
+.sf-wrap .sf-post-meta,
+.sf-wrap .sf-post-id{ font-size: var(--sf-post-meta-size, inherit); }
+
+/* Surfaces/cards/panels */
+/* Panels/cards default to transparent so only topic rows can be highlighted (per-user request) */
+.sf-wrap .sf-card,
+.sf-wrap .sf-panel,
+.sf-wrap .sf-box,
+.sf-wrap .sf-sidecard,
+.sf-wrap .sf-post-card,
+.sf-wrap .card,
+.sf-wrap .list-group-item{
+  background: transparent !important;
+  border-color: var(--sf-border, rgba(0,0,0,.12)) !important;
+  border-radius: var(--sf-radius, 12px);
+}
+
+/* Highlight only topic rows */
+.sf-wrap .list-group-item.sf-topic-rowitem{
+  background: var(--sf-surface, inherit) !important;
+}
+
+/* Secondary surface (optional) */
+.sf-wrap .sf-surface-2{
+  background: var(--sf-surface-2, var(--sf-surface, inherit));
+}
+
+/* Header/top bars (index toolbar, breadcrumbs, etc.) */
+.sf-wrap .sf-header,
+.sf-wrap .sf-topbar,
+.sf-wrap .sf-index-toolbar,
+.sf-wrap .sf-breadcrumbbar,
+.sf-wrap .sf-toolbar,
+.sf-wrap .sf-pagehead{
+  background: var(--sf-header-bg, var(--sf-surface, transparent)) !important;
+  color: var(--sf-header-color, var(--sf-text, inherit)) !important;
+  border-color: var(--sf-border, rgba(0,0,0,.12)) !important;
+  /* These must be !important so they can override theme defaults on ALL templates */
+  padding: var(--sf-header-pad, initial) !important;
+  border: var(--sf-header-border, initial) !important;
+}
+
+/* Pagehead uses card-body for padding in many templates */
+.sf-wrap .sf-pagehead .card-body{
+  padding: var(--sf-header-pad, initial) !important;
+}
+.sf-wrap .sf-page-title,
+.sf-wrap .sf-h1{
+  color: var(--sf-page-title-color, var(--sf-text, inherit));
+  font-size: var(--sf-page-title-size, inherit);
+}
+
+/* Some templates use card headers for the top bar (make ALL headers consistent) */
+.sf-wrap .sf-card-h,
+.sf-wrap .sf-card-header,
+.sf-wrap .card-header,
+.sf-wrap .card-header.sf-card-header,
+.sf-wrap .sf-pagehead .card-header{
+  background: var(--sf-header-bg, var(--sf-surface-2, inherit)) !important;
+  color: var(--sf-header-color, var(--sf-text, inherit)) !important;
+  border-color: var(--sf-border, rgba(0,0,0,.12)) !important;
+
+  /* Use global header settings everywhere, with legacy fallbacks */
+  padding: var(--sf-header-pad, var(--sf-card-header-padding, initial)) !important;
+  border: var(--sf-header-border, initial) !important;
+  font-size: var(--sf-card-header-font-size, inherit) !important;
+}
+
+/* Ensure inner elements inherit header color */
+.sf-wrap .sf-card-h *,
+.sf-wrap .sf-card-header *,
+.sf-wrap .card-header *{
+  color: inherit !important;
+}
+
+
+/* Sidebar */
+.sf-wrap .sf-side,
+.sf-wrap .sf-sidebar{
+  color: var(--sf-side-text, inherit);
+  padding: var(--sf-side-pad, initial);
+}
+.sf-wrap .sf-side .card,
+.sf-wrap .sf-sidecard{
+  background: var(--sf-side-bg, var(--sf-surface, inherit)) !important;
+  color: var(--sf-side-text, inherit) !important;
+}
+
+.sf-wrap .sf-sidecard-b,
+.sf-wrap .sf-sidecard .card-body{
+  padding: var(--sf-side-inner-pad, initial);
+}
+
+/* Topic rows + posts */
+.sf-wrap .sf-topic-row,
+.sf-wrap .sf-forum-row{
+  background: var(--sf-bg-topicrow, var(--sf-surface, transparent)) !important;
+  color: var(--sf-text-topicrow, var(--sf-text, inherit)) !important;
+}
+.sf-wrap .sf-topicpost,
+.sf-wrap .sf-post,
+.sf-wrap .sf-post-card[data-sf-kind=topic],
+.sf-wrap .sf-post-card[data-sf-kind=reply]{
+  background: var(--sf-bg-topicpost, var(--sf-surface, inherit)) !important;
+  color: var(--sf-text-topicpost, var(--sf-text, inherit)) !important;
+}
+
+/* Replies (if separate background is configured) */
+.sf-wrap .sf-reply,
+.sf-wrap .sf-post-card[data-sf-kind=reply]{
+  background: var(--sf-bg-reply, var(--sf-bg-topicpost, var(--sf-surface, inherit))) !important;
+  color: var(--sf-text-reply, var(--sf-text-topicpost, var(--sf-text, inherit))) !important;
+}
+
+/* User info column (author box) */
+.sf-wrap .sf-userinfo{
+  background: var(--sf-userinfo-bg, transparent) !important;
+  color: var(--sf-userinfo-text, inherit) !important;
+  padding: var(--sf-userinfo-pad, 0);
+  border-radius: var(--sf-userinfo-radius, 0);
+}
+
+/* Buttons */
+.sf-wrap .sf-btn,
+.sf-wrap .btn{
+  border-radius: var(--sf-btn-radius, .5em);
+  padding: var(--sf-btn-pad, .45em .75em);
+  border-color: var(--sf-btn-border, var(--sf-border, rgba(0,0,0,.18)));
+  color: var(--sf-btn-text, inherit);
+  box-shadow: none;
+}
+
+/* Primary buttons */
+.sf-wrap .sf-btn-primary,
+.sf-wrap .btn-primary{
+  background: var(--sf-btn-primary-bg, var(--sf-primary, inherit));
+  border-color: var(--sf-btn-primary-bg, var(--sf-primary, inherit));
+  color: var(--sf-btn-primary-text, var(--sf-primary-contrast, inherit));
+}
+.sf-wrap .sf-btn-primary:hover,
+.sf-wrap .btn-primary:hover{
+  background: var(--sf-btn-primary-hover-bg, var(--sf-btn-primary-bg, var(--sf-primary, inherit)));
+  border-color: var(--sf-btn-primary-hover-bg, var(--sf-btn-primary-bg, var(--sf-primary, inherit)));
+  color: var(--sf-btn-primary-hover-text, var(--sf-btn-primary-text, var(--sf-primary-contrast, inherit)));
+}
+
+/* Secondary buttons (ghost/outline variants in forum use this styling) */
+.sf-wrap .sf-btn-secondary,
+.sf-wrap .btn-secondary,
+.sf-wrap .btn-outline-secondary,
+.sf-wrap .sf-btn-ghost{
+  background: var(--sf-btn-secondary-bg, transparent);
+  color: var(--sf-btn-secondary-text, var(--sf-text, inherit));
+  border-color: var(--sf-btn-border, var(--sf-border, currentColor));
+}
+.sf-wrap .sf-btn-secondary:hover,
+.sf-wrap .btn-secondary:hover,
+.sf-wrap .btn-outline-secondary:hover,
+.sf-wrap .sf-btn-ghost:hover{
+  background: var(--sf-btn-secondary-hover-bg, rgba(0,0,0,.04));
+}
+
+.sf-wrap .sf-btn:focus,
+.sf-wrap .btn:focus{
+  outline: none;
+  box-shadow: 0 0 0 .2em var(--sf-btn-focus-ring, rgba(13,110,253,.25));
+}
+
+/* Inputs */
+.sf-wrap .sf-input,
+.sf-wrap .sf-select,
+.sf-wrap .sf-textarea,
+.sf-wrap input,
+.sf-wrap select,
+.sf-wrap textarea{
+  border-radius: var(--sf-input-radius, .5em);
+  padding: var(--sf-input-pad, .45em .75em);
+  border-color: var(--sf-border, rgba(0,0,0,.18));
+}
+
+/* VIP */
+.sf-wrap .sf-vip-header,
+.sf-wrap .sf-vip-badge,
+.sf-wrap .badge.sf-vip,
+.sf-wrap .badge.text-bg-danger{
+  background: var(--sf-vip-header-bg, var(--sf-danger, #dc3545));
+  font-size: var(--sf-vip-header-size, inherit);
+  color: var(--sf-vip-header-color, #fff);
+}
+
+/* Popups */
+.sf-usercard{
+  background: var(--sf-usercard-bg, var(--sf-popup-bg, #fff));
+  color: var(--sf-usercard-text, var(--sf-popup-text, #222));
+  border-color: var(--sf-usercard-border, var(--sf-popup-border, rgba(0,0,0,.12)));
+  border-radius: var(--sf-usercard-radius, var(--sf-popup-radius, 12px));
+  box-shadow: var(--sf-usercard-shadow, var(--sf-popup-shadow, 0 10px 30px rgba(0,0,0,.15)));
+}
+
+/* User hover card structure + arrow */
+/* User hover card (forum user info) */
+.sf-usercard{
+  position:absolute;
+  z-index:99999;
+  padding: 0;
+  border:1px solid var(--sf-usercard-border, var(--sf-popup-border, rgba(0,0,0,.12)));
+  max-width: min(520px, calc(100vw - 24px));
+  font-size: var(--sf-usercard-text-size, 12px);
+  overflow:hidden;
+}
+
+/* Arrow: JS toggles .sf-usercard--arrow-top vs --arrow-bottom */
+.sf-usercard.sf-usercard--arrow-top::before{
+  content:"";
+  position:absolute;
+  top:-10px;
+  left: var(--sf-arrow-x, 20px);
+  width:0;height:0;
+  border-left:10px solid transparent;
+  border-right:10px solid transparent;
+  border-bottom:10px solid var(--sf-usercard-bg, var(--sf-popup-bg, #fff));
+  filter: drop-shadow(0 -1px 0 var(--sf-usercard-border, var(--sf-popup-border, rgba(0,0,0,.12))));
+}
+.sf-usercard.sf-usercard--arrow-bottom::after{
+  content:"";
+  position:absolute;
+  bottom:-10px;
+  left: var(--sf-arrow-x, 20px);
+  width:0;height:0;
+  border-left:10px solid transparent;
+  border-right:10px solid transparent;
+  border-top:10px solid var(--sf-usercard-bg, var(--sf-popup-bg, #fff));
+  filter: drop-shadow(0 1px 0 var(--sf-usercard-border, var(--sf-popup-border, rgba(0,0,0,.12))));
+}
+
+/* Header/top section */
+.sf-usercard .sf-usercard-top{
+  padding: var(--sf-usercard-pad, var(--sf-usercard-padding, 14px 16px));
+  background: var(--sf-usercard-header-bg, rgba(0,0,0,.14));
+  color: var(--sf-usercard-header-text, var(--sf-usercard-text, var(--sf-popup-text, #111)));
+  border-bottom: 1px solid var(--sf-usercard-border, var(--sf-popup-border, rgba(0,0,0,.12)));
+}
+.sf-usercard .sf-usercard-toprow{ display:flex; align-items:center; gap:14px; }
+.sf-usercard .sf-usercard-avatar{
+  width:56px;
+  height:56px;
+  border-radius:999px;
+  overflow:hidden;
+  flex:0 0 auto;
+  background: var(--sf-primary, #0d6efd);
+  color: var(--sf-primary-contrast, #fff);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:700;
+  text-transform:uppercase;
+}
+.sf-usercard .sf-usercard-avatar img{width:100%;height:100%;object-fit:cover;display:block;}
+.sf-usercard .sf-usercard-toptext{min-width:0;}
+.sf-usercard .sf-usercard-name{font-weight:700;font-size: var(--sf-usercard-title-size, 16px); line-height:1.1;}
+.sf-usercard .sf-usercard-rank{opacity:.85;font-size: var(--sf-usercard-rank-size, 12px); margin-top:2px;}
+.sf-usercard .sf-usercard-metawrap{margin-top:8px; display:grid; gap:2px;}
+.sf-usercard .sf-usercard-meta{font-size: var(--sf-usercard-meta-size, 12px); opacity: .9;}
+.sf-usercard .sf-usercard-meta-lbl{opacity:.7;}
+
+/* Stats row */
+.sf-usercard .sf-usercard-stats{
+  display:grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0;
+  padding: 10px 12px;
+}
+.sf-usercard .sf-usercard-stat{padding: 10px 10px; text-align:center; border-right:1px solid var(--sf-usercard-border, var(--sf-popup-border, rgba(0,0,0,.12)));}
+.sf-usercard .sf-usercard-stat:last-child{border-right:none;}
+.sf-usercard .sf-usercard-stat-lbl{font-size: var(--sf-usercard-stat-lbl-size, 12px); opacity:.7; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+.sf-usercard .sf-usercard-stat-num{font-size: var(--sf-usercard-stat-num-size, 16px); font-weight:700; margin-top:2px;}
+
+/* Actions */
+.sf-usercard .sf-usercard-actions{
+  border-top: 1px solid var(--sf-usercard-border, var(--sf-popup-border, rgba(0,0,0,.12)));
+  padding: 10px 12px;
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+}
+.sf-usercard .sf-usercard-btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  padding: .45em .7em;
+  border-radius: var(--sf-usercard-btn-radius, 10px);
+  text-decoration:none;
+  border: 1px solid var(--sf-usercard-btn-border, var(--sf-border, rgba(0,0,0,.18)));
+  background: var(--sf-usercard-btn-bg, transparent);
+  color: var(--sf-usercard-btn-text, var(--sf-primary, #0d6efd));
+  font-size: var(--sf-usercard-btn-size, 13px);
+}
+.sf-usercard .sf-usercard-btn:hover{filter:brightness(1.05);}
+.sf-usercard .sf-usercard-btn--ghost{opacity:.9;}
+
+@media (max-width: 520px){
+  .sf-usercard .sf-usercard-stats{grid-template-columns: repeat(2, minmax(0, 1fr));}
+  .sf-usercard .sf-usercard-stat:nth-child(2){border-right:none;}
+}
+
+/* Tooltip bubble */
+.sf-tooltip, .sf-tip{
+  position:absolute;
+  z-index:99998;
+  padding:10px 12px;
+  border:1px solid var(--sf-tooltip-border, var(--sf-popup-border, rgba(0,0,0,.12)));
+  max-width: min(420px, calc(100vw - 24px));
+  font-size: var(--sf-popup-text-size, 12px);
+}
+.sf-tooltip::before{
+  content:"";
+  position:absolute;
+  top:-8px;
+  left: var(--sf-arrow-x, 20px);
+  width:0;height:0;
+  border-left:8px solid transparent;
+  border-right:8px solid transparent;
+  border-bottom:8px solid var(--sf-tooltip-bg, var(--sf-popup-bg, #111));
+  filter: drop-shadow(0 -1px 0 var(--sf-tooltip-border, var(--sf-popup-border, rgba(0,0,0,.12))));
+}
+
+.sf-tooltip, .sf-tip{
+  background: var(--sf-tooltip-bg, var(--sf-popup-bg, #111));
+  color: var(--sf-tooltip-text, var(--sf-popup-text, #fff));
+  border-radius: var(--sf-tooltip-radius, 8px);
+  box-shadow: var(--sf-tooltip-shadow, var(--sf-popup-shadow, 0 10px 24px rgba(0,0,0,.25)));
+}
+
+/* Index: last-post topic titles truncate */
+
+.sf-wrap .sf-last-link{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%;}
+
+/* New topic modal: nicer spacing + scrollable select */
+.sf-modal .sf-modal-dialog{max-width:520px;width:calc(100% - 24px);}
+.sf-modal .sf-modal-header{background:var(--sf-primary, #0d6efd);color:var(--sf-primary-contrast, #fff);}
+.sf-modal .sf-modal-title{font-weight:700;}
+.sf-modal #sfNewTopicForumSelect{max-height:260px;}
+
+
+/* Layout & spacing (page padding) */
+.sf-wrap .sf-container{
+  padding-left: var(--sf-page-pad-x, 12px);
+  padding-right: var(--sf-page-pad-x, 12px);
+  padding-top: var(--sf-page-pad-y, 0px);
+  padding-bottom: var(--sf-page-pad-y, 0px);
+}
+
+/* Index/category titles */
+.sf-wrap a.sf-link-title.sf-index-title{
+  color: var(--sf-index-title-color, var(--sf-text, #222));
+  font-size: var(--sf-index-title-size, 16px) !important;
+  line-height: var(--sf-line-height, 1.4);
+}
+.sf-wrap a.sf-link-title.sf-index-title:hover{
+  color: var(--sf-index-title-hover-color, var(--sf-primary, #0d6efd));
+}
+
+/* Ensure last-post title truncation can actually happen */
+.sf-wrap .sf-forum-last{min-width:0;}
+.sf-wrap .sf-last-title{min-width:0;}
+.sf-wrap a.sf-last-link{display:block;max-width:100%;}
+
+
+/* VIP containers */
+.sf-wrap .sf-vip .card-header,
+.sf-wrap .sf-vip .sf-card-h{
+  background: var(--sf-vip-header-bg, var(--sf-danger, #dc3545));
+  color: var(--sf-vip-header-color, #fff);
+  font-size: var(--sf-vip-header-size, inherit);
+}
+/* Badges */
+.sf-wrap .sf-pinned-badge,
+.sf-wrap .badge.sf-pinned-badge{
+  background: var(--sf-badge-pinned-bg, #ffc107);
+  color: var(--sf-badge-pinned-color, #111);
+  font-size: var(--sf-badge-font-size, 12px);
+  border-radius: var(--sf-badge-radius, 10px);
+  padding: var(--sf-badge-pad, .25em .5em);
+}
+
+.sf-wrap .sf-vip-badge,
+.sf-wrap .badge.sf-vip-badge{
+  background: var(--sf-badge-vip-bg, var(--sf-vip-header-bg, #dc3545));
+  color: var(--sf-badge-vip-color, var(--sf-vip-header-color, #fff));
+  font-size: var(--sf-badge-font-size, 12px);
+  border-radius: var(--sf-badge-radius, 10px);
+  padding: var(--sf-badge-pad, .25em .5em);
+}
+
+
+/* ===========================
+   VIP + Badges (Design Studio)
+   =========================== */
+
+/* VIP header (applies to VIP category/topic headers that use .sf-vip-header) */
+.sf-wrap .sf-vip-header{
+  background: var(--sf-vip-header-bg, inherit) !important;
+  color: var(--sf-vip-header-color, inherit) !important;
+  font-size: var(--sf-vip-header-size, inherit) !important;
+}
+.sf-wrap .sf-vip-header *{ color: inherit !important; }
+
+/* Badges */
+.sf-wrap .sf-badge{
+  font-size: var(--sf-badge-font-size, inherit) !important;
+  border-radius: var(--sf-badge-radius, 10px) !important;
+  padding: var(--sf-badge-pad, .25em .5em) !important;
+}
+
+/* Pinned + VIP badges */
+.sf-wrap .sf-pinned-badge{
+  background: var(--sf-badge-pinned-bg, #ffc107) !important;
+  color: var(--sf-badge-pinned-color, #111) !important;
+}
+.sf-wrap .sf-vip-badge{
+  background: var(--sf-badge-vip-bg, #dc3545) !important;
+  color: var(--sf-badge-vip-color, #fff) !important;
+}
+.sf-wrap .sf-pinned-badge *,.sf-wrap .sf-vip-badge *{ color: inherit !important; }
+/* Pinned topic rows */
+.sf-wrap .sf-topic-rowitem.sf-pinned{
+  background: var(--sf-pinned-row-bg, var(--sf-bg-topicrow, var(--sf-surface, inherit))) !important;
+  color: var(--sf-pinned-row-text, var(--sf-text-topicrow, var(--sf-text, inherit))) !important;
+  padding: var(--sf-pinned-row-pad, inherit);
+  border-radius: var(--sf-pinned-row-radius, var(--sf-radius, 12px));
+}
+.sf-wrap .sf-topic-rowitem.sf-pinned .sf-topic-title{
+  font-weight: var(--sf-pinned-title-weight, inherit);
+}
+
+/* Tags */
+.sf-wrap .sf-tags{ display:flex; flex-wrap:wrap; gap: var(--sf-tag-gap, 6px); margin-top: 6px; }
+.sf-wrap .sf-tag{
+  display:inline-flex;
+  align-items:center;
+  background: var(--sf-tag-bg, rgba(0,0,0,.06));
+  color: var(--sf-tag-text, inherit);
+  border: var(--sf-tag-border, 0);
+  border-radius: var(--sf-tag-radius, 999px);
+  padding: var(--sf-tag-pad, .15em .55em);
+  font-size: var(--sf-tag-size, 12px);
+  font-weight: var(--sf-tag-weight, 500);
+  text-decoration:none;
+}
+.sf-wrap .sf-tag:hover{
+  background: var(--sf-tag-hover-bg, var(--sf-tag-bg, rgba(0,0,0,.06)));
+  color: var(--sf-tag-hover-text, var(--sf-tag-text, inherit));
+  text-decoration:none;
+}

@@ -1,0 +1,107 @@
+/* NativeForum Bootstrap compatibility shim (safe on BS5, helps on BS4) */
+
+/*
+  Many ProcessWire sites still run Bootstrap 3/4 (or no Bootstrap utilities).
+  NativeForum templates use a handful of common utility classes (d-flex, justify-*, etc.).
+  This shim provides minimal equivalents so layouts don't break.
+  It is loaded only on forum pages.
+*/
+
+/* display + flex helpers */
+.sf-wrap .d-flex{display:flex!important}
+.sf-wrap .d-inline-flex{display:inline-flex!important}
+.sf-wrap .align-items-start{align-items:flex-start!important}
+.sf-wrap .align-items-center{align-items:center!important}
+.sf-wrap .align-items-end{align-items:flex-end!important}
+.sf-wrap .justify-content-start{justify-content:flex-start!important}
+.sf-wrap .justify-content-center{justify-content:center!important}
+.sf-wrap .justify-content-end{justify-content:flex-end!important}
+.sf-wrap .justify-content-between{justify-content:space-between!important}
+.sf-wrap .justify-content-around{justify-content:space-around!important}
+.sf-wrap .flex-wrap{flex-wrap:wrap!important}
+.sf-wrap .flex-nowrap{flex-wrap:nowrap!important}
+
+/* margin helpers used in templates */
+.sf-wrap .ms-auto{margin-left:auto!important}
+.sf-wrap .me-auto{margin-right:auto!important}
+.sf-wrap .me-1{margin-right:.25rem!important}
+.sf-wrap .me-2{margin-right:.5rem!important}
+.sf-wrap .ms-1{margin-left:.25rem!important}
+.sf-wrap .ms-2{margin-left:.5rem!important}
+
+/* visually-hidden (Bootstrap 5) */
+.sf-wrap .visually-hidden{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important}
+
+/* gap utilities (Bootstrap 5) */
+.sf-wrap .gap-0{gap:0!important}
+.sf-wrap .gap-1{gap:.25rem!important}
+.sf-wrap .gap-2{gap:.5rem!important}
+.sf-wrap .gap-3{gap:1rem!important}
+.sf-wrap .gap-4{gap:1.5rem!important}
+.sf-wrap .gap-5{gap:3rem!important}
+
+/* text-bg-* (Bootstrap 5) - approximate using current color variables */
+.sf-wrap .text-bg-primary{color:#fff!important;background-color:#0d6efd!important}
+.sf-wrap .text-bg-secondary{color:#fff!important;background-color:#6c757d!important}
+.sf-wrap .text-bg-success{color:#fff!important;background-color:#198754!important}
+.sf-wrap .text-bg-danger{color:#fff!important;background-color:#dc3545!important}
+.sf-wrap .text-bg-warning{color:#000!important;background-color:#ffc107!important}
+.sf-wrap .text-bg-info{color:#000!important;background-color:#0dcaf0!important}
+.sf-wrap .text-bg-light{color:#000!important;background-color:#f8f9fa!important}
+.sf-wrap .text-bg-dark{color:#fff!important;background-color:#212529!important}
+
+/* small helpers */
+.sf-wrap .rounded-4{border-radius:.5rem!important}
+.sf-wrap .rounded-5{border-radius:1rem!important}
+
+
+/* Card header sizing from settings (Bootstrap) */
+.sf-wrap .card > .card-header,
+.sf-wrap .sf-card > .card-header,
+.sf-wrap .sf-panel > .card-header{
+  font-size: var(--sf-card-header-font-size, inherit) !important;
+  padding: var(--sf-card-header-padding, var(--bs-card-cap-padding-y, .5rem) var(--bs-card-cap-padding-x, 1rem)) !important;
+}
+.sf-wrap .sf-sidebar .card > .card-header,
+.sf-wrap .sf-sidebar .card-header{
+  font-size: var(--sf-sidebar-header-font-size, var(--sf-card-header-font-size, inherit)) !important;
+  padding: var(--sf-sidebar-header-padding, var(--sf-card-header-padding, var(--bs-card-cap-padding-y, .5rem) var(--bs-card-cap-padding-x, 1rem))) !important;
+}
+
+
+
+/* --- Minimal grid for NativeForum when Bootstrap CSS is missing --- */
+/*
+  IMPORTANT:
+  Do NOT implement Bootstrap's `g-*` gutter utilities using CSS `gap`.
+  When real Bootstrap is present, `gap` adds extra width on top of percentage
+  columns (e.g. 75% + 25% + gap), causing the sidebar to wrap below.
+  Instead, we emulate classic Bootstrap gutters via row negative margins
+  and column padding. This is much safer even if Bootstrap is loaded.
+*/
+/* Scoped to .sf-wrap-bootstrap so it won't affect the rest of the site. */
+.sf-wrap-bootstrap .row{display:flex!important;flex-wrap:wrap!important;margin-left:-.75rem!important;margin-right:-.75rem!important;}
+.sf-wrap-bootstrap .row > [class*="col-"]{padding-left:.75rem!important;padding-right:.75rem!important;}
+.sf-wrap-bootstrap .row.g-0{margin-left:0!important;margin-right:0!important;}
+.sf-wrap-bootstrap .row.g-0 > [class*="col-"]{padding-left:0!important;padding-right:0!important;}
+/* Basic col widths used by templates */
+.sf-wrap-bootstrap .col-12{flex:0 0 auto;width:100%!important;}
+@media (min-width:768px){
+  .sf-wrap-bootstrap .col-md-2{flex:0 0 auto;width:16.6666667%!important;}
+  .sf-wrap-bootstrap .col-md-10{flex:0 0 auto;width:83.3333333%!important;}
+  .sf-wrap-bootstrap .col-md-8{flex:0 0 auto;width:66.6666667%!important;}
+  .sf-wrap-bootstrap .col-md-4{flex:0 0 auto;width:33.3333333%!important;}
+}
+@media (min-width:992px){
+  .sf-wrap-bootstrap .col-lg-2{flex:0 0 auto;width:16.6666667%!important;}
+  .sf-wrap-bootstrap .col-lg-3{flex:0 0 auto;width:25%!important;}
+  .sf-wrap-bootstrap .col-lg-4{flex:0 0 auto;width:33.3333333%!important;}
+  .sf-wrap-bootstrap .col-lg-6{flex:0 0 auto;width:50%!important;}
+  .sf-wrap-bootstrap .col-lg-8{flex:0 0 auto;width:66.6666667%!important;}
+  .sf-wrap-bootstrap .col-lg-9{flex:0 0 auto;width:75%!important;}
+  .sf-wrap-bootstrap .col-lg-10{flex:0 0 auto;width:83.3333333%!important;}
+  .sf-wrap-bootstrap .col-lg-12{flex:0 0 auto;width:100%!important;}
+}
+/* Order utilities used by NativeForum */
+.sf-wrap-bootstrap .order-1{order:1!important}.sf-wrap-bootstrap .order-2{order:2!important}
+@media (min-width:768px){.sf-wrap-bootstrap .order-md-1{order:1!important}.sf-wrap-bootstrap .order-md-2{order:2!important}.sf-wrap-bootstrap .order-md-last{order:999!important}}

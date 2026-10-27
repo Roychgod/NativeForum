@@ -1,0 +1,139 @@
+/* NativeForum preset: Monochrome — black & white, sharp, black header bars. */
+:root, .sf-wrap{
+
+  --sf-bg:#f5f5f5;
+  --sf-text:#1a1a1a;
+  --sf-card:var(--sf-bg-panel, var(--sf-surface));
+  --sf-text-panel:var(--sf-text);
+  --sf-border:#e2e2e2;
+  --sf-muted:#6b6b6b;
+  --sf-link:#000000;
+  --sf-link-hover:#111111;
+  --sf-accent:var(--sf-primary);
+  --sf-primary:#111111;
+
+  --sf-header-bg:#111111;
+  --sf-header-color:#ffffff;
+  --sf-header-border:#e2e2e2;
+  --sf-sidebar-header-bg:var(--sf-header-bg);
+
+  --sf-input-bg:#ffffff;
+  --sf-input-text:#1a1a1a;
+
+  --sf-side-bg:var(--sf-bg-panel, var(--sf-surface));
+  --sf-side-text:#1a1a1a;
+  --sf-side-border:#e2e2e2;
+
+  --sf-btn-bg:#f0f0f0;
+  --sf-btn-text:#111111;
+  --sf-btn-border:#d4d4d4;
+  --sf-btn-outline-text:#1a1a1a;
+  --sf-btn-primary-bg:var(--sf-primary);
+  --sf-btn-primary-text:#ffffff;
+  --sf-btn-primary-hover-bg:#333333;
+  --sf-btn-secondary-bg:#f0f0f0;
+  --sf-btn-secondary-text:#111111;
+  --sf-btn-secondary-hover-bg:#e4e4e4;
+
+  --sf-tag-bg:rgba(0,0,0,.06);
+  --sf-tag-text:#111111;
+  --sf-tag-hover-bg:var(--sf-primary);
+  --sf-tag-hover-text:#ffffff;
+
+  --sf-pinned-row-bg:#fafafa;
+  --sf-pinned-row-text:#1a1a1a;
+
+  --sf-surface:#ffffff;
+  --sf-surface-2:#f8fafc;
+  --sf-radius:4px;
+  --sf-card-header-padding:12px 16px;
+  --sf-header-pad:12px 16px;
+  --sf-card-header-font-size:1.05em;
+  --sf-sidebar-header-font-size:1.05em;
+  --sf-sidebar-header-padding:12px 16px;
+  --sf-btn-pad-y:8px;
+  --sf-btn-pad-x:16px;
+  --sf-btn-radius:4px;
+  --sf-focus:rgba(0,0,0,.18);
+  --sf-hover:rgba(0,0,0,.035);
+  --sf-border-strong:#dcdcdc;
+  --sf-border-strong-2:#bdbdbd;
+  --sf-ring:0 0 0 3px rgba(0,0,0,.18);
+  --sf-shadow:0 1px 2px rgba(16,24,40,.06);
+  --sf-userinfo-bg:#fafafa;
+  --sf-badge-pinned-bg:#111111;
+  --sf-badge-pinned-color:#ffffff;
+  --sf-pm-box-bg:rgba(0,0,0,.06);
+  --sf-pm-box-hover-bg:rgba(0,0,0,.1);
+
+  /* skin tokens */
+  --sk-page-bg:#f5f5f5;
+  --sk-wrap-bg:#f5f5f5;
+  --sk-wrap-pad:20px 0;
+  --sk-wrap-radius:4px;
+  --sk-table-head:#f8fafc;
+  --sk-scheme:light;
+  --sk-heading:#000000;
+  --sk-on-header:#ffffff;
+  --sk-on-primary:#ffffff;
+  --sk-side-link:#000000;
+  --sk-content-link:#000000;
+  --sk-pagehead-bg:var(--sf-surface);
+  --sk-page-item-bg:var(--sf-surface);
+  --sk-deep:#f8fafc;
+  --sk-field-bg:#ffffff;
+  --sk-field-text:#1a1a1a;
+  --sk-menu-bg:#ffffff;
+  --sk-editor-bg:#ffffff;
+  --sk-editor-text:#1a1a1a;
+  --sk-editor-link:#000000;
+  --sk-editor-bar:#f2f2f2;
+  --sk-cke-bar:#f2f2f2;
+  --sk-upload-bg:#f8fafc;
+  --sk-avatar-bg:#111111;
+  --sk-avatar-text:#ffffff;
+  --sk-yellow:#111111;
+  --sk-on-yellow:#ffffff;
+  --sk-danger:#b91c1c;
+  --sk-primary-soft:rgba(0,0,0,.06);
+  --sk-primary-soft-text:#111111;
+  --sk-hover-soft:rgba(0,0,0,.035);
+  --sk-outline-hover:rgba(0,0,0,.035);
+  --sk-border-strong:#dcdcdc;
+  --sk-border-strong-2:#bdbdbd;
+  --sk-ok-bg:#ecfdf3;
+  --sk-ok-border:#abefc6;
+  --sk-ok-text:#067647;
+  --sk-err-bg:#fef3f2;
+  --sk-err-border:#fecdca;
+  --sk-err-text:#b42318;
+  --sk-toast-bg:#111827;
+  --sk-toast-text:#ffffff;
+  --sk-radius:4px;
+  --sk-radius-sm:3px;
+  --sk-icon-radius:4px;
+  --sk-input-radius:4px;
+  --sk-badge-radius:3px;
+  --sk-badge-transform:uppercase;
+  --sk-badge-spacing:.05em;
+  --sk-head-transform:uppercase;
+  --sk-head-spacing:.06em;
+  --sk-head-weight:700;
+  --sk-head-size:.88em;
+  --sk-title-weight:700;
+  --sk-btn-weight:600;
+  --sk-card-shadow:none;
+  --sk-post-border:1px solid #e2e2e2;
+  --sk-btn-border:#d4d4d4;
+  --sk-btn-border-hover:#bdbdbd;
+  --sk-toggle-bg:rgba(255,255,255,.16);
+  --sk-toggle-text:#ffffff;
+  --sk-toggle-border:transparent;
+  --sk-activity-head-margin:-14px -16px 10px;
+  --sk-activity-head-radius:4px 4px 0 0;
+  --sk-danger-outline-text:#b91c1c;
+  --sk-danger-outline-border:#b91c1c;
+  --sk-danger-outline-hover-bg:#b91c1c;
+  --sk-danger-outline-hover-text:#ffffff;
+}
+.sf-wrap{ color-scheme:light; }

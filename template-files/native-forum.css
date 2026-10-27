@@ -1,0 +1,1753 @@
+/* NativeForum Template (Simple theme)
+   A lightweight "real forum" look with sidebar + grouped category list.
+*/
+
+:root{
+  --sf-max: 1120px;
+  --sf-bg: #f5f7f9;
+  --sf-surface: #ffffff;
+  --sf-surface-2: #f7f8fb;
+  --sf-card: var(--sf-surface);
+  --sf-border: #e3e7ee;
+  --sf-text: #243043;
+  --sf-muted: #6b778a;
+  --sf-primary: #0d6efd;
+  --sf-primary-contrast: #ffffff;
+  --sf-accent: #12a3d6;
+  --sf-success: #1b5e20;
+  --sf-warning: #664d03;
+  --sf-danger: #7a1b1b;
+  --sf-radius: 12px;
+  --sf-space: 16px;
+
+  /* Header/title accents (kept as separate tokens so users can theme headers
+     without changing the primary action color). */
+  --sf-header-bg: var(--sf-primary);
+  --sf-header-color: #ffffff;
+
+  /* Legacy aliases (older selectors used --sf-blue/--sf-green; map them to
+     current tokens so any leftover references keep working).
+     New code should use --sf-primary / --sf-header-bg directly. */
+  --sf-blue: var(--sf-primary);
+  --sf-green: var(--sf-header-bg);
+}
+
+
+.sf-wrap{
+  padding: 18px 12px 34px;
+  background: var(--sf-bg);
+  color: var(--sf-text);
+  /* Inherit the site's font; sf-extras.css applies the same rule with !important
+     so it survives across host themes. Design Studio's --sf-font-family overrides
+     here when set. */
+  font-family: var(--sf-font-family, inherit);
+  font-size: var(--sf-font-size, inherit);
+  line-height: var(--sf-line-height, inherit);
+}
+
+.sf-container{
+  max-width: var(--sf-max);
+  margin: 0 auto;
+}
+
+.sf-page-title{
+  margin: 8px 0 14px;
+}
+
+.sf-h1{ font-size: 24px; margin: 0; }
+.sf-h2{ font-size: 18px; margin: 0 0 6px; }
+
+.sf-grid{
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+}
+
+.sf-main{ flex: 1 1 auto; min-width: 0; }
+.sf-side{ width: 340px; flex: 0 0 340px; }
+
+@media (max-width: 980px){
+  .sf-grid{ flex-direction: column; }
+  .sf-side{ width: 100%; flex-basis: auto; }
+}
+
+.sf-card{
+  background: var(--sf-surface);
+  border: 1px solid var(--sf-border);
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 14px;
+}
+
+.sf-card-h{
+  background: var(--sf-header-bg, var(--sf-green));
+  color: var(--sf-header-color, #fff);
+  padding: 10px 12px;
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: .3px;
+  text-transform: uppercase;
+}
+
+.sf-card-b{ padding: 12px; }
+
+/*
+  Simple theme compatibility layer
+  Some templates (and some site themes) use Bootstrap-like markup even when the Simple theme is selected.
+  To keep the forum consistent (main + sidebar), we style the most common BS classes inside .sf-wrap.
+*/
+.sf-wrap .card{
+  background: var(--sf-surface);
+  border: 1px solid var(--sf-border);
+  border-radius: 4px;
+  overflow: hidden;
+}
+.sf-wrap .card-header{
+  background: var(--sf-header-bg, var(--sf-green));
+  color: var(--sf-header-color, #fff);
+  padding: 10px 12px;
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: .3px;
+  text-transform: uppercase;
+  border-bottom: 1px solid rgba(0,0,0,.06);
+}
+.sf-wrap .card-header a{ color: inherit; text-decoration: none; }
+.sf-wrap .card-header a:hover{ text-decoration: underline; }
+.sf-wrap .card-body{ padding: 12px; }
+
+.sf-wrap .btn{
+  display: inline-block;
+  padding: 8px 12px;
+  border-radius: 4px;
+  border: 1px solid var(--sf-border);
+  background: #fff;
+  color: var(--sf-text);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 13px;
+  line-height: 1.2;
+}
+.sf-wrap .btn:hover{ background:#f3f6fb; text-decoration: none; }
+.sf-wrap .btn-sm{ padding: 7px 10px; font-size: 12px; }
+.sf-wrap .btn-primary{ background: var(--sf-blue); border-color: var(--sf-blue); color:#fff; }
+.sf-wrap .btn-primary:hover{ filter: brightness(.95); }
+.sf-wrap .btn-outline-primary{ background: transparent; border-color: var(--sf-blue); color: var(--sf-blue); }
+.sf-wrap .btn-outline-primary:hover{ background: rgba(18,163,214,.08); }
+.sf-wrap .btn-outline-secondary{ background: transparent; border-color: var(--sf-border); color: var(--sf-text); }
+.sf-wrap .btn-outline-danger{ background: transparent; border-color: #d9534f; color: #d9534f; }
+.sf-wrap .btn-outline-danger:hover{ background: rgba(217,83,79,.08); }
+
+.sf-wrap .badge{
+  display:inline-block;
+  margin-left: 8px;
+  padding: 2px 8px;
+  font-size: 11px;
+  border-radius: 999px;
+  background: #eef2f7;
+  color: var(--sf-muted);
+  border: 1px solid var(--sf-border);
+  vertical-align: 1px;
+}
+.sf-wrap .text-bg-warning{ background:#fff7e0; border-color:#ffe3a3; color:#7a5b00; }
+.sf-wrap .text-bg-danger{ background:#fff1f1; border-color:#ffd3d3; color:#a41e1e; }
+.sf-wrap .text-bg-secondary{ background:#eef2f7; border-color: var(--sf-border); color: var(--sf-muted); }
+.sf-wrap .text-muted{ color: var(--sf-muted) !important; }
+
+.sf-wrap .text-truncate{ overflow:hidden; text-overflow: ellipsis; white-space: nowrap; }
+.sf-wrap .fw-semibold{ font-weight: 700; }
+.sf-wrap .small{ font-size: 12px; }
+
+/* Minimal utility classes (used by templates even in Simple theme) */
+.sf-wrap .text-center{ text-align: center; }
+.sf-wrap .mx-auto{ margin-left: auto; margin-right: auto; }
+.sf-wrap .mt-2{ margin-top: .5em; }
+.sf-wrap .mb-2{ margin-bottom: .5em; }
+.sf-wrap .mb-3{ margin-bottom: 1em; }
+.sf-wrap .mb-4{ margin-bottom: 1.5em; }
+.sf-wrap .me-2{ margin-right: .5em; }
+.sf-wrap .ms-1{ margin-left: .25em; }
+.sf-wrap .ms-2{ margin-left: .5em; }
+.sf-wrap .py-2{ padding-top: .5em; padding-bottom: .5em; }
+.sf-wrap .py-3{ padding-top: 1em; padding-bottom: 1em; }
+.sf-wrap .p-0{ padding: 0; }
+.sf-wrap .p-2{ padding: .5em; }
+.sf-wrap .p-3{ padding: 1em; }
+.sf-wrap .d-inline{ display: inline; }
+.sf-wrap .d-inline-block{ display: inline-block; }
+.sf-wrap .d-flex{ display:flex; }
+.sf-wrap .flex-wrap{ flex-wrap: wrap; }
+.sf-wrap .align-items-center{ align-items: center; }
+.sf-wrap .align-items-start{ align-items: flex-start; }
+.sf-wrap .justify-content-between{ justify-content: space-between; }
+.sf-wrap .gap-1{ gap: .25em; }
+.sf-wrap .gap-2{ gap: .5em; }
+.sf-wrap .gap-3{ gap: 1em; }
+
+/* Topic/category header bars (breadcrumb + toolbar) */
+.sf-breadcrumbbar{
+  background: var(--sf-header-bg, var(--sf-green));
+  color: var(--sf-header-color, #fff);
+  padding: 10px 12px;
+  border-radius: 4px;
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: .2px;
+}
+.sf-breadcrumbbar a{ text-decoration: none; }
+.sf-breadcrumbbar a:hover{ text-decoration: underline; }
+.sf-breadcrumb-sep{ opacity: .85; margin: 0 6px; }
+
+.sf-toolbar{
+  background: var(--sf-header-bg, var(--sf-green));
+  color: var(--sf-header-color, #fff);
+  margin: 10px 0 14px;
+  padding: 10px 12px;
+  border-radius: 4px;
+  display:flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+}
+
+/* Toolbar layout: keep actions + search on one line on desktop */
+.sf-toolbar-left{ display:flex; align-items:center; gap:10px; flex: 0 1 auto; }
+.sf-toolbar-right{ display:flex; align-items:center; gap:10px; margin-left:auto; flex: 0 1 auto; }
+.sf-csearch-toolbar, .sf-csearch-header{
+  flex: 0 1 380px;
+  width: auto;
+  max-width: 380px;
+}
+@media (max-width: 720px){
+  .sf-toolbar{ justify-content: flex-start; }
+  .sf-toolbar-right{ width:100%; margin-left:0; justify-content: space-between; }
+  .sf-csearch-toolbar, .sf-csearch-header{ flex: 1 1 100%; max-width: 100%; }
+}
+.sf-toolbar-left,
+.sf-toolbar-right{
+  display:flex;
+  align-items:center;
+  gap: 10px;
+}
+.sf-toolbar-right{ margin-left: auto; }
+
+@media (min-width: 768px) {
+  .sf-toolbar{ flex-wrap: nowrap; }
+}
+
+@media (max-width: 576px) {
+  .sf-toolbar{
+    align-items: stretch;
+  }
+  .sf-toolbar-left,
+  .sf-toolbar-right{
+    width: 100%;
+    flex-wrap: wrap;
+    justify-content: stretch;
+  }
+  .sf-toolbar .btn{
+    width: 100%;
+  }
+  .sf-csearch{ width: 100%; }
+  .sf-csearch-input{ min-width: 0; flex: 1 1 auto; }
+}
+
+/* Page header (title + summary) used on category/topic pages */
+.sf-pagehead{ border: 1px solid var(--sf-border); }
+.sf-pagehead .card-body{ padding: 16px 18px; }
+.sf-pagehead-title{ font-size: 28px; font-weight: 700; margin: 0 0 6px; color: var(--sf-text); }
+.sf-pagehead-summary{ color: var(--sf-muted); font-size: 14px; margin: 0; }
+.sf-toolbar .sf-toolbar-spacer{ flex: 1 1 auto; }
+.sf-toolbar a{ color: inherit; text-decoration: none; }
+.sf-toolbar a:hover{ text-decoration: underline; }
+
+/* Small helpers used throughout */
+.sf-muted-sm{ font-size: 12px; color: var(--sf-muted); }
+.sf-index-summary{ margin-top:4px; line-height:1.25;   display:block !important;
+}
+.sf-index-summary{ display:block !important; }
+.sf-link-title{ color: var(--sf-text); text-decoration: none; font-weight: var(--sf-title-weight, inherit); }
+.sf-link-title:hover{ text-decoration: underline; }
+
+/* Author column on topic/replies */
+.sf-post-authorcol{ text-align: center; }
+.sf-avatar{
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 1px solid var(--sf-border);
+  background:#eaf0f7;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight: 800;
+  color: var(--sf-muted);
+}
+.sf-avatar img{ width: 100%; height: 100%; object-fit: cover; display:block; }
+.sf-author-name{ margin-top: 8px; font-weight: 800; font-size: 14px; }
+.sf-author-name a{ color: var(--sf-text); text-decoration:none; }
+.sf-author-name a:hover{ text-decoration: underline; }
+.sf-author-rank{ margin-top: 2px; font-size: 12px; color: var(--sf-muted); }
+
+.sf-groupblock{ margin-bottom: 16px; }
+
+.sf-groupbar{
+  background: var(--sf-header-bg, var(--sf-green));
+  color: var(--sf-header-color, #fff);
+  font-weight: 700;
+  padding: 10px 12px;
+  text-transform: uppercase;
+  letter-spacing: .3px;
+  font-size: 13px;
+  border-radius: 4px 4px 0 0;
+}
+
+/* VIP header variant */
+.sf-vip-h{
+  background: var(--sf-vip-header-bg, #dc3545) !important;
+  color: var(--sf-vip-header-color, #fff) !important;
+}
+
+.sf-groupdot{
+  display:inline-block;
+  width:10px;height:10px;
+  border:2px solid rgba(255,255,255,.8);
+  border-radius:2px;
+  margin-right:8px;
+  vertical-align:-1px;
+}
+
+.sf-forumtable{
+  background: var(--sf-surface);
+  border: 1px solid var(--sf-border);
+  border-top: 0;
+  border-radius: 0 0 4px 4px;
+}
+
+.sf-row{
+  display:flex;
+  gap: 0;
+  border-top: 1px solid var(--sf-border);
+}
+.sf-row:first-child{ border-top:0; }
+
+.sf-cell{
+  padding: 12px;
+  min-width: 0;
+}
+.sf-cell-cat{
+  flex: 1 1 auto;
+  display:flex;
+  gap: 10px;
+  align-items: flex-start;
+}
+.sf-cell-last{
+  width: 300px;
+  flex: 0 0 300px;
+  border-left: 1px solid var(--sf-border);
+}
+@media (max-width: 980px){
+  .sf-cell-last{ width: 100%; flex-basis:auto; border-left:0; border-top:1px solid var(--sf-border); }
+  .sf-row{ flex-direction:column; }
+}
+
+.sf-caticon{
+  width: 38px;
+  height: 38px;
+  background: #eaf7fb;
+  border: 1px solid #d6eef6;
+  border-radius: 4px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size: 18px;
+  flex: 0 0 38px;
+}
+
+.sf-catmeta{ min-width:0; }
+.sf-catlink{
+  display:inline-block;
+  font-weight: 700;
+  color: var(--sf-text);
+  text-decoration: none;
+}
+.sf-catlink:hover{ text-decoration: underline; }
+
+.sf-last-link{
+  color: var(--sf-text);
+  text-decoration:none;
+  font-weight:600;
+}
+.sf-last-link:hover{ text-decoration: underline; }
+
+.sf-muted{ color: var(--sf-muted); font-size: 12px; }
+
+.sf-badge{
+  display:inline-block;
+  margin-left: 8px;
+  padding: 2px 8px;
+  font-size: 11px;
+  border-radius: 999px;
+  background: #eef2f7;
+  color: var(--sf-muted);
+  border: 1px solid var(--sf-border);
+}
+.sf-badge-pin{
+  background: #fff7e0;
+  color: #7a5b00;
+  border-color: #ffe3a3;
+}
+.sf-badge-vip{
+  background: var(--sf-badge-vip-bg, #fff1f1);
+  color: var(--sf-badge-vip-text, #a41e1e);
+  border-color: var(--sf-border-soft, #ffd3d3);
+}
+.sf-badge-lock{
+  background: #fff1f1;
+  color: #a41e1e;
+  border-color: #ffd3d3;
+}
+
+.sf-sidebox{
+  background: var(--sf-side-bg, var(--sf-surface));
+  color: var(--sf-side-text, inherit);
+  border: 1px solid var(--sf-border);
+  border-radius: 4px;
+  overflow:hidden;
+  margin-bottom: 14px;
+}
+.sf-sidebox-h{
+  background: var(--sf-sidebar-header-bg, var(--sf-blue));
+  color: var(--sf-sidebar-header-color, #fff);
+  padding: 10px 12px;
+  font-weight: 700;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: .3px;
+}
+.sf-sidebox-b{ padding: 12px; }
+
+.sf-statlist{
+  list-style:none;
+  padding:0;
+  margin:0;
+}
+.sf-statlist li{
+  display:flex;
+  justify-content:space-between;
+  padding:6px 0;
+  border-bottom: 1px dashed var(--sf-border);
+}
+.sf-statlist li:last-child{ border-bottom:0; }
+.sf-statlist span{ color: var(--sf-muted); font-size: 12px; }
+.sf-statlist strong{ font-size: 13px; }
+
+.sf-search{
+  display:flex;
+  gap: 8px;
+}
+.sf-input, .sf-textarea, select.sf-input{
+  width:100%;
+  background: var(--sf-input-bg, var(--sf-surface, #fff));
+  color: var(--sf-input-text, var(--sf-text, #111));
+  border: 1px solid var(--sf-input-border, var(--sf-border, rgba(0,0,0,.18)));
+  border-radius: var(--sf-input-radius, var(--sf-radius, 4px));
+  padding: 8px 10px;
+  font-size: 14px;
+  outline: none;
+  transition: border-color .12s ease, box-shadow .12s ease, background-color .12s ease;
+}
+.sf-textarea{ resize: vertical; }
+
+.sf-wrap[data-sf-input-size="sm"] .sf-input,
+.sf-wrap[data-sf-input-size="sm"] .sf-textarea,
+.sf-wrap[data-sf-input-size="sm"] select.sf-input{
+  padding: 6px 9px;
+  font-size: 13px;
+}
+.sf-wrap[data-sf-input-size="lg"] .sf-input,
+.sf-wrap[data-sf-input-size="lg"] .sf-textarea,
+.sf-wrap[data-sf-input-size="lg"] select.sf-input{
+  padding: 10px 12px;
+  font-size: 15px;
+}
+
+.sf-input:focus, .sf-textarea:focus, select.sf-input:focus,
+.sf-input:focus-visible, .sf-textarea:focus-visible, select.sf-input:focus-visible{
+  border-color: var(--sf-input-focus-border, var(--sf-primary, #49a6df));
+  box-shadow: 0 0 0 .2em var(--sf-input-focus-ring, rgba(73,166,223,.25));
+}
+
+
+.sf-button-primary, .sf-button-secondary, .sf-vote-btn{
+  display:inline-flex;
+  align-items:center;
+  gap: .35em;
+  border-radius: var(--sf-btn-radius, var(--sf-radius, 4px));
+  border: 1px solid var(--sf-btn-border, var(--sf-border, rgba(0,0,0,.18)));
+  padding: var(--sf-btn-pad-y, 8px) var(--sf-btn-pad-x, 12px);
+  font-weight: 600;
+  font-size: var(--sf-btn-font-size, inherit);
+  line-height: 1.2;
+  text-decoration:none;
+  cursor:pointer;
+  background: var(--sf-btn-secondary-bg, var(--sf-surface, #fff));
+  color: var(--sf-btn-secondary-text, var(--sf-btn-text, var(--sf-text, #111)));
+  transition: background-color .12s ease, border-color .12s ease, color .12s ease, filter .12s ease, box-shadow .12s ease;
+}
+.sf-button-primary{
+  background: var(--sf-btn-primary-bg, var(--sf-primary, var(--sf-green)));
+  color: var(--sf-btn-primary-text, var(--sf-primary-contrast, #fff));
+  border-color: var(--sf-btn-primary-bg, var(--sf-primary, var(--sf-green)));
+}
+.sf-button-primary:hover{
+  background: var(--sf-btn-primary-hover-bg, var(--sf-btn-primary-bg, var(--sf-primary, var(--sf-green))));
+  color: var(--sf-btn-primary-hover-text, var(--sf-btn-primary-text, var(--sf-primary-contrast, #fff)));
+  filter: brightness(0.98);
+}
+.sf-button-secondary:hover{ 
+  background: var(--sf-btn-secondary-hover-bg, var(--sf-btn-secondary-bg, var(--sf-surface, #fff)));
+  filter: brightness(0.98);
+}
+.sf-button-primary:focus, .sf-button-secondary:focus, .sf-vote-btn:focus,
+.sf-button-primary:focus-visible, .sf-button-secondary:focus-visible, .sf-vote-btn:focus-visible{
+  outline:none;
+  box-shadow: 0 0 0 .2em var(--sf-btn-focus-ring, var(--sf-input-focus-ring, rgba(73,166,223,.25)));
+}
+
+
+.sf-tablewrap{ overflow:auto; }
+.sf-table{
+  width:100%;
+  border-collapse: collapse;
+  background:var(--sf-usercard-bg, #fff);
+}
+.sf-table th, .sf-table td{
+  padding: 10px 10px;
+  border-bottom:1px solid var(--sf-border);
+  text-align:left;
+  font-size: 13px;
+}
+.sf-table th{
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: .3px;
+  color: var(--sf-muted);
+  background: #f9fbfd;
+}
+.sf-table tr:hover td{ background:#fbfdff; }
+
+.sf-alert{
+  padding: 10px 12px;
+  border-radius: 4px;
+  border: 1px solid var(--sf-border);
+  margin-bottom: 12px;
+}
+.sf-alert-ok{ background:#eef9f0; border-color:#cfead6; color:#1f6b2d; }
+.sf-alert-error{ background:#fff1f1; border-color:#ffd3d3; color:#a41e1e; }
+
+/* Topic/replies: keep module's existing classes but make them fit the new shell */
+.sf-wrap .native-forum-topic,
+.sf-wrap .native-forum-category,
+.sf-wrap .native-forum-messages,
+.sf-wrap .native-forum-members{
+  background: transparent;
+}
+
+.native-forum-topic .sf-topic-header,
+.sf-wrap .native-forum-reply .header{
+  display:flex;
+  gap: 12px;
+  align-items:flex-start;
+  padding: 12px;
+  border:1px solid var(--sf-border);
+  border-radius: 4px 4px 0 0;
+  background:var(--sf-usercard-bg, #fff);
+}
+
+.sf-wrap .native-forum-body,
+.sf-wrap .native-forum-reply .body{
+  padding: 12px;
+  border:1px solid var(--sf-border);
+  border-top:0;
+  background:var(--sf-usercard-bg, #fff);
+}
+
+.sf-wrap .native-forum-reply{ margin-bottom: 14px; }
+
+.sf-wrap .avatar{ border-radius: 50%; display:block; }
+.sf-wrap .avatar-placeholder{
+  background:#eaf0f7;
+  border:1px solid var(--sf-border);
+  color: var(--sf-muted);
+}
+.sf-usercard{ display:flex; gap: 14px; align-items:flex-start; }
+.sf-userleft{ width: 110px; text-align:center; }
+.sf-user-rank{ margin-top: 8px; font-weight:700; font-size: 12px; color: var(--sf-muted); }
+.sf-userstats{ display:flex; gap: 12px; flex-wrap: wrap; margin: 10px 0; color: var(--sf-muted); }
+.sf-userstats strong{ color: var(--sf-text); }
+.sf-signature{ margin-top: 12px; padding-top: 10px; border-top: 1px dashed var(--sf-border); color: var(--sf-muted); font-size: 13px; }
+
+
+/* Sidebar lists */
+.sf-side-list, .sf-side-links{
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.sf-side-item{
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(0,0,0,.08);
+
+  align-items: center;
+}
+.sf-side-item:last-child{ border-bottom: 0; }
+.sf-side-left{ flex: 1 1 auto; min-width: 0; }
+.sf-side-right{
+  flex: 0 0 auto;
+  color: rgba(0,0,0,.55);
+  font-size: 0.85em;
+  white-space: nowrap;
+}
+.sf-side-left a{ text-decoration: none; }
+.sf-side-left a:hover{ text-decoration: underline; }
+
+
+/* Sidebar latest: keep date on one line and truncate title more aggressively */
+.sf-side-item{ align-items:center; }
+.sf-side-left{ display:flex; align-items:center; gap:6px; min-width:0; overflow:hidden; }
+.sf-side-left a{ flex:1 1 auto; min-width:0; display:block; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.sf-side-left .sf-badge{ flex:0 0 auto; white-space:nowrap; }
+.sf-side-right{ white-space:nowrap !important; display:inline-block; }
+
+/* ===== Forum index rows (Simple theme) ===== */
+/* Wide category title, compact posts count, keep last-post column visible */
+.sf-forum-row .sf-forum-rowgrid,
+.sf-forum-rowitem .sf-forum-rowgrid{
+  /* Force flex layout even if the site theme overrides .sf-forum-rowgrid */
+  display:flex !important;
+  align-items:center;
+  gap: 12px;
+  flex-wrap:nowrap;
+}
+.sf-forum-main{ flex: 1 1 auto !important; min-width: 0 !important; }
+.sf-forum-rowmain{ display:flex; align-items:center; gap: 10px; min-width:0; }
+.sf-forum-titlewrap{ min-width:0; }
+.sf-forum-titlewrap .sf-index-title{ display:inline-block; max-width:100%; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; vertical-align:bottom; }
+
+/* Index category titles should stay fully visible (wrap), but keep other titles truncated (e.g. pinned topic rows). */
+.sf-forum-row .sf-forum-titlewrap .sf-index-title{
+  display:block;
+  white-space:normal;
+  overflow:visible;
+  text-overflow:clip;
+  word-break: break-word;
+}
+
+/* Posts count: small fixed column */
+.sf-forum-rowgrid .sf-forum-stats{ display:block !important; }
+.sf-forum-stats--posts{
+  /* Some site themes accidentally hide or collapse stats blocks.
+     Force a self-contained flex column so the numbers always show. */
+  display:flex !important;
+  flex: 0 0 96px !important;
+  min-width: 96px !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  text-align:center !important;
+  opacity:1 !important;
+  visibility:visible !important;
+}
+.sf-forum-stats--posts .sf-stat{ display:flex; flex-direction:column; align-items:center; line-height:1.1; }
+.sf-forum-stats--posts .sf-stat-num{ font-weight:700; }
+.sf-forum-stats--posts .sf-stat-lbl{ font-size: 12px; color: var(--sf-muted); }
+
+/* Last post column: fixed width, show title + meta */
+.sf-forum-last{
+  display:block !important;
+  flex: 0 0 280px !important;
+  min-width:0 !important;
+  opacity:1 !important;
+  visibility:visible !important;
+}
+.sf-forum-last .sf-last-title{ min-width:0; }
+.sf-forum-last .sf-last-link{ display:block; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+
+@media (max-width: 820px){
+  .sf-forum-rowgrid{ flex-wrap:wrap; }
+  .sf-forum-stats--posts{ flex: 0 0 auto; }
+  .sf-forum-last{ flex: 1 1 100%; }
+}
+
+/* Group headers: accordion-style collapse toggle */
+.sf-card-header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+}
+.sf-group-title{ min-width:0; }
+.sf-group-toggle{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  border:0;
+  background:transparent;
+  padding:6px;
+  border-radius:8px;
+  cursor:pointer;
+  color: inherit;
+}
+.sf-group-toggle:hover{ background: rgba(0,0,0,.06); }
+.sf-group-arrow{ display:inline-flex; transition: transform .15s ease; }
+.sf-group-arrow svg{ width:18px; height:18px; display:block; fill: currentColor; }
+.sf-group-arrow i{ font-size:18px; line-height:1; display:inline-block; }
+
+.sf-groupblock.is-collapsed .sf-group-body{ display:none; }
+.sf-groupblock.is-collapsed .sf-group-arrow{ transform: rotate(-90deg); }
+
+@media (max-width: 575.98px){
+  .sf-forum-rowmain{ align-items:flex-start; }
+  .sf-forum-icon{ margin-top:2px; }
+}
+
+/* ===== Search forms (Simple theme) ===== */
+/* Prevent the search input + scope + submit from breaking into two rows */
+.sf-csearch{
+  display:flex !important;
+  align-items:center;
+  gap: 6px;
+  flex-wrap: nowrap !important;
+  width: 100%;
+}
+.sf-csearch-input{ flex: 1 1 auto; min-width: 0; }
+.sf-csearch-filter{ flex: 0 0 auto; }
+.sf-csearch-submit{ flex: 0 0 auto; }
+
+/* Ensure scope menu is visible when open (some themes hide UL by default) */
+.sf-csearch-filter[open] > .sf-csearch-filter__menu{ display:block !important; }
+
+/* Last post title (used in sidebar/latest and index "last post" column) */
+.sf-last-title{ font-size: var(--sf-last-title-size, 13px); }
+.sf-last-title .sf-last-link{
+  color: var(--sf-last-title-color, var(--sf-primary, #0d6efd));
+  text-decoration:none;
+}
+.sf-last-title .sf-last-link:hover{ text-decoration: underline; }
+
+
+/* Buttons (simple theme) */
+.sf-auth-actions{ display:flex; gap:10px; flex-wrap:wrap; }
+.sf-auth-stack{ display:flex; flex-direction:column; gap:8px; }
+
+.sf-btn{
+  display:inline-block;
+  /* Allow shorthand padding from Design Studio (preferred), fallback to split vars */
+  padding: var(--sf-btn-pad, var(--sf-btn-pad-y, 8px) var(--sf-btn-pad-x, 12px));
+  border-radius: var(--sf-btn-radius, 4px);
+  border: 1px solid var(--sf-btn-border, var(--sf-border));
+  background: var(--sf-btn-secondary-bg, var(--sf-surface));
+  color: var(--sf-btn-secondary-text, var(--sf-text));
+  text-decoration:none;
+  font-weight: 600;
+  font-size: var(--sf-btn-font-size, 13px);
+  line-height: 1.2;
+}
+.sf-btn:hover{ filter: brightness(.97); text-decoration:none; }
+
+.sf-btn-sm{
+  padding: var(--sf-btn-pad-sm, calc(var(--sf-btn-pad-y, 8px) * .85) calc(var(--sf-btn-pad-x, 12px) * .85));
+  font-size: var(--sf-btn-font-size-sm, calc(var(--sf-btn-font-size, 13px) * .92));
+}
+.sf-btn-primary{
+  background: var(--sf-btn-primary-bg, var(--sf-blue));
+  border-color: var(--sf-btn-primary-bg, var(--sf-blue));
+  color: var(--sf-btn-primary-text, #fff);
+}
+.sf-btn-primary:hover{ filter: brightness(.95); }
+.sf-btn-ghost{
+  background: transparent;
+  border-color: var(--sf-btn-border, var(--sf-border));
+}
+.sf-btn-danger{
+  background: #d9534f;
+  border-color: #d9534f;
+  color: #fff;
+}
+.sf-form-logout{ margin:0; }
+.sf-strong{ font-weight:700; }
+.sf-muted{ color: var(--sf-muted); }
+.sf-mb-2{ margin-bottom: .5em; }
+
+/* Title bar actions spacing */
+.sf-titlebar{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap: 10px;
+  flex-wrap:wrap;
+}
+
+/* ------------------------------------------------------------
+   Topic view (replies) styling for Simple theme
+   (The templates use some Bootstrap-ish classes; we provide a
+   lightweight layout so the topic/reply cards look consistent
+   even without Bootstrap loaded.)
+------------------------------------------------------------ */
+
+.sf-post-card{
+  background: var(--sf-surface);
+  border: 1px solid var(--sf-border);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.sf-post-card .row{
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0;
+}
+
+.sf-post-card .col-md-9,
+.sf-post-card .col-md-3{
+  padding: 0;
+}
+
+.sf-post-card .col-md-9{ flex: 1 1 auto; min-width: 0; }
+
+/* Keep author column on the right on tablet/desktop (Bootstrap-like behavior) */
+@media (min-width: 768px){
+  .sf-post-card .col-md-9{ flex: 0 0 75%; max-width: 75%; }
+  .sf-post-card .col-md-3{ flex: 0 0 25%; max-width: 25%; border-left: 1px solid var(--sf-border); background: #fafbfc; }
+}
+
+/* Stack on small screens */
+@media (max-width: 767.98px){
+  .sf-post-card .col-md-3{ flex: 1 1 100%; max-width: 100%; border-left: 0; border-top: 1px solid var(--sf-border); background: #fafbfc; }
+  .sf-post-card .col-md-9{ flex: 1 1 100%; max-width: 100%; }
+}
+
+.sf-post-meta{
+  padding: 10px 12px;
+  background: #eef2f7;
+  border-bottom: 1px solid var(--sf-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  font-size: 12px;
+  color: var(--sf-muted);
+}
+
+.sf-post-meta a{ color: inherit; text-decoration: none; }
+.sf-post-meta a:hover{ text-decoration: underline; }
+
+.sf-post-body{
+  padding: 12px;
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+.sf-post-authorcol{
+  padding: 12px;
+  text-align: center;
+}
+
+/* Author column widgets */
+.sf-avatar{
+  width: 74px;
+  height: 74px;
+  border-radius: 50%;
+  overflow: hidden;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--sf-border);
+  background: #eaf0f7;
+  color: var(--sf-muted);
+  font-weight: 800;
+}
+.sf-avatar img{ width: 100%; height: 100%; object-fit: cover; display: block; }
+.sf-avatar-placeholder{ background:#eaf0f7; }
+
+.sf-author-name{ font-weight: 800; margin-top: 8px; }
+.sf-author-name a{ color: var(--sf-text); text-decoration: none; }
+.sf-author-name a:hover{ text-decoration: underline; }
+.sf-author-rank{ margin-top: 4px; font-size: 12px; color: var(--sf-muted); font-weight: 700; }
+
+.sf-post-card.sf-post-vip .sf-post-meta{
+  background: var(--sf-vip-header-bg, #dc3545);
+  color: var(--sf-vip-header-color, #fff);
+}
+
+.sf-post-card.sf-post-vip .sf-post-meta a{ color: inherit; }
+
+
+.sf-wrap .text-nowrap{ white-space: nowrap !important; }
+
+
+/* Avatar in topic author column */
+.sf-avatarbox{width:72px;height:72px;border-radius:50%;overflow:hidden;border:1px solid var(--sf-border);background:#eaf0f7;display:flex;align-items:center;justify-content:center;font-weight:800;color:var(--sf-muted);}
+.sf-avatarimg{width:100%;height:100%;object-fit:cover;display:block;}
+.sf-avatar-fallback{font-size:22px;}
+
+/* Private messages (view) */
+.sf-msgbubble{
+  margin-top: 12px;
+  padding: 14px 16px;
+  background: #f7f8fb;
+  border: 1px solid var(--sf-border);
+  border-radius: 12px;
+}
+.sf-msgbody img{max-width:100%;height:auto;}
+
+
+/* Quote button */
+.sf-quote-btn{padding:.2em .45em; line-height:1;}
+.sf-quote-btn .sf-quote-icon{font-size:1.15em; position:relative; top:-1px;}
+
+
+/* --- NativeForum extras: hover highlight, hover actions, signature collapse --- */
+.sf-post-card{ transition: box-shadow .12s ease, transform .12s ease; }
+.sf-post-card:hover{ box-shadow: 0 .35em 1em rgba(0,0,0,.08); }
+
+.sf-post-actions{ opacity: 0; transition: opacity .12s ease; }
+.sf-post-card:hover .sf-post-actions{ opacity: 1; }
+.sf-nohover .sf-post-actions{ opacity: 1; }
+
+.sf-signature.sf-sig-collapsed{
+  max-height: 72px;
+  overflow: hidden;
+  position: relative;
+}
+.sf-signature.sf-sig-collapsed:after{
+  content:'';
+  position:absolute;
+  left:0; right:0; bottom:0;
+  height: 28px;
+  background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,1));
+  pointer-events:none;
+}
+
+/* --- Topic list: author column alignment (forum-category) --- */
+.sf-topic-author{ align-items: center; justify-content: flex-start; }
+.sf-author-avatar{ width: 32px; height: 32px; display: block; }
+.sf-author-avatar--empty{ display: inline-block; width: 32px; height: 32px; border-radius: 50%; background: rgba(0,0,0,.06); }
+.sf-author-meta{ line-height: 1.2; }
+
+
+
+/* Mini pagination next to topic title */
+
+/* Tiny pagination next to topic titles (button-like, dimmed) */
+.sf-mini-pager{ display:inline-flex; gap:.25em; align-items:center; font-size:.78em; vertical-align:middle; }
+.sf-mini-pager .sf-mini-page{
+  text-decoration:none;
+  padding:.08em .35em;
+  border:1px solid rgba(0,0,0,.12);
+  border-radius:.25em;
+  background: rgba(0,0,0,.03);
+  color: rgba(0,0,0,.55);
+  line-height:1.3;
+}
+.sf-mini-pager .sf-mini-page:hover{
+  background: rgba(0,0,0,.06);
+  color: rgba(0,0,0,.75);
+  text-decoration:none;
+}
+.sf-mini-pager .sf-mini-ellipsis{ padding:0 .15em; color: rgba(0,0,0,.35); }
+
+
+/* Unread + NEW indicators */
+.sf-unread-dot{
+  display:inline-block;
+  width:.45em;
+  height:.45em;
+  border-radius:50%;
+  background: currentColor;
+  opacity:.75;
+  margin-right:.25em;
+  transform: translateY(-1px);
+}
+
+/* Unread topic row highlight */
+.sf-topic-rowitem.sf-unread{
+  background: var(--sf-unread-bg, rgba(13,110,253,0.06));
+  border-left: 3px solid var(--sf-unread-accent, rgba(13,110,253,0.55));
+}
+.sf-topic-rowitem.sf-unread:hover{
+  background: var(--sf-unread-bg-hover, rgba(13,110,253,0.09));
+}
+
+/* Stronger, more consistent badges on lists */
+.sf-topic-rowitem .badge{
+  font-size: var(--sf-badge-size, .72em);
+  padding: var(--sf-badge-pad-y, .18em) var(--sf-badge-pad-x, .45em);
+  border-radius: var(--sf-badge-radius, 999px);
+  font-weight: var(--sf-badge-weight, 600);
+  line-height: 1.1;
+}
+
+.badge.sf-badge-new{
+  background: var(--sf-badge-bg, rgba(0,0,0,.08));
+  color: var(--sf-badge-text, rgba(0,0,0,.65));
+  border: 1px solid var(--sf-border-soft, rgba(0,0,0,.12));
+  border-radius: var(--sf-badge-radius, 999px);
+  font-weight:600;
+}
+
+.sf-next-unread-link{
+  text-decoration:none;
+}
+.sf-next-unread-link:hover{
+  text-decoration:underline;
+}
+
+/* --- NativeForum T7: design tokens (sizes/colors/spacing) --- */
+.sf-wrap h1{ font-size: var(--sf-h1-size, inherit); }
+.sf-wrap h2{ font-size: var(--sf-h2-size, inherit); }
+
+.sf-wrap .sf-topic-title{
+  font-size: var(--sf-topic-title-size, inherit);
+  color: var(--sf-topic-title-color, inherit);
+}
+
+.sf-wrap .sf-post-meta,
+.sf-wrap .sf-post-id{ font-size: var(--sf-post-meta-size, inherit); }
+.sf-wrap .sf-muted-sm{ font-size: var(--sf-small-text-size, inherit); }
+
+.sf-wrap .sf-panel,
+.sf-wrap .sf-card,
+.sf-wrap .sf-post-card{ margin-bottom: var(--sf-block-gap, 14px); }
+
+/* Sidebar background/text */
+.sf-wrap .sf-sidebox,
+.sf-wrap .sf-side .sf-card,
+.sf-wrap .sf-sidecard{
+  background: var(--sf-side-bg, var(--sf-surface));
+  color: var(--sf-side-text, inherit);
+}
+
+/* User info (author column) */
+.sf-wrap .sf-userinfo{
+  background: var(--sf-userinfo-bg, transparent);
+  color: var(--sf-userinfo-text, inherit);
+  padding: var(--sf-userinfo-pad, 0);
+  border-radius: var(--sf-userinfo-radius, 0);
+}
+
+/* Search: keep the sidebar/header search in one row (Simple + Bootstrap themes)
+   The scope dropdown is powered by sf-ui.js, so this works without Bootstrap JS. */
+.sf-search{ display:flex; }
+.sf-search-adv{ gap:8px; }
+.sf-searchbar{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  width:100%;
+  flex-wrap:nowrap;
+}
+.sf-searchbar .sf-search-q{ flex:1 1 auto; min-width:0; }
+.sf-searchbar .sf-search-scope-group{ flex:0 0 auto; }
+.sf-searchbar .sf-search-go{ flex:0 0 auto; }
+@media (min-width: 576px){
+  .sf-search-inline{ flex-wrap: nowrap; }
+}
+@media (max-width: 575.98px){
+  .sf-search-inline{ flex-wrap: wrap; }
+}
+
+
+/* --- Popups / Usercard --- */
+.sf-usercard{
+  position: absolute;
+  z-index: 9999;
+  min-width: 240px;
+  max-width: 340px;
+  background: var(--sf-popup-bg, #111);
+  color: var(--sf-popup-text, #fff);
+  border: 1px solid var(--sf-popup-border, rgba(255,255,255,.15));
+  border-radius: var(--sf-popup-radius, 10px);
+  box-shadow: var(--sf-popup-shadow, 0 10px 30px rgba(0,0,0,.25));
+  display: none;
+}
+.sf-usercard-h{
+  padding: 10px 12px;
+  font-weight: 700;
+  font-size: var(--sf-popup-title-size, 14px);
+  border-bottom: 1px solid var(--sf-popup-border, rgba(255,255,255,.15));
+
+  color: var(--sf-usercard-header-text, var(--sf-usercard-text, inherit));
+  font-size: var(--sf-usercard-title-size, 14px);
+}
+.sf-usercard-b{
+  padding: 10px 12px;
+  font-size: var(--sf-popup-text-size, 13px);
+
+  font-size: var(--sf-usercard-text-size, 13px);
+}
+.sf-usercard-b a{ color: inherit; text-decoration: underline; }
+
+.sf-tip{
+  position: absolute;
+  z-index: 9999;
+  background: var(--sf-popup-bg, #111);
+  color: var(--sf-popup-text, #fff);
+  border: 1px solid var(--sf-popup-border, rgba(255,255,255,.15));
+  border-radius: 8px;
+  padding: 6px 8px;
+  font-size: var(--sf-popup-text-size, 13px);
+  max-width: 320px;
+  display: none;
+  box-shadow: var(--sf-popup-shadow, 0 10px 30px rgba(0,0,0,.25));
+}
+
+/* --- Action dropdown: keep buttons on one row, menu slides down without reflow --- */
+.sf-post-header-actions{
+  display:flex;
+  align-items:center;
+  justify-content:flex-end;
+  gap:8px;
+  flex-wrap:nowrap;
+}
+.sf-wrap .dropdown{ position: relative; }
+/* Simple theme uses a lightweight dropdown wrapper (.sf-dd) for menus (gear, etc.). */
+.sf-dd{ position: relative; }
+.sf-wrap .dropdown-menu{
+  display:none;
+  position:absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  left: auto;
+  min-width: 180px;
+  z-index: 2000;
+  transform-origin: top right;
+  transform: scaleY(.95);
+  opacity: 0;
+  transition: opacity .12s ease, transform .12s ease;
+}
+.dropdown.sf-dd-open > .dropdown-menu,
+.sf-wrap .dropdown.show > .dropdown-menu{
+  display:block;
+  opacity: 1;
+  transform: scaleY(1);
+}
+
+/* Dropdown fallback: support .sf-dd (Simple theme) and Bootstrap .btn-group without relying on host CSS */
+.sf-dd.sf-dd-open > .dropdown-menu,
+.sf-dd.show > .dropdown-menu,
+.sf-dd.open > .dropdown-menu,
+.btn-group.sf-dd-open > .dropdown-menu,
+.sf-wrap .btn-group.show > .dropdown-menu,
+.sf-wrap .btn-group.open > .dropdown-menu{
+  display:block !important;
+  opacity: 1;
+  transform: scaleY(1);
+}
+
+
+/* --- Configurable text sizes/colors --- */
+.sf-index-title{
+  font-size: var(--sf-index-title-size, inherit);
+  color: var(--sf-index-title-color, inherit);
+}
+.sf-box-title{
+  font-size: var(--sf-sidebar-title-size, inherit);
+  background: var(--sf-sidebar-header-bg, inherit);
+  color: var(--sf-sidebar-header-color, inherit);
+}
+.sf-titlebar .sf-title-truncate,
+.sf-titlebar .sf-title{
+  font-size: var(--sf-page-title-size, var(--sf-h1-size, inherit));
+  color: var(--sf-page-title-color, inherit);
+}
+.sf-post-meta{
+  font-size: var(--sf-post-meta-size, inherit);
+}
+.sf-small, .sf-muted-sm, .sf-help{
+  font-size: var(--sf-small-text-size, inherit);
+}
+
+
+/* Voting slot inside post/reply (bottom-right, above signature) */
+.sf-vote-slot{ width: 100%; display:flex; justify-content:flex-end; }
+.sf-vote-slot .sf-vote-wrap{ display:inline-flex; }
+
+
+/* --- NativeForum Tokens v4 additions --- */
+/* Keep list items tokenized if any template uses list-group */
+.sf-wrap .list-group-item{
+  background: var(--sf-surface, #fff);
+  color: var(--sf-text, #111);
+  border-color: var(--sf-border-soft, rgba(0,0,0,.08));
+}
+.sf-wrap .list-group-item-action:hover,
+.sf-wrap .list-group-item-action:focus{
+  background: var(--sf-surface-2, rgba(0,0,0,.03));
+  color: var(--sf-text, #111);
+}
+
+/* =========================
+   User info card popup
+   NOTE: the popup is appended to <body> (#sf-usercard-pop), so DO NOT scope to .sf-wrap
+   ========================= */
+.sf-usercard{
+  background: var(--sf-usercard-bg, #fff);
+  color: var(--sf-usercard-text, #111);
+  border: 1px solid var(--sf-usercard-border, rgba(0,0,0,.12));
+  border-radius: var(--sf-usercard-radius, .65em);
+  box-shadow: var(--sf-usercard-shadow, 0 10px 24px rgba(0,0,0,.18));
+  overflow: hidden;
+}
+.sf-usercard-top{
+  background: var(--sf-usercard-header-bg, rgba(0,0,0,.04));
+  color: var(--sf-usercard-header-text, var(--sf-usercard-text, #111));
+  padding: var(--sf-usercard-padding, 12px 12px);
+}
+.sf-usercard-toprow{display:flex;align-items:center;gap:12px;}
+.sf-usercard-avatar img{display:block;width:48px;height:48px;border-radius:999px;object-fit:cover;}
+.sf-usercard-name{font-size: var(--sf-usercard-title-size, 1em);font-weight:600;line-height:1.15;}
+.sf-usercard-rank{font-size: var(--sf-usercard-rank-size, .85em);opacity:.85;}
+.sf-usercard-meta,
+.sf-usercard-metawrap{font-size: var(--sf-usercard-meta-size, .82em);opacity:.9;}
+.sf-usercard-body{padding: 12px 12px;}
+.sf-usercard-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;}
+.sf-usercard-stat-num{font-size: var(--sf-usercard-stat-num-size, 1.05em);font-weight:700;line-height:1;}
+.sf-usercard-stat-lbl{font-size: var(--sf-usercard-stat-lbl-size, .75em);opacity:.75;}
+.sf-usercard-actions{display:flex;gap:8px;justify-content:flex-end;margin-top:10px;}
+.sf-usercard-actions .sf-btn,
+.sf-usercard-actions .btn{
+  background: var(--sf-usercard-btn-bg, transparent);
+  color: var(--sf-usercard-btn-text, inherit);
+  border-color: var(--sf-usercard-btn-border, rgba(0,0,0,.18));
+  border-radius: var(--sf-usercard-btn-radius, .5em);
+  font-size: var(--sf-usercard-btn-size, .85em);
+}
+
+/* Dropdown compatibility (if host theme lacks dropdown behavior) */
+.sf-wrap .dropdown-menu{display:none;}
+.sf-wrap .dropdown.open > .dropdown-menu,
+.sf-wrap .dropdown.show > .dropdown-menu,
+.sf-wrap .btn-group.open > .dropdown-menu,
+.sf-wrap .btn-group.show > .dropdown-menu,
+.sf-dd-open > .dropdown-menu{display:block !important;}
+
+/* Extra fallback: open the search scope dropdown when focused (in case JS is blocked/overridden) */
+.sf-search-scope-group:focus-within > .dropdown-menu{display:block !important;}
+
+/* Ensure gear dropdown is positioned */
+.sf-search-scope-group{position:relative;}
+.sf-search-scope-group .dropdown-menu{position:absolute; right:0; left:auto; top:calc(100% + 6px); z-index: 99999;}
+
+/* Simple theme scope dropdown uses <details> for maximum compatibility */
+.sf-sidebar,.sf-sidecard,.sf-sidecard-b,.sf-sidecard-h{overflow:visible !important;}
+.sf-sidecard,.sf-sidecard-b{position:relative !important;}
+.sf-scope-details{position:relative; flex:0 0 auto;}
+.sf-scope-details > summary{list-style:none; cursor:pointer;}
+.sf-scope-details > summary::-webkit-details-marker{display:none;}
+.sf-scope-details[open] > .sf-scope-menu{display:block;}
+.sf-scope-menu{
+  display:none;
+  /* Render inside the sidebar flow (no absolute popover) so it cannot be clipped
+     by host themes using overflow:hidden or ... */
+  position:static;
+  margin-top: 6px;
+  min-width: 190px;
+  background: var(--sf-surface, #fff);
+  color: var(--sf-text, #111);
+  border: 1px solid var(--sf-border-soft, rgba(0,0,0,.12));
+  border-radius: var(--sf-radius, 12px);
+  box-shadow: 0 12px 28px rgba(0,0,0,.18);
+  padding: 8px;
+}
+.sf-scope-menu .sf-scope-item{
+  width:100%;
+  text-align:left;
+  display:block;
+  background: transparent;
+  color: inherit;
+  border: 0;
+  padding: 8px 10px;
+  border-radius: 10px;
+}
+.sf-scope-menu .sf-scope-item:hover{background: rgba(0,0,0,.06);} 
+.sf-scope-menu .sf-scope-item.active{background: rgba(0,0,0,.10);}
+
+/* Sidebar containers must allow the scope popup to overflow */
+.sf-sidebar, .sf-sidebox, .sf-sidebox-b{overflow: visible !important;}
+
+/* =========================
+   Profile / user pages (Simple theme)
+   These templates use Bootstrap-like markup (card, nav-tabs) even when the site doesn't load Bootstrap.
+   Provide lightweight styling so profile pages don't look plain.
+   ========================= */
+.sf-wrap .card{background: var(--sf-surface, #fff); color: var(--sf-text, #111); border:1px solid var(--sf-border-soft, rgba(0,0,0,.10)); border-radius: var(--sf-radius-lg, 14px); overflow:hidden;}
+.sf-wrap .card-header{background: var(--sf-surface-2, rgba(0,0,0,.03)); border-bottom:1px solid var(--sf-border-soft, rgba(0,0,0,.10)); padding: .75em 1em;}
+.sf-wrap .card-body{padding: 1em;}
+
+.sf-wrap .nav{display:flex; flex-wrap:wrap; gap:.35em; list-style:none; padding-left:0; margin:0;}
+.sf-wrap .nav-tabs{border-bottom:1px solid var(--sf-border-soft, rgba(0,0,0,.10));}
+.sf-wrap .nav-tabs .nav-link{display:inline-flex; align-items:center; gap:.4em; padding:.45em .75em; border-radius: 10px 10px 0 0; text-decoration:none; color: inherit; border:1px solid transparent; background: transparent; cursor:pointer;}
+.sf-wrap .nav-tabs .nav-link:hover{background: rgba(0,0,0,.04);} 
+
+/* Prevent profile/settings textareas from overflowing on narrow screens */
+.sf-wrap textarea,
+.sf-textarea{
+  width:100%;
+  max-width:100%;
+  box-sizing:border-box;
+}
+.sf-wrap .nav-tabs .nav-link.active{background: var(--sf-surface, #fff); border-color: var(--sf-border-soft, rgba(0,0,0,.10)); border-bottom-color: var(--sf-surface, #fff);} 
+
+.sf-wrap .tab-content{padding-top: 1em;}
+.sf-wrap .tab-pane{display:none;}
+.sf-wrap .tab-pane.active{display:block;}
+
+/* --- FIX: Sidebar search must stay in one row + dropdown must appear above cards (Simple theme) --- */
+.sf-sidebar,
+.sf-side,
+.sf-sidebox,
+.sf-sidecard,
+.sf-sidecard .card-body{ overflow: visible !important; }
+
+.sf-searchbar{ flex-wrap:nowrap !important; }
+.sf-search-scope-group{ position:relative !important; }
+.sf-search-scope-group .dropdown-menu{ z-index: 99999 !important; }
+
+/* --- Simple theme helpers for Bootstrap-like markup used in user/profile templates --- */
+.sf-wrap .bg-white{ background: var(--sf-surface, #fff) !important; }
+.sf-wrap .bg-light{ background: rgba(0,0,0,.03) !important; }
+.sf-wrap .border{ border: 1px solid var(--sf-border-soft, rgba(0,0,0,.10)) !important; }
+.sf-wrap .rounded{ border-radius: var(--sf-radius-lg, 14px) !important; }
+.sf-wrap .rounded-circle{ border-radius: 999px !important; }
+.sf-wrap .fw-semibold{ font-weight: 600; }
+.sf-wrap .small{ font-size: var(--sf-small-text-size, 0.875em); }
+.sf-wrap .text-muted{ color: var(--sf-muted, rgba(0,0,0,.55)) !important; }
+.sf-wrap .mb-0{ margin-bottom:0 !important; }
+.sf-wrap .mb-2{ margin-bottom:.5em !important; }
+.sf-wrap .mb-3{ margin-bottom:1em !important; }
+.sf-wrap .mt-1{ margin-top:.25em !important; }
+.sf-wrap .mt-2{ margin-top:.5em !important; }
+.sf-wrap .mt-3{ margin-top:1em !important; }
+.sf-wrap .my-3{ margin-top:1em !important; margin-bottom:1em !important; }
+.sf-wrap .p-3{ padding:1em !important; }
+.sf-wrap .py-2{ padding-top:.5em !important; padding-bottom:.5em !important; }
+.sf-wrap .py-3{ padding-top:1em !important; padding-bottom:1em !important; }
+.sf-wrap .d-flex{ display:flex !important; }
+.sf-wrap .d-grid{ display:grid !important; }
+.sf-wrap .gap-2{ gap:.5em !important; }
+.sf-wrap .gap-3{ gap:1em !important; }
+.sf-wrap .align-items-center{ align-items:center !important; }
+.sf-wrap .justify-content-between{ justify-content:space-between !important; }
+.sf-wrap .flex-grow-1{ flex: 1 1 auto !important; }
+.sf-wrap .h-100{ height:100% !important; }
+.sf-wrap .w-100{ width:100% !important; }
+
+/* Tabs/panels polish for profile/user pages */
+.sf-wrap .card.mb-3{ box-shadow: 0 10px 24px rgba(0,0,0,.08); }
+.sf-wrap .nav-tabs{ gap: .25em; }
+
+/* ===== Reply/topic width safety =====
+   In some installs Bootstrap (or site CSS) applies negative margins to .row.
+   This can make reply cards appear wider than the topic header.
+*/
+.sf-wrap .sf-post-card{ max-width: 100%; overflow: hidden; }
+.sf-wrap .sf-post-card > .row{
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  --bs-gutter-x: 0 !important;
+  --bs-gutter-y: 0 !important;
+}
+.sf-wrap .sf-post-card > .row > [class^='col-'],
+.sf-wrap .sf-post-card > .row > [class*=' col-']{
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+/* Keep form fields inside their containers (profile + messages) */
+.sf-wrap input,
+.sf-wrap select,
+.sf-wrap textarea{
+  box-sizing: border-box;
+  max-width: 100%;
+}
+
+/* Basic nav-pills look (used in profile/messages) */
+.sf-wrap .nav-pills{ gap: .35em; }
+.sf-wrap .nav-pills .nav-link{ border-radius: 999px; padding: .35em .75em; border:1px solid var(--sf-border-soft, rgba(0,0,0,.12)); }
+.sf-wrap .nav-pills .nav-link.active{ background: rgba(0,0,0,.06); }
+
+/* Profile page layout: avoid bootstrap grid negative margins pushing inputs outside cards */
+.sf-wrap .sf-profile-page .row{ margin-left: 0 !important; margin-right: 0 !important; }
+.sf-wrap .sf-profile-page [class^='col-'],
+.sf-wrap .sf-profile-page [class*=' col-']{ padding-left: 0 !important; padding-right: 0 !important; }
+
+/* Keep profile/message forms inside their cards */
+.sf-wrap input,
+.sf-wrap textarea,
+.sf-wrap select{ max-width: 100%; box-sizing: border-box; }
+.sf-wrap .card-header{ padding: .75em 1em; }
+.sf-wrap .card-body{ padding: 1em; }
+
+
+
+/* Forum search (ProcessWire-forum-like) */
+.sf-csearch{
+  display:flex;
+  align-items:center;
+  gap: 6px;
+  width:100%;
+  max-width:100%;
+}
+.sf-csearch-input{
+  flex: 1 1 auto;
+  min-width: 0;
+}
+.sf-csearch-filter{
+  position:relative;
+  position: relative;
+  flex: 0 0 auto;
+}
+
+/* Scope selector is always visible (more reliable across themes) */
+.sf-csearch-filter{
+  max-width: none;
+  opacity: 1;
+  pointer-events: auto;
+  overflow: visible;
+}
+.sf-csearch-filter__text{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  cursor:pointer;
+  user-select:none;
+  padding: 8px 10px;
+  border: 1px solid var(--sf-border, rgba(0,0,0,.15));
+  border-radius: var(--sf-btn-radius, 4px);
+  background: var(--sf-surface, #fff);
+  color: var(--sf-text, #222);
+  font-size: 13px;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+.sf-csearch-filter__text::-webkit-details-marker{ display:none; }
+.sf-csearch-filter__menu{
+  position:absolute;
+  right:0;
+  top: calc(100% + 6px);
+  min-width: 220px;
+  max-width: 320px;
+  background: var(--sf-surface, #fff);
+  border: 1px solid var(--sf-border, rgba(0,0,0,.15));
+  border-radius: 8px;
+  box-shadow: 0 10px 24px rgba(0,0,0,.12);
+  padding: 8px;
+  margin: 0;
+  list-style:none;
+  display:none;
+  z-index: 999999;
+}
+.sf-csearch-filter[open] > .sf-csearch-filter__menu{ display:block; }
+.sf-csearch-filter:hover > .sf-csearch-filter__menu{ display:block; }
+
+.sf-csearch-filter__menu li{ margin: 0; }
+.sf-csearch-filter__menu label{
+  display:flex;
+  align-items:center;
+  gap: 8px;
+  padding: 6px 8px;
+  border-radius: 6px;
+  cursor:pointer;
+  font-size: 13px;
+}
+.sf-csearch-filter__menu label:hover{ background: rgba(0,0,0,.06); }
+.sf-csearch-filter__menu input[type="radio"]{ margin: 0; }
+.sf-csearch-submit{ flex:0 0 auto; white-space:nowrap; }
+
+.sf-sidebar, .sf-sidecard, .sf-side-inner{ overflow: visible !important; }
+
+
+
+
+/* Pagination spacing */
+.sf-pager, .sf-pagination, .pagination.sf-pagination{
+  margin: 14px 0;
+}
+.sf-pager-top{ margin-bottom: 10px; }
+.sf-pager-bottom{ margin-top: 10px; }
+
+
+/* Sidebar latest topics: keep date always on one line */
+.sf-side-item{ align-items:center; gap:8px; }
+.sf-side-left{ min-width:0; overflow:hidden; }
+.sf-side-left > a,
+.sf-side-left a{
+  display:inline-block;
+  max-width:100%;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+  vertical-align:middle;
+}
+.sf-side-left .sf-badge{ white-space:nowrap; }
+.sf-side-right{
+  flex:0 0 auto !important;
+  white-space:nowrap !important;
+  line-height:1 !important;
+}
+
+
+
+/* Header/toolbar search sizing */
+.sf-csearch-toolbar{ max-width: 420px; width: auto; flex: 0 1 420px; }
+.sf-csearch-header{ max-width: 420px; width: auto; flex: 0 1 420px; }
+@media (max-width: 720px){
+  .sf-csearch-toolbar{ max-width: 100%; margin-right: 0; }
+}
+
+
+
+/* Page head: title left, actions right */
+.sf-pagehead-top{
+  display:flex;
+  align-items:center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.sf-pagehead-actions{ flex: 0 0 auto; margin-left:auto; }
+
+/* Sidebar latest: keep date one-line; truncate title harder */
+.sf-side-right{ white-space: nowrap !important; text-align:right; }
+.sf-side-left{ overflow:hidden; }
+.sf-side-left a{
+  display:inline-block;
+  max-width:100%;
+  overflow:hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  vertical-align: middle;
+}
+
+
+/* --- Design Studio spacing controls --- */
+.sf-groupblock{ margin-bottom: var(--sf-index-group-gap, 16px) !important; }
+.sf-forum-row,
+.sf-forum-rowitem{ margin-bottom: var(--sf-index-row-gap, 6px) !important; }
+.sf-forum-row:last-child,
+.sf-forum-rowitem:last-child{ margin-bottom: 0 !important; }
+.sf-topic-rowitem{ margin-bottom: var(--sf-topic-row-gap, 6px) !important; }
+.sf-topic-rowitem:last-child{ margin-bottom: 0 !important; }
+.sf-post-card{ margin-bottom: var(--sf-post-row-gap, 12px) !important; }
+.sf-post-card:last-child{ margin-bottom: 0 !important; }
+
+/* Space between page header (title+summary) and toolbar/content */
+.sf-pagehead{ margin-bottom: var(--sf-pagehead-gap, 12px) !important; }
+
+
+/* --- Spacing via container gap (prevents theme CSS from collapsing margins) --- */
+.sf-forum-table{
+  display:flex !important;
+  flex-direction:column;
+  gap: var(--sf-index-row-gap, 6px);
+}
+.sf-forum-table > .sf-forum-row,
+.sf-forum-table > .sf-forum-rowitem{ margin-bottom: 0 !important; }
+
+.sf-topic-list{
+  display:flex !important;
+  flex-direction:column;
+  gap: var(--sf-topic-row-gap, 6px);
+}
+.sf-topic-list > .sf-topic-rowitem{ margin-bottom: 0 !important; }
+
+/* Keep group spacing consistent */
+.sf-groupblock{ margin-bottom: var(--sf-index-group-gap, 16px) !important; }
+
+
+
+/* Spacing between group blocks (forum index) */
+.sf-groupblock{ margin-bottom: var(--sf-index-group-gap, 16px) !important; }
+.sf-groupblock:last-child{ margin-bottom: 0 !important; }
+
+
+/* Post/reply spacing in topic view */
+.sf-post-list{ display:flex !important; flex-direction:column; gap: var(--sf-post-row-gap, 12px); }
+.sf-post-list > .sf-post-card{ margin-bottom: 0 !important; }
+
+/* ====== Group / row spacing (reliable) ====== */
+.sf-wrap .sf-group-list{
+  display:flex !important;
+  flex-direction:column !important;
+  gap: var(--sf-index-group-gap, 16px) !important;
+}
+.sf-wrap .sf-groupblock{ margin:0 !important; }
+
+/* Space between group header and first row */
+.sf-wrap .sf-groupblock > .sf-forum-table{
+  padding-top: var(--sf-group-inner-gap, 10px) !important;
+  padding-bottom: var(--sf-group-inner-gap, 10px) !important;
+}
+
+/* Index row spacing inside group */
+.sf-wrap .sf-groupblock > .sf-forum-table{
+  display:flex !important;
+  flex-direction:column !important;
+  gap: var(--sf-index-row-gap, 6px) !important;
+}
+.sf-wrap .sf-forum-row{ margin:0 !important; }
+
+/* Make rows look like separate blocks when gap > 0 */
+.sf-wrap .sf-forum-row .sf-forum-rowgrid{
+  background: var(--sf-row-bg, transparent);
+  border-radius: var(--sf-row-radius, 12px);
+}
+
+/* Topic list spacing */
+.sf-wrap .sf-topic-list{
+  display:flex !important;
+  flex-direction:column !important;
+  gap: var(--sf-topic-row-gap, 6px) !important;
+}
+.sf-wrap .sf-topic-rowitem{ margin:0 !important; }
+
+/* Post/reply spacing */
+.sf-wrap .sf-post-list{
+  display:flex !important;
+  flex-direction:column !important;
+  gap: var(--sf-post-row-gap, 12px) !important;
+}
+.sf-wrap .sf-post-card{ margin:0 !important; }
+
+/* Bubble dropdown menus (search scope + tool menus) */
+.sf-wrap .sf-csearch-filter__menu,
+.sf-wrap .dropdown-menu{
+  border-radius: 12px;
+  box-shadow: 0 12px 30px rgba(0,0,0,.18);
+  border: 1px solid rgba(0,0,0,.10);
+  padding: 6px;
+  transform: translateY(-6px);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity .16s ease, transform .16s ease, visibility .16s ease;
+}
+
+/* Arrow */
+.sf-wrap .sf-csearch-filter__menu:before,
+.sf-wrap .dropdown-menu:before{
+  content:"";
+  position:absolute;
+  top:-6px;
+  right:14px;
+  width:12px;
+  height:12px;
+  transform: rotate(45deg);
+  background: inherit;
+  border-left: 1px solid rgba(0,0,0,.10);
+  border-top: 1px solid rgba(0,0,0,.10);
+}
+
+/* Visible states */
+.sf-wrap .sf-csearch-filter[open] > .sf-csearch-filter__menu,
+.sf-wrap .sf-csearch-filter:focus-within > .sf-csearch-filter__menu,
+.sf-wrap .sf-csearch-filter:hover > .sf-csearch-filter__menu,
+.sf-wrap .dropdown.sf-dd-open > .dropdown-menu,
+.sf-wrap .dropdown.show > .dropdown-menu,
+.sf-wrap .btn-group.sf-dd-open > .dropdown-menu,
+.sf-wrap .btn-group.show > .dropdown-menu,
+.sf-wrap .sf-dd-open > .dropdown-menu{
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+/* Mobile index: stack forum row columns like an app list (title/summary, then stats, then last post) */
+@media (max-width: 575.98px){
+  .sf-forum-row .sf-forum-rowgrid,
+  .sf-forum-rowitem .sf-forum-rowgrid{
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 6px !important;
+  }
+  .sf-forum-main{ width:100% !important; }
+
+  /* Align secondary lines under the title (after the icon) */
+  .sf-forum-stats--posts,
+  .sf-forum-last{
+    margin-left: 42px !important;
+  }
+
+  .sf-forum-stats--posts{
+    width:100% !important;
+    min-width:0 !important;
+    flex: 0 0 auto !important;
+    flex-direction: row !important;
+    justify-content: flex-start !important;
+    align-items: center !important;
+    text-align: left !important;
+    gap: 10px !important;
+  }
+  .sf-forum-stats--posts .sf-stat{
+    flex-direction: row !important;
+    align-items: baseline !important;
+    gap: 6px !important;
+  }
+  .sf-forum-stats--posts .sf-stat-lbl{ font-size: 12px; }
+
+  .sf-forum-last{
+    width:100% !important;
+    flex: 0 0 auto !important;
+  }
+  .sf-forum-last .sf-muted-sm{ white-space: normal; }
+}
+
+
+/* ===== Mobile: forum index rows stack into single column ===== */
+@media (max-width: 768px){
+  .sf-forum-row .sf-forum-rowgrid,
+  .sf-forum-rowitem .sf-forum-rowgrid{
+    flex-direction:column !important;
+    align-items:stretch !important;
+    flex-wrap:wrap !important;
+    gap:10px !important;
+  }
+  .sf-forum-left,
+  .sf-forum-main,
+  .sf-forum-stats,
+  .sf-forum-last{
+    width:100% !important;
+    max-width:100% !important;
+    flex:0 0 auto !important;
+  }
+  /* Title block: allow normal wrapping (never letter-by-letter) */
+  .sf-forum-titlewrap{min-width:0 !important;}
+  .sf-link-title,.sf-link-titl,.sf-forum-title a{
+    white-space:normal !important;
+    overflow:visible !important;
+    text-overflow:clip !important;
+    word-break:normal !important;
+    overflow-wrap:anywhere !important;
+  }
+  /* Visual separators between stacked blocks */
+  .sf-forum-stats{
+    justify-content:flex-start !important;
+    padding-top:8px !important;
+    border-top:1px solid var(--sf-border, rgba(255,255,255,.18)) !important;
+  }
+  .sf-forum-last{
+    padding-top:8px !important;
+    border-top:1px solid var(--sf-border, rgba(255,255,255,.18)) !important;
+  }
+}
+/* Smaller phones: keep icon+title inline and compact */
+@media (max-width: 480px){
+  .sf-forum-rowmain{gap:10px !important;}
+  .sf-forum-icon{width:40px !important;height:40px !important;}
+}
+

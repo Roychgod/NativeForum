@@ -1,0 +1,137 @@
+/* NativeForum preset: Obsidian
+   Dark slate panels, crimson accent, crisp square buttons, light text.
+   Transparent background: made for dark sites. Font is inherited from the site. */
+:root, .sf-wrap{
+  color-scheme: dark;
+
+  --ob-red:#e31b3f;
+  --ob-red-hover:#ff2e52;
+  --ob-yellow:#f2b632;
+  --ob-panel:#1d2125;
+  --ob-panel-2:#24292e;
+  --ob-bar:#2e353b;
+  --ob-bar-2:#394147;
+  --ob-btn:#4a5258;
+  --ob-btn-hover:#5b646b;
+  --ob-text:#e9eaeb;
+  --ob-muted:#aeb4b9;
+  --ob-line:rgba(255,255,255,.10);
+
+  --sf-bg:transparent;
+  --sf-text:var(--ob-text);
+  --sf-card:var(--sf-bg-panel, var(--sf-surface));
+  --sf-text-panel:var(--sf-text);
+  --sf-border:var(--ob-line);
+  --sf-muted:var(--ob-muted);
+  --sf-link:#ffffff;
+  --sf-link-hover:var(--ob-red);
+  --sf-accent:var(--sf-primary);
+  --sf-primary:var(--ob-red);
+
+  --sf-header-bg:var(--ob-bar);
+  --sf-header-color:#ffffff;
+  --sf-header-border:var(--ob-line);
+  --sf-sidebar-header-bg:var(--sf-header-bg);
+
+  --sf-input-bg:#15191c;
+  --sf-input-text:var(--ob-text);
+
+  --sf-side-bg:var(--sf-bg-panel, var(--sf-surface));
+  --sf-side-text:var(--ob-text);
+  --sf-side-border:var(--ob-line);
+
+  --sf-btn-bg:var(--ob-btn);
+  --sf-btn-text:#ffffff;
+  --sf-btn-border:var(--ob-btn);
+  --sf-btn-primary-bg:var(--sf-primary);
+  --sf-btn-primary-text:#ffffff;
+  --sf-btn-primary-hover-bg:var(--ob-red-hover);
+  --sf-btn-secondary-bg:var(--ob-btn);
+  --sf-btn-secondary-text:#ffffff;
+  --sf-btn-secondary-hover-bg:var(--ob-btn-hover);
+
+  --sf-tag-bg:rgba(227,27,63,.14);
+  --sf-tag-text:#ffd0d9;
+  --sf-tag-hover-bg:var(--ob-red);
+  --sf-tag-hover-text:#ffffff;
+
+  --sf-pinned-row-bg:rgba(242,182,50,.10);
+  --sf-pinned-row-text:var(--ob-text);
+
+
+
+  --sf-surface:var(--ob-panel);
+  --sf-surface-2:var(--ob-panel-2);
+  --sf-radius:0px;
+  --sf-card-header-padding:12px 16px;
+  --sf-header-pad:12px 16px;
+  --sf-card-header-font-size:1.1em;
+  --sf-sidebar-header-font-size:1.1em;
+  --sf-sidebar-header-padding:12px 16px;
+  --sf-btn-pad-y:8px;
+  --sf-btn-pad-x:16px;
+  --sf-btn-radius:2px;
+  --sf-focus:rgba(227,27,63,.35);
+  --sf-hover:rgba(255,255,255,.06);
+  --sf-border-strong:rgba(255,255,255,.16);
+  --sf-border-strong-2:rgba(255,255,255,.24);
+  --sf-ring:0 0 0 3px rgba(227,27,63,.35);
+  --sf-shadow:0 1px 0 rgba(0,0,0,.25);
+
+  /* skin tokens */
+  --sk-page-bg:#121517;
+  --sk-wrap-bg:transparent;
+  --sk-heading:#ffffff;
+  --sk-on-header:#ffffff;
+  --sk-on-primary:#ffffff;
+  --sk-side-link:#ffffff;
+  --sk-content-link:var(--ob-red);
+  --sk-pagehead-bg:var(--sf-surface);
+  --sk-page-item-bg:var(--sf-surface);
+  --sk-deep:#000000;
+  --sk-table-head:#000000;
+  --sk-field-bg:#15191c;
+  --sk-field-text:#ffffff;
+  --sk-menu-bg:#1d2125;
+  --sk-editor-bg:#000000;
+  --sk-editor-text:#e9ecef;
+  --sk-editor-link:#f2b632;
+  --sk-editor-bar:#2e353b;
+  --sk-cke-bar:#e9eaeb;
+  --sk-upload-bg:rgba(0,0,0,.25);
+  --sk-avatar-bg:var(--sf-surface-2);
+  --sk-avatar-text:#ffffff;
+  --sk-yellow:var(--ob-yellow);
+  --sk-on-yellow:#1d1d1d;
+  --sk-danger:#8b1428;
+  --sk-primary-soft:rgba(227,27,63,.15);
+  --sk-primary-soft-text:#ffd0d9;
+  --sk-hover-soft:rgba(255,255,255,.05);
+  --sk-outline-hover:rgba(226,232,240,.10);
+  --sk-border-strong:rgba(226,232,240,.28);
+  --sk-border-strong-2:rgba(226,232,240,.38);
+  --sk-ok-bg:rgba(46,160,67,.15);
+  --sk-ok-border:rgba(46,160,67,.4);
+  --sk-ok-text:#c9f2d3;
+  --sk-err-bg:rgba(227,27,63,.15);
+  --sk-err-border:rgba(227,27,63,.45);
+  --sk-err-text:#ffd0d9;
+  --sk-toast-bg:#ffffff;
+  --sk-toast-text:#111111;
+  --sk-radius:0px;
+  --sk-radius-sm:0px;
+  --sk-icon-radius:0px;
+  --sk-input-radius:2px;
+  --sk-badge-radius:2px;
+  --sk-badge-transform:uppercase;
+  --sk-badge-spacing:.06em;
+  --sk-head-transform:none;
+  --sk-head-spacing:0;
+  --sk-head-weight:500;
+  --sk-head-size:1.15em;
+  --sk-title-weight:500;
+  --sk-btn-weight:600;
+  --sk-card-shadow:none;
+  --sk-post-border:0;
+  --sk-toggle-text:#ffffff;
+}

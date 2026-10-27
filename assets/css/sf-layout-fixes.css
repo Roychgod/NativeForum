@@ -1,0 +1,100 @@
+
+/* NativeForum layout fixes (B54)
+   - Restore padding/margins for toolbar, breadcrumbs, card headers
+   - Keep buttons visible and aligned
+   - Normalize author column borders in bootstrap post cards
+*/
+
+.sf-wrap .sf-toolbar{
+  padding: var(--sf-toolbar-pad, 10px 12px) !important;
+  margin: var(--sf-toolbar-m, 0 0 12px 0) !important;
+  border: 1px solid var(--sf-border, rgba(0,0,0,.12)) !important;
+  border-radius: var(--sf-radius, 12px) !important;
+  background: var(--sf-card, var(--sf-surface, #fff)) !important;
+  box-sizing: border-box !important;
+}
+.sf-wrap .sf-toolbar--topic{ margin-bottom: 12px !important; }
+.sf-wrap .sf-toolbar .sf-toolbar-left,
+.sf-wrap .sf-toolbar .sf-toolbar-right{
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+/* Breadcrumbbar spacing */
+.sf-wrap .sf-breadcrumbbar{
+  display: block !important;
+  padding: var(--sf-bc-pad, 8px 10px) !important;
+  margin: var(--sf-bc-m, 0 0 12px 0) !important;
+  border-radius: var(--sf-radius, 12px) !important;
+  border: 1px solid var(--sf-border, rgba(0,0,0,.12)) !important;
+  background: var(--sf-header-bg, var(--sf-card, #fff)) !important;
+  color: var(--sf-header-color, var(--sf-text-panel, var(--sf-text, #111))) !important;
+  box-sizing: border-box !important;
+}
+.sf-wrap .sf-breadcrumbbar a{ color: inherit !important; }
+
+/* Card headers / section headers */
+.sf-wrap .sf-card-h,
+.sf-wrap .sf-sidecard-h,
+.sf-wrap .sf-sidebox-h,
+.sf-wrap .card-header,
+.sf-wrap .sf-card-header{
+  padding: var(--sf-card-header-padding, var(--sf-header-pad, 12px 14px)) !important;
+  margin: 0 !important;
+  border-bottom: 1px solid var(--sf-border, rgba(0,0,0,.12)) !important;
+  background: var(--sf-card-header-bg, var(--sf-header-bg, var(--sf-card, var(--sf-surface, #fff)))) !important;
+  color: var(--sf-card-header-color, var(--sf-header-color, var(--sf-text-panel, var(--sf-text, #111)))) !important;
+  font-size: var(--sf-card-header-font-size, inherit) !important;
+  box-sizing: border-box !important;
+}
+
+/* Sidebar header tokens */
+.sf-wrap .sf-sidecard-h,
+.sf-wrap .sf-sidebox-h{
+  background: var(--sf-sidebar-header-bg, var(--sf-card-header-bg, var(--sf-side-bg, var(--sf-card, #fff)))) !important;
+  color: var(--sf-sidebar-header-color, var(--sf-card-header-color, inherit)) !important;
+  padding: var(--sf-sidebar-header-padding, var(--sf-card-header-padding, var(--sf-header-pad, 12px 14px))) !important;
+  font-size: var(--sf-sidebar-header-font-size, var(--sf-card-header-font-size, inherit)) !important;
+}
+
+
+/* Page head title block */
+.sf-wrap .sf-pagehead.card .card-body{
+  padding: 12px 14px !important;
+}
+
+/* Make sure primary toolbar button stays visible */
+.sf-wrap .sf-toolbar .btn.btn-primary{
+  color: var(--sf-btn-primary-text, #fff) !important;
+  background: var(--sf-btn-primary-bg, var(--sf-accent, #2563eb)) !important;
+  border-color: var(--sf-btn-primary-bg, var(--sf-accent, #2563eb)) !important;
+}
+
+/* In bootstrap post cards: normalize author column border */
+.sf-wrap.sf-wrap-bootstrap .sf-post-card .sf-post-authorcol{
+  border-right: 1px solid var(--sf-border, rgba(0,0,0,.12)) !important;
+  background: var(--sf-card, var(--sf-surface, #fff)) !important;
+}
+.sf-wrap.sf-wrap-bootstrap .sf-post-card .sf-userinfo{
+  border: 0 !important;
+}
+
+/* Ensure action buttons don't collapse / hide text */
+.sf-wrap .sf-post-actions .btn,
+.sf-wrap .sf-topic-actions .btn{
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: .35em !important;
+}
+
+/* Fix breadcrumb/toolbar flush-right in container */
+.sf-wrap .sf-container{
+  padding-left: 12px;
+  padding-right: 12px;
+}
+@media (min-width: 992px){
+  .sf-wrap .sf-container{
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+}

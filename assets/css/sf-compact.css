@@ -1,0 +1,154 @@
+/* NativeForum – Compact style (forumStyle = compact → .sf-style-compact on the wrapper)
+   Dense, classic-forum rhythm: smaller paddings and gaps, slimmer bars, smaller avatars.
+   Loaded after the design preset, so it wins over preset spacing (colours are never changed). */
+
+.sf-wrap.sf-style-compact{
+  --sf-index-group-gap:10px;
+  --sf-index-row-gap:0px;
+  --sf-group-inner-gap:0px;
+  --sf-topic-row-gap:0px;
+  --sf-post-row-gap:8px;
+  --sf-side-block-gap:10px;
+  --sf-card-header-padding:7px 12px;
+  --sf-header-pad:7px 12px;
+  --sf-sidebar-header-padding:7px 12px;
+  --sf-btn-pad-y:5px;
+  --sf-btn-pad-x:12px;
+  font-size:.94em;
+}
+
+/* ---------- bars: group headers, sidebar headers, card headers ---------- */
+.sf-wrap.sf-style-compact .card-header,
+.sf-wrap.sf-style-compact .sf-card-h,
+.sf-wrap.sf-style-compact .sf-card-header,
+.sf-wrap.sf-style-compact .sf-sidebox-h,
+.sf-wrap.sf-style-compact .sf-sidecard-h,
+.sf-wrap.sf-style-compact .sf-groupblock > .card-header,
+.sf-wrap.sf-style-compact .sf-groupblock > .sf-card-header{
+  padding:7px 12px !important; font-size:.95em !important; min-height:0 !important;
+}
+.sf-wrap.sf-style-compact .sf-group-title,
+.sf-wrap.sf-style-compact .sf-group-title a{ font-size:1em !important; }
+.sf-wrap.sf-style-compact .sf-group-toggle{ width:24px !important; height:24px !important; min-height:0 !important; padding:0 !important; }
+
+/* ---------- index: categories as one tight table ---------- */
+.sf-wrap.sf-style-compact .sf-forum-table{ gap:0 !important; padding-top:0 !important; padding-bottom:0 !important; }
+.sf-wrap.sf-style-compact .sf-forum-row,
+.sf-wrap.sf-style-compact .sf-forum-rowitem{
+  padding:7px 12px !important; border-radius:0 !important; box-shadow:none !important;
+  border-left:0 !important; border-right:0 !important; border-top:0 !important;
+  border-bottom:1px solid var(--sf-border) !important;
+}
+.sf-wrap.sf-style-compact .sf-forum-table > :last-child{ border-bottom:0 !important; }
+.sf-wrap.sf-style-compact .sf-forum-icon{
+  width:28px !important; height:28px !important; min-width:28px !important; flex:0 0 28px !important; font-size:14px !important;
+}
+.sf-wrap.sf-style-compact .sf-forum-icon svg{ width:14px !important; height:14px !important; }
+.sf-wrap.sf-style-compact .sf-forum-rowmain{ gap:10px !important; align-items:center !important; }
+.sf-wrap.sf-style-compact .sf-forum-titlewrap{ line-height:1.25 !important; }
+.sf-wrap.sf-style-compact .sf-forum-titlewrap .sf-index-summary,
+.sf-wrap.sf-style-compact .sf-forum-titlewrap .sf-muted-sm{ margin-top:1px !important; font-size:.84em !important; }
+.sf-wrap.sf-style-compact .sf-forum-titlewrap .badge,
+.sf-wrap.sf-style-compact .sf-forum-titlewrap .sf-badge{ margin:0 0 0 6px !important; padding:1px 6px !important; font-size:.68em !important; vertical-align:middle; }
+.sf-wrap.sf-style-compact .sf-stat-num{ font-size:.95em !important; line-height:1.1 !important; }
+.sf-wrap.sf-style-compact .sf-stat-lbl{ font-size:.72em !important; line-height:1.1 !important; }
+.sf-wrap.sf-style-compact .sf-forum-last{ font-size:.86em !important; line-height:1.25 !important; }
+.sf-wrap.sf-style-compact .sf-link-title,
+.sf-wrap.sf-style-compact .sf-index-title{ font-size:1em !important; }
+
+/* ---------- topic list ---------- */
+.sf-wrap.sf-style-compact .sf-topic-list{ gap:0 !important; }
+.sf-wrap.sf-style-compact .sf-topic-rowitem,
+.sf-wrap.sf-style-compact .sf-topic-row{
+  padding:6px 12px !important; border-radius:0 !important; box-shadow:none !important;
+  border-left:0 !important; border-right:0 !important; border-top:0 !important;
+  border-bottom:1px solid var(--sf-border) !important;
+}
+.sf-wrap.sf-style-compact .sf-topic-list > :last-child{ border-bottom:0 !important; }
+.sf-wrap.sf-style-compact .sf-topic-rowitem .sf-topic-summary,
+.sf-wrap.sf-style-compact .sf-topic-rowitem .sf-muted-sm{ font-size:.82em !important; margin-top:0 !important; }
+.sf-wrap.sf-style-compact .sf-topic-rowitem .sf-forum-icon{ width:24px !important; height:24px !important; min-width:24px !important; flex:0 0 24px !important; }
+.sf-wrap.sf-style-compact .sf-topic-rowitem .sf-tags a,
+.sf-wrap.sf-style-compact .sf-topic-rowitem .sf-topic-tags a{ padding:0 6px !important; font-size:.75em !important; }
+
+/* ---------- page head + toolbars ---------- */
+.sf-wrap.sf-style-compact .sf-pagehead,
+.sf-wrap.sf-style-compact .sf-pagehead > .card-body{ padding:10px 14px !important; }
+.sf-wrap.sf-style-compact .sf-pagehead-title,
+.sf-wrap.sf-style-compact .sf-h1{ font-size:1.3em !important; margin:0 !important; line-height:1.25 !important; }
+.sf-wrap.sf-style-compact .sf-pagehead .sf-muted,
+.sf-wrap.sf-style-compact .sf-pagehead .sf-muted-sm{ margin-top:2px !important; }
+.sf-wrap.sf-style-compact .sf-toolbar,
+.sf-wrap.sf-style-compact .sf-topic-toolbar,
+.sf-wrap.sf-style-compact .sf-actionbar{ padding:8px 12px !important; gap:8px !important; }
+.sf-wrap.sf-style-compact .mb-4{ margin-bottom:12px !important; }
+.sf-wrap.sf-style-compact .mb-3{ margin-bottom:10px !important; }
+
+/* ---------- posts ---------- */
+.sf-wrap.sf-style-compact .sf-post-list{ gap:8px !important; }
+@media (min-width:768px){
+  .sf-wrap.sf-style-compact .sf-post-authorcol{ flex:0 0 130px !important; width:130px !important; max-width:130px !important; padding:10px 8px !important; }
+}
+.sf-wrap.sf-style-compact .sf-post-authorcol .sf-avatar,
+.sf-wrap.sf-style-compact .sf-post-authorcol .avatar-placeholder,
+.sf-wrap.sf-style-compact .sf-post-authorcol img.sf-avatar{
+  width:44px !important; height:44px !important; font-size:18px !important; line-height:44px !important;
+}
+.sf-wrap.sf-style-compact .sf-userinfo{ padding:0 !important; font-size:.86em !important; line-height:1.3 !important; }
+.sf-wrap.sf-style-compact .sf-userinfo .mt-2,
+.sf-wrap.sf-style-compact .sf-author-stat.mt-2{ margin-top:4px !important; }
+.sf-wrap.sf-style-compact .sf-post-meta{ padding:6px 12px !important; min-height:0 !important; font-size:.88em !important; }
+.sf-wrap.sf-style-compact .sf-post-body{ padding:10px 12px !important; line-height:1.5 !important; }
+.sf-wrap.sf-style-compact .sf-post-body p{ margin:0 0 .6em !important; }
+.sf-wrap.sf-style-compact .sf-post-body p:last-child{ margin-bottom:0 !important; }
+.sf-wrap.sf-style-compact .sf-post-footer,
+.sf-wrap.sf-style-compact .sf-post-reactions,
+.sf-wrap.sf-style-compact .sf-vote-row{ padding:4px 12px 8px !important; }
+.sf-wrap.sf-style-compact .sf-signature{ padding-top:6px !important; margin-top:8px !important; font-size:.85em !important; }
+
+/* ---------- buttons, inputs, pagination ---------- */
+.sf-wrap.sf-style-compact .btn,
+.sf-wrap.sf-style-compact .sf-btn,
+.sf-wrap.sf-style-compact .sf-button,
+.sf-wrap.sf-style-compact .sf-button-primary,
+.sf-wrap.sf-style-compact .sf-button-secondary{ padding:5px 12px !important; font-size:.92em !important; }
+.sf-wrap.sf-style-compact .btn-sm,
+.sf-wrap.sf-style-compact .sf-btn-sm{ padding:4px 10px !important; font-size:.86em !important; }
+.sf-wrap.sf-style-compact .sf-vote-btn,
+.sf-wrap.sf-style-compact .sf-post-actions .btn,
+.sf-wrap.sf-style-compact .sf-quote-btn,
+.sf-wrap.sf-style-compact .sf-more-btn,
+.sf-wrap.sf-style-compact .sf-dots-btn{ padding:2px 7px !important; }
+.sf-wrap.sf-style-compact input[type=text],
+.sf-wrap.sf-style-compact input[type=search],
+.sf-wrap.sf-style-compact input[type=email],
+.sf-wrap.sf-style-compact input[type=password],
+.sf-wrap.sf-style-compact select,
+.sf-wrap.sf-style-compact .form-control{ padding-top:5px !important; padding-bottom:5px !important; min-height:0 !important; }
+.sf-wrap.sf-style-compact .sf-pagination a,
+.sf-wrap.sf-style-compact .sf-pagination span,
+.sf-wrap.sf-style-compact .page-link{ padding:3px 9px !important; min-width:28px !important; font-size:.88em !important; }
+
+/* ---------- sidebar ---------- */
+.sf-wrap.sf-style-compact .sf-side > * + *{ margin-top:10px !important; }
+.sf-wrap.sf-style-compact .sf-side .sf-sidebox,
+.sf-wrap.sf-style-compact .sf-side .sf-sidecard,
+.sf-wrap.sf-style-compact .sf-side .card{ margin-bottom:0 !important; }
+.sf-wrap.sf-style-compact .sf-sidebox-b,
+.sf-wrap.sf-style-compact .sf-sidecard-b,
+.sf-wrap.sf-style-compact .sf-side .card-body,
+.sf-wrap.sf-style-compact .sf-side .sf-card-b{ padding:8px 12px !important; }
+.sf-wrap.sf-style-compact .sf-side-list li,
+.sf-wrap.sf-style-compact .sf-side .list-group-item{ padding:4px 0 !important; font-size:.9em !important; }
+.sf-wrap.sf-style-compact .sf-side .list-group-item{ padding:4px 12px !important; }
+.sf-wrap.sf-style-compact .sf-statlist li,
+.sf-wrap.sf-style-compact .sf-statlist-bs .list-group-item{ padding:3px 12px !important; font-size:.88em !important; }
+.sf-wrap.sf-style-compact .sf-side .sf-btn,
+.sf-wrap.sf-style-compact .sf-side .btn{ margin-top:4px !important; }
+
+/* ---------- members / tables ---------- */
+.sf-wrap.sf-style-compact .sf-member{ padding:6px 12px !important; }
+.sf-wrap.sf-style-compact .sf-table th,
+.sf-wrap.sf-style-compact .sf-table td,
+.sf-wrap.sf-style-compact .table th,
+.sf-wrap.sf-style-compact .table td{ padding:5px 8px !important; }

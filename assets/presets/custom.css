@@ -1,0 +1,809 @@
+/* NativeForum preset: Custom — neutral teal starting palette; every Design Studio value you set overrides it. */
+:root, .sf-wrap{
+
+  --sf-bg:#f2f6f5;
+  --sf-text:#1d2b2a;
+  --sf-card:var(--sf-bg-panel, var(--sf-surface));
+  --sf-text-panel:var(--sf-text);
+  --sf-border:#dfe7e6;
+  --sf-muted:#5f716f;
+  --sf-link:#0f766e;
+  --sf-link-hover:#0f766e;
+  --sf-accent:var(--sf-primary);
+  --sf-primary:#0f766e;
+
+  --sf-header-bg:#0f766e;
+  --sf-header-color:#ffffff;
+  --sf-header-border:#dfe7e6;
+  --sf-sidebar-header-bg:var(--sf-header-bg);
+
+  --sf-input-bg:#ffffff;
+  --sf-input-text:#1d2b2a;
+
+  --sf-side-bg:var(--sf-bg-panel, var(--sf-surface));
+  --sf-side-text:#1d2b2a;
+  --sf-side-border:#dfe7e6;
+
+  --sf-btn-bg:#eef4f3;
+  --sf-btn-text:#1d2b2a;
+  --sf-btn-border:#cfdcda;
+  --sf-btn-outline-text:#1d2b2a;
+  --sf-btn-primary-bg:var(--sf-primary);
+  --sf-btn-primary-text:#ffffff;
+  --sf-btn-primary-hover-bg:#115e59;
+  --sf-btn-secondary-bg:#eef4f3;
+  --sf-btn-secondary-text:#1d2b2a;
+  --sf-btn-secondary-hover-bg:#e0ebe9;
+
+  --sf-tag-bg:rgba(15,118,110,.10);
+  --sf-tag-text:#115e59;
+  --sf-tag-hover-bg:var(--sf-primary);
+  --sf-tag-hover-text:#ffffff;
+
+  --sf-pinned-row-bg:#fffbeb;
+  --sf-pinned-row-text:#1d2b2a;
+
+  --sf-surface:#ffffff;
+  --sf-surface-2:#f8fafc;
+  --sf-radius:12px;
+  --sf-card-header-padding:12px 16px;
+  --sf-header-pad:12px 16px;
+  --sf-card-header-font-size:1.05em;
+  --sf-sidebar-header-font-size:1.05em;
+  --sf-sidebar-header-padding:12px 16px;
+  --sf-btn-pad-y:8px;
+  --sf-btn-pad-x:16px;
+  --sf-btn-radius:8px;
+  --sf-focus:rgba(15,118,110,.25);
+  --sf-hover:rgba(15,23,42,.04);
+  --sf-border-strong:#dbe4e3;
+  --sf-border-strong-2:#c3d1cf;
+  --sf-ring:0 0 0 3px rgba(15,118,110,.25);
+  --sf-shadow:0 1px 2px rgba(16,24,40,.06);
+  --sf-userinfo-bg:#f6faf9;
+  --sf-badge-pinned-bg:#fde68a;
+  --sf-badge-pinned-color:#713f12;
+  --sf-pm-box-bg:rgba(15,118,110,.10);
+  --sf-pm-box-hover-bg:rgba(15,118,110,.16);
+
+  /* skin tokens */
+  --sk-page-bg:#f2f6f5;
+  --sk-wrap-bg:#f2f6f5;
+  --sk-wrap-pad:20px 0;
+  --sk-wrap-radius:12px;
+  --sk-table-head:#f8fafc;
+  --sk-scheme:light;
+  --sk-heading:#0b1f1d;
+  --sk-on-header:#ffffff;
+  --sk-on-primary:#ffffff;
+  --sk-side-link:#0b1f1d;
+  --sk-content-link:#0f766e;
+  --sk-pagehead-bg:var(--sf-surface);
+  --sk-page-item-bg:var(--sf-surface);
+  --sk-deep:#f8fafc;
+  --sk-field-bg:#ffffff;
+  --sk-field-text:#1d2b2a;
+  --sk-menu-bg:#ffffff;
+  --sk-editor-bg:#ffffff;
+  --sk-editor-text:#1d2b2a;
+  --sk-editor-link:#0f766e;
+  --sk-editor-bar:#eef4f3;
+  --sk-cke-bar:#eef4f3;
+  --sk-upload-bg:#f8fafc;
+  --sk-avatar-bg:#ccfbf1;
+  --sk-avatar-text:#115e59;
+  --sk-yellow:#fde68a;
+  --sk-on-yellow:#713f12;
+  --sk-danger:#dc2626;
+  --sk-primary-soft:rgba(15,118,110,.10);
+  --sk-primary-soft-text:#115e59;
+  --sk-hover-soft:rgba(15,23,42,.04);
+  --sk-outline-hover:rgba(15,23,42,.04);
+  --sk-border-strong:#dbe4e3;
+  --sk-border-strong-2:#c3d1cf;
+  --sk-ok-bg:#ecfdf3;
+  --sk-ok-border:#abefc6;
+  --sk-ok-text:#067647;
+  --sk-err-bg:#fef3f2;
+  --sk-err-border:#fecdca;
+  --sk-err-text:#b42318;
+  --sk-toast-bg:#111827;
+  --sk-toast-text:#ffffff;
+  --sk-radius:12px;
+  --sk-radius-sm:6px;
+  --sk-icon-radius:10px;
+  --sk-input-radius:8px;
+  --sk-badge-radius:999px;
+  --sk-badge-transform:none;
+  --sk-badge-spacing:0;
+  --sk-head-transform:none;
+  --sk-head-spacing:0;
+  --sk-head-weight:600;
+  --sk-head-size:1.02em;
+  --sk-title-weight:700;
+  --sk-btn-weight:600;
+  --sk-card-shadow:0 1px 2px rgba(16,24,40,.05), 0 1px 3px rgba(16,24,40,.06);
+  --sk-post-border:1px solid #dfe7e6;
+  --sk-btn-border:#cfdcda;
+  --sk-btn-border-hover:#b9cac7;
+  --sk-toggle-bg:rgba(255,255,255,.18);
+  --sk-toggle-text:#ffffff;
+  --sk-toggle-border:transparent;
+  --sk-activity-head-margin:-14px -16px 10px;
+  --sk-activity-head-radius:12px 12px 0 0;
+  --sk-danger-outline-text:#dc2626;
+  --sk-danger-outline-border:#dc2626;
+  --sk-danger-outline-hover-bg:#dc2626;
+  --sk-danger-outline-hover-text:#ffffff;
+}
+.sf-wrap{ color-scheme:light; }
+
+/* NativeForum shared skin: all presets use these component rules; colours/shapes come from --sk-* tokens. */
+/* This preset defines BOTH modern NativeForum tokens (--sf-bg etc.)
+   and legacy/area tokens (--sf-bg-forum etc.) and also applies direct
+   element overrides so it visibly affects ALL templates/themes. */
+
+.sf-wrap{
+  --sf-bg-forum: var(--sf-bg);
+  --sf-text-forum: var(--sf-text);
+  --sf-card-bg: var(--sf-card);
+}
+
+/* Hard overrides for robustness (host themes/minifiers) */
+.sf-wrap{background:var(--sf-bg)!important;color:var(--sf-text)!important;}
+.sf-wrap a{color:var(--sf-link)!important;}
+.sf-wrap a:hover{color:var(--sf-link-hover)!important;}
+.sf-wrap .sf-panel,
+.sf-wrap .sf-card,
+.sf-wrap .sf-box,
+.sf-wrap .sf-sidecard,
+.sf-wrap .sf-post-card,
+.sf-wrap .card,
+.sf-wrap .list-group-item{
+  background:var(--sf-card)!important;
+  color:var(--sf-text-panel, var(--sf-text))!important;
+  border-color:var(--sf-border)!important;
+}
+.sf-wrap .sf-header,
+.sf-wrap .sf-topbar,
+.sf-wrap .sf-breadcrumb{
+  background:var(--sf-header-bg, var(--sf-card))!important;
+  color:var(--sf-header-color, var(--sf-text))!important;
+  border-color:var(--sf-header-border, var(--sf-border))!important;
+}
+.sf-wrap input,
+.sf-wrap textarea,
+.sf-wrap select{
+  background:var(--sf-input-bg, var(--sf-card))!important;
+  color:var(--sf-input-text, var(--sf-text))!important;
+  border-color:var(--sf-border)!important;
+}
+.sf-wrap .btn,
+.sf-wrap .sf-btn,
+.sf-wrap button{
+  border-color:var(--sf-btn-border, var(--sf-border))!important;
+  background:var(--sf-btn-secondary-bg, transparent)!important;
+  color:var(--sf-btn-secondary-text, var(--sf-text))!important;
+}
+
+.sf-wrap .btn:hover,
+.sf-wrap .sf-btn:hover,
+.sf-wrap button:hover{
+  background:var(--sf-btn-secondary-hover-bg, var(--sf-btn-secondary-bg, transparent))!important;
+  color:var(--sf-btn-secondary-hover-text, var(--sf-btn-secondary-text, var(--sf-text)))!important;
+}
+.sf-wrap .btn-primary,
+.sf-wrap .sf-btn-primary{
+  background:var(--sf-btn-primary-bg, var(--sf-btn-bg, var(--sf-accent)))!important;
+  color:var(--sf-btn-primary-text, var(--sf-btn-text, #fff))!important;
+}
+.sf-wrap .btn-primary:hover,
+.sf-wrap .sf-btn-primary:hover{
+  background:var(--sf-btn-primary-hover-bg, var(--sf-btn-primary-bg, var(--sf-accent)))!important;
+  color:var(--sf-btn-primary-hover-text, var(--sf-btn-primary-text, #fff))!important;
+}
+
+.sf-wrap .btn-outline-primary,
+.sf-wrap .btn-outline-secondary{
+  background:transparent!important;
+}
+.sf-wrap .btn-outline-primary{
+  color:var(--sf-accent)!important;
+  border-color:var(--sf-accent)!important;
+}
+.sf-wrap .btn-outline-primary:hover{
+  background:var(--sf-btn-primary-bg, var(--sf-accent))!important;
+  color:var(--sf-btn-primary-text, #fff)!important;
+}
+.sf-wrap .btn-link{
+  background:transparent!important;
+  border-color:transparent!important;
+  color:var(--sf-link)!important;
+}
+.sf-wrap .btn-link:hover{ color:var(--sf-link-hover)!important; }
+.sf-wrap .btn-secondary,
+.sf-wrap .sf-btn-secondary{
+  background:var(--sf-btn-secondary-bg, transparent)!important;
+  color:var(--sf-btn-secondary-text, var(--sf-text))!important;
+}
+
+/* Sidebar consistency */
+.sf-wrap .sf-side .card,
+.sf-wrap .sf-sidecard,
+.sf-wrap .sf-sidecard.card,
+.sf-wrap .sf-sidecard .card-body{
+  background:var(--sf-side-bg)!important;
+  color:var(--sf-side-text)!important;
+  border-color:var(--sf-side-border, var(--sf-border))!important;
+}
+.sf-wrap .sf-side a{ color:var(--sf-link)!important; }
+.sf-wrap .sf-side a:hover{ color:var(--sf-link-hover)!important; }
+.sf-wrap .sf-topic-row.sf-pinned,
+.sf-wrap .sf-topic-rowitem.sf-pinned{
+  background:var(--sf-pinned-row-bg)!important;
+  color:var(--sf-pinned-row-text, var(--sf-text))!important;
+}
+.sf-wrap .sf-tag,
+.sf-wrap .sf-tags a,
+.sf-wrap .sf-topic-tags a{
+  background:var(--sf-tag-bg)!important;
+  color:var(--sf-tag-text)!important;
+  border:var(--sf-tag-border, 1px solid var(--sf-border))!important;
+  border-radius:var(--sf-tag-radius, 999px)!important;
+  padding:var(--sf-tag-pad, .18em .5em)!important;
+}
+.sf-wrap .sf-tag:hover,
+.sf-wrap .sf-tags a:hover,
+.sf-wrap .sf-topic-tags a:hover{
+  background:var(--sf-tag-hover-bg, var(--sf-tag-bg))!important;
+  color:var(--sf-tag-hover-text, var(--sf-tag-text))!important;
+}
+
+/* Content contrast guard (protect against saved inline colors) */
+.sf-wrap .sf-post-body{
+  color: var(--sf-text-panel, var(--sf-text)) !important;
+}
+.sf-wrap .sf-post-body a{
+  color: var(--sf-link, #2563eb) !important;
+}
+.sf-wrap .sf-post-body a:hover{
+  color: var(--sf-link-hover, var(--sf-link)) !important;
+}
+
+
+/* ---- B24: contrast + consistency fixes ---- */
+.sf-wrap{
+  --sf-border-strong: var(--sk-border-strong);
+  --sf-border-strong-2: var(--sk-border-strong-2);
+}
+/* Permissions / activity blocks */
+.sf-wrap .sf-perms, .sf-wrap .sf-box.sf-perms, .sf-wrap .sf-forum-activity{
+  background: var(--sf-card, #fff) !important;
+  color: var(--sf-text-panel, var(--sf-text, #111)) !important;
+  border: 1px solid var(--sf-border, rgba(0,0,0,.15)) !important;
+  border-radius: var(--sk-radius) !important;
+  padding: 14px 16px !important;
+}
+.sf-wrap .sf-perms-title{
+  font-weight: 700 !important;
+  font-size: 14px !important;
+  margin-bottom: 8px !important;
+  padding-bottom: 8px !important;
+  border-bottom: 1px solid var(--sf-border, rgba(0,0,0,.12)) !important;
+}
+.sf-wrap .sf-perms-line{ margin: 4px 0 !important; }
+
+/* Post body readability guard (prevents invisible text) */
+.sf-wrap .sf-post-body,
+.sf-wrap .sf-post-body p,
+.sf-wrap .sf-post-body li,
+.sf-wrap .sf-post-body div,
+.sf-wrap .sf-post-body span,
+.sf-wrap .sf-post-body h1,
+.sf-wrap .sf-post-body h2,
+.sf-wrap .sf-post-body h3,
+.sf-wrap .sf-post-body h4,
+.sf-wrap .sf-post-body h5,
+.sf-wrap .sf-post-body h6{
+  color: var(--sf-text-panel, var(--sf-text, #111)) !important;
+}
+.sf-wrap .sf-post-body a{ color: var(--sf-link, #2563eb) !important; }
+.sf-wrap .sf-post-body a:hover{ color: var(--sf-link-hover, #1d4ed8) !important; }
+
+/* Searchbar / inputs borders stronger */
+.sf-wrap input[type="search"],
+.sf-wrap .sf-topsearch input,
+.sf-wrap .sf-searchbar input,
+.sf-wrap .sf-search input,
+.sf-wrap #sfSearch input{
+  border-color: var(--sf-border-strong, rgba(0,0,0,.32)) !important;
+}
+.sf-wrap input[type="search"]:focus,
+.sf-wrap .sf-topsearch input:focus,
+.sf-wrap .sf-searchbar input:focus,
+.sf-wrap .sf-search input:focus,
+.sf-wrap textarea:focus,
+.sf-wrap select:focus{
+  outline: none !important;
+  box-shadow: 0 0 0 3px var(--sf-focus) !important;
+  border-color: var(--sf-accent, #2563eb) !important;
+}
+
+/* Outline/icon buttons (quote, dots, profile, unpin, thumbs) */
+.sf-wrap .btn-outline-secondary,
+.sf-wrap .btn-outline-primary,
+.sf-wrap .btn-outline-warning,
+.sf-wrap .btn-outline-danger{
+  color: var(--sf-text, #111) !important;
+  border-color: var(--sf-border-strong-2, rgba(0,0,0,.42)) !important;
+  background: rgba(255,255,255,.0) !important;
+}
+.sf-wrap .btn-outline-secondary:hover,
+.sf-wrap .btn-outline-primary:hover,
+.sf-wrap .btn-outline-warning:hover,
+.sf-wrap .btn-outline-danger:hover{
+  background: var(--sk-outline-hover) !important;
+  color: var(--sf-text, #111) !important;
+}
+.sf-wrap .btn-outline-secondary svg,
+.sf-wrap .btn-outline-primary svg,
+.sf-wrap .btn-outline-warning svg,
+.sf-wrap .btn-outline-danger svg{
+  fill: currentColor !important;
+  stroke: currentColor !important;
+}
+
+/* === Preset enforcement: keep everything readable & consistent === */
+.sf-wrap .sf-card,
+.sf-wrap .sf-panel,
+.sf-wrap .sf-box,
+.sf-wrap .sf-sidecard{
+  border: 1px solid var(--sf-border-strong, var(--sf-border, rgba(0,0,0,.18))) !important;
+}
+
+/* Activity block spacing + containment */
+.sf-wrap .sf-forum-activity{
+  width: 100% !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+  margin-top: var(--sf-gap, 16px) !important;
+}
+
+/* Inputs / searchbars (including PW-forum quick search) */
+.sf-wrap input[type="search"],
+.sf-wrap input[type="text"],
+.sf-wrap input[type="email"],
+.sf-wrap input[type="password"],
+.sf-wrap textarea,
+.sf-wrap select,
+.sf-wrap form.sf-csearch.sfqs input,
+.sf-wrap form.sf-pwqs input,
+.sf-wrap .sf-side form.sf-csearch.sfqs input,
+.sf-wrap .sf-side form.sf-pwqs input{
+  background: var(--sf-input-bg, var(--sf-card, #fff)) !important;
+  color: var(--sf-text-panel, var(--sf-text, #111)) !important;
+  border: 1px solid var(--sf-border-strong, var(--sf-border, rgba(0,0,0,.22))) !important;
+}
+.sf-wrap input::placeholder,
+.sf-wrap textarea::placeholder{
+  color: var(--sf-muted, rgba(0,0,0,.55)) !important;
+  opacity: 1 !important;
+}
+.sf-wrap input:focus,
+.sf-wrap textarea:focus,
+.sf-wrap select:focus{
+  outline: none !important;
+  box-shadow: 0 0 0 3px var(--sf-focus, rgba(37,99,235,.22)) !important;
+  border-color: var(--sf-accent, var(--sf-link, #2563eb)) !important;
+}
+
+/* Buttons (force contrast) */
+.sf-wrap .btn,
+.sf-wrap .sf-btn,
+.sf-wrap button,
+.sf-wrap a.btn{
+  color: var(--sf-btn-text, var(--sf-text-panel, var(--sf-text, #111))) !important;
+}
+.sf-wrap .btn-outline-secondary,
+.sf-wrap.sf-btnmode-neutral .btn.btn-outline-secondary{
+  background: transparent !important;
+  color: var(--sf-text-panel, var(--sf-text, #111)) !important;
+  border-color: var(--sf-border-strong, var(--sf-border, rgba(0,0,0,.3))) !important;
+}
+.sf-wrap .btn-outline-primary,
+.sf-wrap.sf-btnmode-neutral .btn.btn-outline-primary{
+  background: transparent !important;
+  color: var(--sf-link, var(--sf-accent, #2563eb)) !important;
+  border-color: var(--sf-link, var(--sf-accent, #2563eb)) !important;
+}
+.sf-wrap .btn-outline-warning,
+.sf-wrap .btn-warning{
+  color: var(--sf-warn-text, #111) !important;
+  border-color: var(--sf-warn-border, rgba(245,158,11,.75)) !important;
+}
+.sf-wrap .btn-outline-secondary:hover,
+.sf-wrap .btn-outline-primary:hover,
+.sf-wrap .btn-outline-warning:hover{
+  background: var(--sf-hover, rgba(0,0,0,.06)) !important;
+}
+
+/* Icon/action buttons: quote / three dots / vote */
+.sf-wrap .sf-post-actions .btn,
+.sf-wrap .sf-topic-actions .btn,
+.sf-wrap .sf-vote-btn,
+.sf-wrap .sf-quote-btn,
+.sf-wrap .sf-more-btn{
+  background: transparent !important;
+  color: var(--sf-text-panel, var(--sf-text, #111)) !important;
+  border: 1px solid var(--sf-border-strong, var(--sf-border, rgba(0,0,0,.22))) !important;
+}
+.sf-wrap .sf-post-actions .btn:hover,
+.sf-wrap .sf-topic-actions .btn:hover,
+.sf-wrap .sf-vote-btn:hover,
+.sf-wrap .sf-quote-btn:hover,
+.sf-wrap .sf-more-btn:hover{
+  background: var(--sf-hover, rgba(0,0,0,.06)) !important;
+}
+
+/* Ensure SVG icons follow text color */
+.sf-wrap svg{ fill: currentColor !important; stroke: currentColor !important; }
+
+/* Post/reply card + body text */
+.sf-wrap .sf-post-card,
+.sf-wrap .sf-post-card[data-sf-kind="reply"],
+.sf-wrap .sf-post-body{
+  background: var(--sf-card, #fff) !important;
+  color: var(--sf-text-panel, var(--sf-text, #111)) !important;
+}
+.sf-wrap .sf-post-body p,
+.sf-wrap .sf-post-body li,
+.sf-wrap .sf-post-body div,
+.sf-wrap .sf-post-body span,
+.sf-wrap .sf-post-body blockquote,
+.sf-wrap .sf-post-body pre,
+.sf-wrap .sf-post-body code,
+.sf-wrap .sf-post-body em,
+.sf-wrap .sf-post-body strong,
+.sf-wrap .sf-post-body h1,
+.sf-wrap .sf-post-body h2,
+.sf-wrap .sf-post-body h3,
+.sf-wrap .sf-post-body h4,
+.sf-wrap .sf-post-body h5,
+.sf-wrap .sf-post-body h6{
+  color: var(--sf-text-panel, var(--sf-text, #111)) !important;
+}
+.sf-wrap .sf-post-body a{
+  color: var(--sf-link, #2563eb) !important;
+}
+.sf-wrap .sf-post-body a:hover{
+  color: var(--sf-link-hover, var(--sf-link, #2563eb)) !important;
+}
+
+/* User info blocks + popup cards */
+.sf-wrap .sf-userinfo.text-center,
+.sf-wrap .sf-userinfo,
+.sf-wrap .sf-post-authorcol,
+.sf-wrap .sf-usercard-pop,
+.sf-wrap .sf-user-popcard,
+.sf-wrap .sf-usercard,
+.sf-wrap .sf-user-popup{
+  background: var(--sf-card, #fff) !important;
+  color: var(--sf-text-panel, var(--sf-text, #111)) !important;
+  border: 1px solid var(--sf-border-strong, var(--sf-border, rgba(0,0,0,.18))) !important;
+}
+
+/* --- B48 FIXES --- */
+/* Prevent inheriting host-site white text on light/mono */
+.sf-wrap{ color: var(--sf-text) !important; background: var(--sf-bg) !important; }
+
+/* Ensure post/reply body always readable */
+.sf-wrap .sf-post-body,
+.sf-wrap .sf-post-body *{
+  color: var(--sf-text-panel, var(--sf-text)) !important;
+}
+.sf-wrap .sf-post-body a{ color: var(--sf-link) !important; }
+.sf-wrap .sf-post-body a:hover{ color: var(--sf-link-hover) !important; }
+
+/* Buttons: keep sizes, only enforce readable colors */
+.sf-wrap .btn,
+.sf-wrap .sf-btn,
+.sf-wrap button,
+.sf-wrap a.btn{
+  color: var(--sf-btn-outline-text, var(--sf-text)) !important;
+}
+.sf-wrap .btn-primary,
+.sf-wrap .sf-btn-primary{
+  color: var(--sf-btn-on-accent, #fff) !important;
+}
+.sf-wrap .btn i,
+.sf-wrap .btn .fa,
+.sf-wrap .btn svg,
+.sf-wrap .sf-quote-btn svg,
+.sf-wrap .sf-more-btn svg,
+.sf-wrap .sf-vote-btn svg{
+  color: currentColor !important;
+  fill: currentColor !important;
+  stroke: currentColor !important;
+}
+
+/* ---------- Extra readability guards (B49) ---------- */
+.sf-wrap{ color: var(--sf-text) !important; }
+.sf-wrap .sf-post-body,
+.sf-wrap .sf-post-body *,
+.sf-wrap .sf-post-content,
+.sf-wrap .sf-post-content *,
+.sf-wrap .sf-postmsg,
+.sf-wrap .sf-postmsg *,
+.sf-wrap .sf-reply-body,
+.sf-wrap .sf-reply-body *,
+.sf-wrap .sf-post-message,
+.sf-wrap .sf-post-message *,
+.sf-wrap .sf-post-text,
+.sf-wrap .sf-post-text *{
+  color: var(--sf-text-panel) !important;
+}
+
+/* Buttons: force label visibility without changing sizing */
+.sf-wrap .btn,
+.sf-wrap .sf-btn,
+.sf-wrap button,
+.sf-wrap a.btn{
+  color: var(--sf-btn-outline-text) !important;
+}
+.sf-wrap .btn span,
+.sf-wrap .btn strong,
+.sf-wrap .btn small,
+.sf-wrap .sf-btn span{
+  color: inherit !important;
+}
+.sf-wrap .btn i,
+.sf-wrap .btn .fa,
+.sf-wrap .btn .fas,
+.sf-wrap .btn .far,
+.sf-wrap .btn .fal,
+.sf-wrap .btn .fab{
+  color: inherit !important;
+}
+
+
+/* ---- B50 readability + button visibility guards ---- */
+
+.sf-wrap{ background: var(--sf-bg) !important; color: var(--sf-text) !important; }
+.sf-wrap .sf-post-body,
+.sf-wrap .sf-post-body *{
+  color: var(--sf-text-panel, var(--sf-text, #111)) !important;
+}
+.sf-wrap .btn,
+.sf-wrap .sf-btn,
+.sf-wrap button,
+.sf-wrap a.btn{
+  color: var(--sf-btn-outline-text, var(--sf-text, #111)) !important;
+}
+.sf-wrap .btn i,
+.sf-wrap .btn .fa,
+.sf-wrap .btn .fas,
+.sf-wrap .btn .far,
+.sf-wrap .btn .fal,
+.sf-wrap .btn .fab,
+.sf-wrap .btn svg{
+  color: currentColor !important;
+  fill: currentColor !important;
+  stroke: currentColor !important;
+}
+
+
+/* =================== Component look =================== */
+body.sf-standalone{ background:var(--sk-page-bg); color:var(--sf-text); }
+.sf-wrap.sf-wrap.sf-wrap{ background:var(--sk-wrap-bg) !important; padding:var(--sk-wrap-pad, 0); border-radius:var(--sk-wrap-radius, 0); }
+body.sf-standalone .sf-wrap{ border-radius:0; }
+
+/* Square, flat surfaces like the site's panels */
+.sf-wrap .sf-card, .sf-wrap .sf-sidebox, .sf-wrap .sf-post-card, .sf-wrap .sf-pagehead,
+.sf-wrap .sf-groupblock, .sf-wrap .card, .sf-wrap .sf-panel, .sf-wrap .sf-forum-activity,
+.sf-wrap .dropdown-menu, .sf-wrap .sf-breadcrumbbar{
+  border-radius:var(--sf-radius) !important; box-shadow:var(--sk-card-shadow) !important;
+}
+
+/* Title bars ("Prihajajoči dogodki" style): slate bar, white text, normal case */
+.sf-wrap .sf-card-h, .sf-wrap .sf-sidebox-h, .sf-wrap .card-header, .sf-wrap .sf-groupbar,
+.sf-wrap .sf-group-head, .sf-wrap .sf-panel > .card-header, .sf-wrap .sf-sidecard-h{
+  background:var(--sf-header-bg) !important; color:var(--sf-header-color) !important; border-color:transparent !important;
+  text-transform:var(--sk-head-transform) !important; letter-spacing:var(--sk-head-spacing) !important; font-weight:var(--sk-head-weight) !important; font-size:var(--sk-head-size) !important;
+}
+.sf-wrap .sf-card-h a, .sf-wrap .card-header a, .sf-wrap .sf-groupbar a{ color:var(--sf-header-color) !important; }
+.sf-wrap .sf-panel-vip > .card-header, .sf-wrap .sf-vip .sf-card-h{ border-left:4px solid var(--sf-primary) !important; }
+
+/* Breadcrumb + page head */
+.sf-wrap .sf-breadcrumbbar{ background:var(--sf-header-bg) !important; color:var(--sf-header-color) !important; }
+.sf-wrap .sf-breadcrumbbar a{ color:var(--sk-on-header) !important; }
+.sf-wrap .sf-breadcrumbbar a:hover{ color:var(--sf-primary) !important; }
+.sf-wrap .sf-main .sf-pagehead, .sf-wrap .sf-main .sf-pagehead > .card-body{
+  background:var(--sk-pagehead-bg) !important; color:var(--sk-heading) !important; border:0 !important;
+}
+.sf-wrap .sf-main .sf-pagehead{ border-left:4px solid var(--sf-primary) !important; }
+.sf-wrap .sf-main .sf-pagehead-title, .sf-wrap .sf-h1{ color:var(--sk-heading) !important; font-weight:var(--sk-title-weight) !important; }
+
+/* Rows: index categories, topics, members — dark rows separated by thin gaps */
+.sf-wrap .sf-forum-row, .sf-wrap .list-group-item, .sf-wrap .sf-member, .sf-wrap .sf-topic-row{
+  background:var(--sf-bg-topicrow, var(--sf-surface)) !important; border-color:var(--sf-border) !important; color:var(--sf-text) !important;
+}
+.sf-wrap .sf-forum-row:hover, .sf-wrap .list-group-item:hover, .sf-wrap .sf-member:hover{ background:var(--sf-surface-2) !important; }
+.sf-wrap .sf-link-title, .sf-wrap .sf-index-title, .sf-wrap .sf-last-link, .sf-wrap .sf-lastpost-title,
+.sf-wrap .sf-member-name{ color:var(--sf-index-title-color, var(--sk-heading)) !important; font-weight:600 !important; }
+.sf-wrap .sf-link-title:hover, .sf-wrap .sf-index-title:hover, .sf-wrap .sf-last-link:hover,
+.sf-wrap .sf-lastpost-title:hover, .sf-wrap .sf-member-name:hover{ color:var(--sf-index-title-hover-color, var(--sf-primary)) !important; text-decoration:none !important; }
+.sf-wrap .sf-forum-icon{ background:var(--sk-primary-soft) !important; color:var(--sf-primary) !important; border-radius:var(--sk-icon-radius) !important; }
+.sf-wrap .sf-stat-num{ color:var(--sk-heading) !important; }
+
+/* Links in text are red like on the site */
+.sf-wrap .sf-post-body a, .sf-wrap .sf-signature a{ color:var(--sk-content-link) !important; }
+.sf-wrap .sf-post-body a:hover{ color:var(--sf-btn-primary-hover-bg) !important; }
+.sf-wrap .sf-side a{ color:var(--sk-side-link) !important; }
+.sf-wrap .sf-side a:hover{ color:var(--sf-primary) !important; }
+
+/* Posts */
+.sf-wrap .sf-post-card{ border:var(--sk-post-border) !important; }
+.sf-wrap .sf-post-authorcol{ background:var(--sf-userinfo-bg, var(--sf-surface-2)) !important; border-color:var(--sf-border) !important; }
+.sf-wrap .sf-post-meta{ border-color:var(--sf-border) !important; color:var(--sf-muted) !important; }
+.sf-wrap .sf-post-body blockquote{ background:var(--sf-quote-bg, var(--sk-deep)) !important; border-left-color:var(--sf-primary) !important; color:var(--sf-muted) !important; }
+.sf-wrap .sf-post-card:target{ box-shadow:0 0 0 2px var(--sf-primary) !important; }
+
+/* Buttons: grey square ("Beri več"), primary actions red */
+.sf-wrap .btn, .sf-wrap .sf-btn, .sf-wrap .sf-button, .sf-wrap .sf-button-secondary, .sf-wrap .sf-button-primary,
+.sf-wrap .btn-outline-secondary, .sf-wrap .btn-light{
+  background:var(--sf-btn-secondary-bg) !important; color:var(--sf-btn-secondary-text) !important; border:1px solid var(--sk-btn-border, var(--sf-btn-secondary-bg)) !important;
+  border-radius:var(--sf-btn-radius) !important; font-weight:var(--sk-btn-weight) !important;
+}
+.sf-wrap .btn:hover, .sf-wrap .sf-btn:hover, .sf-wrap .sf-button:hover, .sf-wrap .sf-button-secondary:hover,
+.sf-wrap .btn-outline-secondary:hover, .sf-wrap .btn-light:hover{ background:var(--sf-btn-secondary-hover-bg) !important; border-color:var(--sk-btn-border-hover, var(--sf-btn-secondary-hover-bg)) !important; color:var(--sf-btn-secondary-text) !important; }
+.sf-wrap .btn-primary, .sf-wrap .sf-btn-primary, .sf-wrap .sf-button-primary, .sf-wrap button[type=submit].btn-primary{
+  background:var(--sf-btn-primary-bg) !important; border-color:var(--sf-btn-primary-bg) !important; color:var(--sf-btn-primary-text) !important;
+}
+.sf-wrap .btn-primary:hover, .sf-wrap .sf-btn-primary:hover, .sf-wrap .sf-button-primary:hover{ background:var(--sf-btn-primary-hover-bg) !important; border-color:var(--sf-btn-primary-hover-bg) !important; }
+.sf-wrap .btn-danger, .sf-wrap .sf-btn-danger{ background:var(--sk-danger) !important; border-color:var(--sk-danger) !important; color:var(--sk-on-primary) !important; }
+.sf-wrap .sf-vote-btn, .sf-wrap .sf-post-actions .btn, .sf-wrap .sf-quote-btn, .sf-wrap .sf-more-btn{
+  background:transparent !important; border:1px solid var(--sf-border-strong) !important; color:var(--sf-text) !important;
+}
+.sf-wrap .sf-vote-btn:hover, .sf-wrap .sf-post-actions .btn:hover{ border-color:var(--sf-primary) !important; color:var(--sf-primary) !important; }
+
+/* Badges like "JUTRI"/"DANES" */
+.sf-wrap .badge{ border-radius:var(--sk-badge-radius) !important; text-transform:var(--sk-badge-transform); letter-spacing:var(--sk-badge-spacing); }
+.sf-wrap .text-bg-warning, .sf-wrap .sf-pinned-badge{ background:var(--sf-badge-pinned-bg, var(--sk-yellow)) !important; color:var(--sf-badge-pinned-color, var(--sk-on-yellow)) !important; }
+.sf-wrap .text-bg-danger, .sf-wrap .sf-vip-badge, .sf-wrap .sf-new-badge{ background:var(--sf-badge-vip-bg, var(--sf-primary)) !important; color:var(--sf-badge-vip-color, var(--sk-on-primary)) !important; }
+.sf-wrap .text-bg-primary{ background:var(--sk-primary-soft) !important; color:var(--sk-primary-soft-text) !important; }
+
+/* Tabs + pagination */
+.sf-wrap .nav-tabs{ border-color:var(--sf-border) !important; }
+.sf-wrap .nav-link{ color:var(--sf-muted) !important; border-radius:var(--sk-radius-sm) var(--sk-radius-sm) 0 0 !important; }
+.sf-wrap .nav-link:hover{ color:var(--sk-heading) !important; }
+.sf-wrap .nav-link.active{ color:var(--sk-heading) !important; border-bottom-color:var(--sf-primary) !important; background:transparent !important; }
+.sf-wrap .nav-pills .nav-link.active{ background:var(--sf-primary) !important; color:var(--sk-on-primary) !important; border-radius:var(--sk-radius-sm) !important; }
+.sf-wrap .sf-pagination a, .sf-wrap .sf-pagination span, .sf-wrap .page-link{
+  background:var(--sk-page-item-bg) !important; border-color:var(--sf-border) !important; color:var(--sk-heading) !important; border-radius:var(--sk-radius-sm) !important;
+}
+.sf-wrap .sf-pagination .active, .sf-wrap .sf-pagination [aria-current], .sf-wrap .page-item.active .page-link,
+.sf-wrap .sf-pagination a:hover{ background:var(--sf-primary) !important; border-color:var(--sf-primary) !important; color:var(--sk-on-primary) !important; }
+
+/* Tables (messages, members) */
+.sf-wrap .table th{ background:var(--sf-header-bg) !important; color:var(--sf-header-color) !important; border-color:var(--sf-border) !important; }
+.sf-wrap .table td{ border-color:var(--sf-border) !important; color:var(--sf-text) !important; }
+.sf-wrap .table tbody tr:hover td{ background:var(--sf-surface-2) !important; }
+
+/* Forms */
+.sf-wrap .form-control, .sf-wrap input[type=text], .sf-wrap input[type=email], .sf-wrap input[type=password],
+.sf-wrap input[type=search], .sf-wrap textarea, .sf-wrap select{ border-radius:var(--sk-input-radius) !important; }
+.sf-wrap .sf-members-filter input{ background:var(--sk-field-bg) !important; color:var(--sk-field-text) !important; border:1px solid var(--sf-border-strong) !important; }
+.sf-wrap .sf-alert-success{ background:var(--sk-ok-bg) !important; border-color:var(--sk-ok-border) !important; color:var(--sk-ok-text) !important; }
+.sf-wrap .sf-alert-error, .sf-wrap .alert-danger{ background:var(--sk-err-bg) !important; border-color:var(--sk-err-border) !important; color:var(--sk-err-text) !important; }
+.sf-wrap mark.sf-hl{ background:var(--sk-yellow) !important; color:var(--sk-on-yellow) !important; }
+
+/* Summaries + muted text */
+.sf-wrap .sf-muted, .sf-wrap .sf-muted-sm, .sf-wrap .text-muted, .sf-wrap .sf-index-summary,
+.sf-wrap .sf-topic-summary, .sf-wrap .sf-lastpost-summary, .sf-wrap .sf-stat-lbl{ color:var(--sf-muted) !important; }
+
+/* Editor (CKEditor 4) on dark */
+.sf-wrap .cke, .sf-wrap .cke_inner{ border-color:var(--sf-border) !important; border-radius:var(--sk-input-radius) !important; }
+.sf-wrap .cke_top, .sf-wrap .cke_bottom{ background:var(--sk-cke-bar) !important; }
+
+/* Avatars */
+.sf-wrap .sf-avatar, .sf-wrap .avatar-placeholder{ background:var(--sk-avatar-bg) !important; color:var(--sk-avatar-text) !important; }
+
+/* Button sizing (some legacy rules reset padding) */
+.sf-wrap .btn, .sf-wrap .sf-btn, .sf-wrap .sf-button, .sf-wrap .sf-button-secondary, .sf-wrap .sf-button-primary{
+  padding:8px 16px !important; line-height:1.2 !important; display:inline-flex; align-items:center; justify-content:center; gap:6px; text-decoration:none !important;
+}
+.sf-wrap .btn-sm, .sf-wrap .sf-btn-sm{ padding:6px 12px !important; font-size:.875em !important; }
+.sf-wrap .sf-side .sf-btn, .sf-wrap .sf-side .btn{ width:100%; margin-top:6px; }
+.sf-wrap .sf-btn-ghost{ background:var(--sf-btn-secondary-bg) !important; border-color:var(--sk-btn-border, var(--sf-btn-secondary-bg)) !important; }
+.sf-wrap .sf-vote-btn, .sf-wrap .sf-post-actions .btn, .sf-wrap .sf-quote-btn, .sf-wrap .sf-more-btn, .sf-wrap .sf-dots-btn{ padding:4px 8px !important; }
+
+/* Search widgets: one dark field */
+.sf-wrap .sf-pwqs, .sf-wrap form.sf-csearch, .sf-wrap form.sf-search{
+  background:var(--sk-field-bg) !important; border:1px solid var(--sf-border-strong) !important; border-radius:var(--sk-input-radius) !important; display:flex !important; align-items:stretch;
+}
+.sf-wrap .sf-pwqs form{ display:flex !important; width:100%; background:transparent !important; border:0 !important; }
+.sf-wrap .sf-pwqs input, .sf-wrap form.sf-csearch input[type=search], .sf-wrap form.sf-csearch input[type=text], .sf-wrap form.sf-search input{
+  flex:1 1 auto !important; width:auto !important; min-width:0; background:transparent !important; border:0 !important; box-shadow:none !important; color:var(--sk-field-text) !important;
+}
+.sf-wrap .sf-pwqs button, .sf-wrap form.sf-csearch button, .sf-wrap form.sf-search button{
+  background:var(--sf-btn-secondary-bg) !important; border:0 !important; border-radius:0 !important; color:var(--sf-btn-secondary-text) !important; padding:0 12px !important; width:auto !important; margin:0 !important;
+}
+.sf-wrap .sf-pwqs-filter, .sf-wrap .sf-csearch-filter{ color:var(--sf-muted) !important; }
+.sf-wrap .sf-pwqs-filter summary, .sf-wrap .sf-csearch-filter summary{ color:var(--sf-muted) !important; }
+
+/* Sidebar lists: dates readable */
+.sf-wrap .sf-side-right, .sf-wrap .sf-side .sf-muted, .sf-wrap .sf-side small{ color:var(--sf-muted) !important; }
+.sf-wrap .sf-side-list li, .sf-wrap .sf-side li{ border-color:var(--sf-border) !important; }
+
+/* Posts: beat Design Studio runtime selectors ([data-sf-kind]) */
+.sf-wrap .sf-post-card[data-sf-kind="topic"], .sf-wrap .sf-post-card[data-sf-kind="topic"] .sf-post-content,
+.sf-wrap .sf-post-card[data-sf-kind="topic"] .sf-post-main, .sf-wrap .sf-post-card[data-sf-kind="topic"] .sf-post-body{
+  background:var(--sf-bg-topicpost, var(--sf-surface)) !important; color:var(--sf-text-topicpost, var(--sf-text)) !important;
+}
+.sf-wrap .sf-post-card[data-sf-kind="reply"], .sf-wrap .sf-post-card[data-sf-kind="reply"] .sf-post-content,
+.sf-wrap .sf-post-card[data-sf-kind="reply"] .sf-post-main, .sf-wrap .sf-post-card[data-sf-kind="reply"] .sf-post-body{
+  background:var(--sf-bg-reply, var(--sf-surface)) !important; color:var(--sf-text-reply, var(--sf-text)) !important;
+}
+.sf-wrap .sf-post-card[data-sf-kind] .sf-post-authorcol, .sf-wrap .sf-post-card[data-sf-kind] .sf-userinfo{
+  background:var(--sf-userinfo-bg, var(--sf-surface-2)) !important; color:var(--sf-userinfo-text, inherit) !important; border:0 !important; border-right:1px solid var(--sf-border) !important; box-shadow:none !important; border-radius:0 !important;
+}
+.sf-wrap .sf-post-card[data-sf-kind] .sf-userinfo{ border-right:0 !important; }
+.sf-wrap .sf-post-card[data-sf-kind] .sf-post-meta{ background:transparent !important; }
+
+/* Tables on dark */
+.sf-wrap table, .sf-wrap .table, .sf-wrap .table-responsive, .sf-wrap .sf-tablewrap,
+.sf-wrap .table > :not(caption) > * > *{ background:transparent !important; color:var(--sf-text) !important; --bs-table-bg:transparent; --bs-table-color:var(--sf-text); }
+.sf-wrap .table td a{ color:var(--sk-heading) !important; }
+.sf-wrap .table td a:hover{ color:var(--sf-primary) !important; }
+
+/* Group bars on the index */
+.sf-wrap .sf-groupblock > .card-header, .sf-wrap .sf-groupblock > .sf-card-header{ padding:12px 16px !important; font-size:1.1em !important; font-weight:500 !important; }
+.sf-wrap .sf-group-title, .sf-wrap .sf-group-title a{ color:var(--sk-on-header) !important; font-size:1.1em !important; }
+
+/* Sidebar headers follow their own setting when set, else the header colour */
+.sf-wrap .sf-sidebox-h, .sf-wrap .sf-sidecard-h{ background:var(--sf-sidebar-header-bg, var(--sf-header-bg)) !important; color:var(--sf-sidebar-header-color, var(--sf-header-color)) !important; }
+
+.sf-wrap .sf-badge{ border-radius:var(--sk-badge-radius) !important; }
+.sf-wrap .sf-badge-pin{ background:var(--sf-badge-pinned-bg, var(--sk-yellow)) !important; color:var(--sf-badge-pinned-color, var(--sk-on-yellow)) !important; }
+.sf-wrap .sf-badge-vip{ background:var(--sf-badge-vip-bg, var(--sf-primary)) !important; color:var(--sk-on-primary) !important; }
+dialog.sf-dialog .sf-dialog-box{ border:1px solid var(--sf-border) !important; }
+
+.sf-wrap .sf-replyto{ background:var(--sf-replyto-bg, var(--sk-deep)) !important; border-left-color:var(--sf-primary) !important; border-radius:var(--sk-radius-sm) !important; }
+.sf-wrap .sf-replyto strong{ color:var(--sk-heading) !important; }
+
+/* Quotes: black like the reply box, square */
+.sf-wrap{ --sf-quote-bg:var(--sk-deep); }
+.sf-wrap .sf-post-body blockquote{ border-radius:var(--sk-radius-sm) !important; }
+.sf-wrap .sf-replyto--compact{ background:transparent !important; }
+
+/* Messages: black text boxes and dark tables (no white anywhere) */
+.sf-wrap{ --sf-msg-bg:var(--sk-deep); --sf-table-head-bg:var(--sk-table-head); --sf-table-hover-bg:var(--sk-hover-soft); }
+.sf-wrap .sf-msgbubble{ border-color:var(--sf-border) !important; }
+.sf-wrap .sf-table th{ border-bottom-color:var(--sf-border) !important; }
+.sf-wrap .sf-table td a{ color:var(--sk-heading) !important; }
+.sf-wrap .sf-table td a:hover{ color:var(--sf-primary) !important; }
+.sf-wrap{ --sf-menu-bg:var(--sk-menu-bg); --sf-editor-bg:var(--sk-editor-bg); --sf-editor-text:var(--sk-editor-text); --sf-editor-link:var(--sk-editor-link); --sf-editor-bar-bg:var(--sk-editor-bar); }
+.sf-wrap{ --sf-upload-row-bg:var(--sk-deep); --sf-upload-bg:var(--sk-upload-bg); }
+.sf-wrap{ --sf-file-bg:var(--sk-deep); }
+.sf-wrap .sf-post-body a.sf-file-btn, .sf-wrap .sf-msgbody a.sf-file-btn{ color:var(--sk-heading) !important; }
+.sf-wrap .sf-post-body a.sf-file-btn:hover, .sf-wrap .sf-msgbody a.sf-file-btn:hover{ color:var(--sf-primary) !important; }
+.sf-wrap{ --sf-modal-bg:var(--sk-menu-bg); --sf-ntm-item-bg:var(--sk-deep); }
+.sf-wrap .sf-mini-toast{ background:var(--sk-toast-bg); color:var(--sk-toast-text); }
+
+/* Collapse button on group bars follows the bar colours */
+.sf-wrap .sf-group-toggle{ background:var(--sk-toggle-bg, var(--sf-btn-secondary-bg)) !important; color:var(--sk-toggle-text, var(--sf-btn-outline-text, var(--sf-text))) !important; border-color:var(--sk-toggle-border, var(--sf-btn-border, var(--sf-border))) !important; }
+.sf-wrap .sf-group-toggle svg{ fill:currentColor !important; stroke:currentColor !important; }
+
+/* Danger outline buttons (e.g. Logout) – presets may give them their own colour */
+.sf-wrap .btn-outline-danger{ color:var(--sk-danger-outline-text, var(--sf-text)) !important; border-color:var(--sk-danger-outline-border, var(--sf-border-strong-2)) !important; }
+.sf-wrap .btn-outline-danger:hover{ background:var(--sk-danger-outline-hover-bg, var(--sk-outline-hover)) !important; color:var(--sk-danger-outline-hover-text, var(--sf-text)) !important; }
+
+/* Activity box: header bar edge to edge (presets opt in with --sk-activity-head-margin) */
+.sf-wrap .sf-forum-activity > .sf-card-h,
+.sf-wrap .sf-forum-activity > .card-header{ margin:var(--sk-activity-head-margin, 0) !important; border-radius:var(--sk-activity-head-radius, 0) !important; }
+
+/* 1.0.5 — native dropdown lists: options follow the field colours (no white-on-white lists on dark presets) */
+.sf-wrap select option,.sf-wrap select optgroup,dialog.sf-dialog select option{
+  background-color:var(--sf-input-bg, var(--sf-card, #fff)) !important;
+  color:var(--sf-input-text, var(--sf-text-panel, var(--sf-text, #111))) !important;
+}

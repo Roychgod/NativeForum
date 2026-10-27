@@ -1,0 +1,139 @@
+/* NativeForum preset: Custom — neutral teal starting palette; every Design Studio value you set overrides it. */
+:root, .sf-wrap{
+
+  --sf-bg:#f2f6f5;
+  --sf-text:#1d2b2a;
+  --sf-card:var(--sf-bg-panel, var(--sf-surface));
+  --sf-text-panel:var(--sf-text);
+  --sf-border:#dfe7e6;
+  --sf-muted:#5f716f;
+  --sf-link:#0f766e;
+  --sf-link-hover:#0f766e;
+  --sf-accent:var(--sf-primary);
+  --sf-primary:#0f766e;
+
+  --sf-header-bg:#0f766e;
+  --sf-header-color:#ffffff;
+  --sf-header-border:#dfe7e6;
+  --sf-sidebar-header-bg:var(--sf-header-bg);
+
+  --sf-input-bg:#ffffff;
+  --sf-input-text:#1d2b2a;
+
+  --sf-side-bg:var(--sf-bg-panel, var(--sf-surface));
+  --sf-side-text:#1d2b2a;
+  --sf-side-border:#dfe7e6;
+
+  --sf-btn-bg:#eef4f3;
+  --sf-btn-text:#1d2b2a;
+  --sf-btn-border:#cfdcda;
+  --sf-btn-outline-text:#1d2b2a;
+  --sf-btn-primary-bg:var(--sf-primary);
+  --sf-btn-primary-text:#ffffff;
+  --sf-btn-primary-hover-bg:#115e59;
+  --sf-btn-secondary-bg:#eef4f3;
+  --sf-btn-secondary-text:#1d2b2a;
+  --sf-btn-secondary-hover-bg:#e0ebe9;
+
+  --sf-tag-bg:rgba(15,118,110,.10);
+  --sf-tag-text:#115e59;
+  --sf-tag-hover-bg:var(--sf-primary);
+  --sf-tag-hover-text:#ffffff;
+
+  --sf-pinned-row-bg:#fffbeb;
+  --sf-pinned-row-text:#1d2b2a;
+
+  --sf-surface:#ffffff;
+  --sf-surface-2:#f8fafc;
+  --sf-radius:12px;
+  --sf-card-header-padding:12px 16px;
+  --sf-header-pad:12px 16px;
+  --sf-card-header-font-size:1.05em;
+  --sf-sidebar-header-font-size:1.05em;
+  --sf-sidebar-header-padding:12px 16px;
+  --sf-btn-pad-y:8px;
+  --sf-btn-pad-x:16px;
+  --sf-btn-radius:8px;
+  --sf-focus:rgba(15,118,110,.25);
+  --sf-hover:rgba(15,23,42,.04);
+  --sf-border-strong:#dbe4e3;
+  --sf-border-strong-2:#c3d1cf;
+  --sf-ring:0 0 0 3px rgba(15,118,110,.25);
+  --sf-shadow:0 1px 2px rgba(16,24,40,.06);
+  --sf-userinfo-bg:#f6faf9;
+  --sf-badge-pinned-bg:#fde68a;
+  --sf-badge-pinned-color:#713f12;
+  --sf-pm-box-bg:rgba(15,118,110,.10);
+  --sf-pm-box-hover-bg:rgba(15,118,110,.16);
+
+  /* skin tokens */
+  --sk-page-bg:#f2f6f5;
+  --sk-wrap-bg:#f2f6f5;
+  --sk-wrap-pad:20px 0;
+  --sk-wrap-radius:12px;
+  --sk-table-head:#f8fafc;
+  --sk-scheme:light;
+  --sk-heading:#0b1f1d;
+  --sk-on-header:#ffffff;
+  --sk-on-primary:#ffffff;
+  --sk-side-link:#0b1f1d;
+  --sk-content-link:#0f766e;
+  --sk-pagehead-bg:var(--sf-surface);
+  --sk-page-item-bg:var(--sf-surface);
+  --sk-deep:#f8fafc;
+  --sk-field-bg:#ffffff;
+  --sk-field-text:#1d2b2a;
+  --sk-menu-bg:#ffffff;
+  --sk-editor-bg:#ffffff;
+  --sk-editor-text:#1d2b2a;
+  --sk-editor-link:#0f766e;
+  --sk-editor-bar:#eef4f3;
+  --sk-cke-bar:#eef4f3;
+  --sk-upload-bg:#f8fafc;
+  --sk-avatar-bg:#ccfbf1;
+  --sk-avatar-text:#115e59;
+  --sk-yellow:#fde68a;
+  --sk-on-yellow:#713f12;
+  --sk-danger:#dc2626;
+  --sk-primary-soft:rgba(15,118,110,.10);
+  --sk-primary-soft-text:#115e59;
+  --sk-hover-soft:rgba(15,23,42,.04);
+  --sk-outline-hover:rgba(15,23,42,.04);
+  --sk-border-strong:#dbe4e3;
+  --sk-border-strong-2:#c3d1cf;
+  --sk-ok-bg:#ecfdf3;
+  --sk-ok-border:#abefc6;
+  --sk-ok-text:#067647;
+  --sk-err-bg:#fef3f2;
+  --sk-err-border:#fecdca;
+  --sk-err-text:#b42318;
+  --sk-toast-bg:#111827;
+  --sk-toast-text:#ffffff;
+  --sk-radius:12px;
+  --sk-radius-sm:6px;
+  --sk-icon-radius:10px;
+  --sk-input-radius:8px;
+  --sk-badge-radius:999px;
+  --sk-badge-transform:none;
+  --sk-badge-spacing:0;
+  --sk-head-transform:none;
+  --sk-head-spacing:0;
+  --sk-head-weight:600;
+  --sk-head-size:1.02em;
+  --sk-title-weight:700;
+  --sk-btn-weight:600;
+  --sk-card-shadow:0 1px 2px rgba(16,24,40,.05), 0 1px 3px rgba(16,24,40,.06);
+  --sk-post-border:1px solid #dfe7e6;
+  --sk-btn-border:#cfdcda;
+  --sk-btn-border-hover:#b9cac7;
+  --sk-toggle-bg:rgba(255,255,255,.18);
+  --sk-toggle-text:#ffffff;
+  --sk-toggle-border:transparent;
+  --sk-activity-head-margin:-14px -16px 10px;
+  --sk-activity-head-radius:12px 12px 0 0;
+  --sk-danger-outline-text:#dc2626;
+  --sk-danger-outline-border:#dc2626;
+  --sk-danger-outline-hover-bg:#dc2626;
+  --sk-danger-outline-hover-text:#ffffff;
+}
+.sf-wrap{ color-scheme:light; }

@@ -1,0 +1,54 @@
+/* NativeForum Design Studio: label help tooltips */
+.Inputfield.sf-hashelp > label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.sf-help-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  border-radius: 999px;
+  font-size: 11px;
+  line-height: 1;
+  cursor: help;
+  border: 1px solid rgba(0,0,0,.25);
+  background: rgba(0,0,0,.04);
+  color: rgba(0,0,0,.7);
+}
+
+.sf-help-icon:hover {
+  background: rgba(0,0,0,.08);
+}
+
+.sf-help-pop {
+  max-width: 420px;
+  white-space: normal;
+}
+
+.sf-help-pop .sf-help-title {
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.sf-help-pop .sf-help-aff {
+  margin-top: 8px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-size: 11px;
+  line-height: 1.25;
+  opacity: .9;
+}
+
+/* 1.0.5 — native dropdown lists follow the admin theme (Konkat dark: no white-on-white options) */
+#pw-content-body select,#pw-content select{color-scheme:var(--sfa-scheme,normal)}
+#pw-content-body select option,#pw-content-body select optgroup,#pw-content select option,#pw-content select optgroup{background-color:var(--sfa-opt-bg,Canvas);color:var(--sfa-opt-fg,CanvasText)}
+
+/* 1.0.6 — Design Studio: sections switch in place; preset values + changed markers */
+.sf-ds-sec-hidden{ display:none !important; }
+.sf-ds-preset-note{ margin:0; font-size:.92em; opacity:.85; }
+.Inputfield.sf-ds-changed > .InputfieldHeader{ box-shadow:inset 3px 0 0 var(--pw-main-color, #e83561); padding-left:8px; }
+.sf-ds-reset{ display:inline-block; margin-top:6px; font-size:.82em; opacity:.85; text-decoration:underline; cursor:pointer; }
+.sf-ds-reset:hover{ opacity:1; }

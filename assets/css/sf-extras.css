@@ -1,0 +1,1674 @@
+/* NativeForum extras: quote button + quote collapse + editor helpers */
+
+/*
+  Cross-site compatibility layer
+  - keep typography consistent with host site (default: inherit)
+  - prevent host CSS resets from breaking forum UI
+*/
+.sf-wrap{
+  font-family: var(--sf-font-family, inherit) !important;
+  /* If the host theme uses a tiny base font-size, forum text becomes unreadable.
+     We keep inheritance by default, but also enforce sensible minimums on key UI text below. */
+  font-size: var(--sf-font-size, inherit) !important;
+  line-height: var(--sf-line-height, inherit) !important;
+  color: var(--sf-text-forum, inherit) !important;
+}
+
+/* Readability: keep “meta” text from becoming too small across varied site CSS */
+.sf-wrap .sf-muted-sm{ font-size: max(var(--sf-font-muted, .875em), 12px) !important; }
+.sf-wrap .sf-post-meta,
+.sf-wrap .sf-topic-pageinfo{ font-size: max(var(--sf-font-meta, .9em), 12px) !important; }
+.sf-wrap .sf-breadcrumbbar{ font-size: max(var(--sf-breadcrumb-size, .95em), 12px) !important; }
+.sf-wrap .sf-breadcrumbbar,
+.sf-wrap .sf-breadcrumbbar a,
+.sf-wrap .sf-page-title,
+.sf-wrap .sf-h1,
+.sf-wrap .sf-h2,
+.sf-wrap .sf-h3{
+  font-family: inherit !important;
+}
+.sf-wrap .sf-breadcrumbbar{
+  font-size: var(--sf-breadcrumb-size, inherit) !important;
+  font-weight: var(--sf-breadcrumb-weight, inherit) !important;
+}
+
+/* -------------------------------------------------
+   SVG icon safety: any inline SVG without explicit width/height inside the
+   forum wrapper should default to a small, square, currentColor-aware size.
+   Specific buttons (.sf-icon-btn svg, .sf-forum-icon svg, .sf-group-arrow svg,
+   .sf-dots-btn svg) override this with their own dimensions further below.
+   ------------------------------------------------- */
+.sf-wrap svg:not([width]):not([height]){
+  width: 1em;
+  height: 1em;
+  fill: currentColor;
+  vertical-align: -.125em;
+}
+
+/* -------------------------------------------------
+   Button system (cross-site stable)
+   ------------------------------------------------- */
+
+/* Base button tokens */
+.sf-wrap{
+  --sf-btn-radius: var(--sf-btn-radius, 8px);
+  --sf-btn-font-size: var(--sf-btn-font-size, .85em);
+  --sf-btn-pad-y: var(--sf-btn-pad-y, .35em);
+  --sf-btn-pad-x: var(--sf-btn-pad-x, .6em);
+}
+
+/* Neutral button styling (applied only when enabled via wrapper class) */
+.sf-wrap.sf-btnmode-neutral .btn,
+.sf-wrap.sf-btnmode-pill .btn,
+.sf-wrap.sf-btnmode-neutral .sf-button,
+.sf-wrap.sf-btnmode-pill .sf-button,
+.sf-wrap.sf-btnmode-neutral .sf-button-secondary,
+.sf-wrap.sf-btnmode-pill .sf-button-secondary,
+.sf-wrap.sf-btnmode-neutral .sf-btn,
+.sf-wrap.sf-btnmode-pill .sf-btn{
+  font-size: var(--sf-btn-font-size) !important;
+  padding: var(--sf-btn-pad-y) var(--sf-btn-pad-x) !important;
+  border-radius: var(--sf-btn-radius) !important;
+  line-height: 1.2 !important;
+  text-decoration: none !important;
+  box-shadow: none !important;
+}
+
+/* Primary buttons */
+.sf-wrap.sf-btnmode-neutral .btn.btn-primary,
+.sf-wrap.sf-btnmode-pill .btn.btn-primary,
+.sf-wrap.sf-btnmode-neutral .sf-btn.sf-btn-primary,
+.sf-wrap.sf-btnmode-pill .sf-btn.sf-btn-primary{
+  background: var(--sf-btn-primary-bg, var(--bs-primary, #0d6efd)) !important;
+  border-color: var(--sf-btn-primary-bg, var(--bs-primary, #0d6efd)) !important;
+  color: var(--sf-btn-primary-text, #fff) !important;
+}
+
+/* Outline/secondary-ish buttons */
+.sf-wrap.sf-btnmode-neutral .btn.btn-outline-secondary,
+.sf-wrap.sf-btnmode-pill .btn.btn-outline-secondary,
+.sf-wrap.sf-btnmode-neutral .btn.btn-outline-primary,
+.sf-wrap.sf-btnmode-pill .btn.btn-outline-primary,
+.sf-wrap.sf-btnmode-neutral .sf-button-secondary,
+.sf-wrap.sf-btnmode-pill .sf-button-secondary,
+.sf-wrap.sf-btnmode-neutral .sf-btn.sf-btn-ghost,
+.sf-wrap.sf-btnmode-pill .sf-btn.sf-btn-ghost{
+  background: transparent !important;
+  border-color: var(--sf-btn-border, rgba(0,0,0,.2)) !important;
+  color: var(--sf-btn-text, inherit) !important;
+}
+
+/* Hover/focus */
+.sf-wrap.sf-btnmode-neutral .btn:hover,
+.sf-wrap.sf-btnmode-pill .btn:hover,
+.sf-wrap.sf-btnmode-neutral .sf-button-secondary:hover,
+.sf-wrap.sf-btnmode-pill .sf-button-secondary:hover{
+  filter: brightness(0.98);
+}
+
+.sf-wrap.sf-btnmode-neutral .btn:focus,
+.sf-wrap.sf-btnmode-pill .btn:focus,
+.sf-wrap.sf-btnmode-neutral .btn:focus-visible,
+.sf-wrap.sf-btnmode-pill .btn:focus-visible{
+  outline: none !important;
+  box-shadow: 0 0 0 .2em rgba(13,110,253,.25) !important;
+}
+
+/* Make sure sidebar/cards keep readable padding even if host theme resets .card */
+.sf-wrap .sf-sidecard .card-body,
+.sf-wrap .sf-sidecard .card-header,
+.sf-wrap .sf-sidecard .list-group-item{
+  padding-left: var(--sf-side-pad-x, .85em) !important;
+  padding-right: var(--sf-side-pad-x, .85em) !important;
+}
+.sf-wrap .sf-sidecard .card-body{ padding-top: var(--sf-side-pad-y, .75em) !important; padding-bottom: var(--sf-side-pad-y, .75em) !important; }
+.sf-wrap .sf-sidecard .card-header{ padding-top: calc(var(--sf-side-pad-y, .75em) * .65) !important; padding-bottom: calc(var(--sf-side-pad-y, .75em) * .65) !important; }
+.sf-wrap .sf-side{ padding: 0 !important; }
+
+/* Bootstrap utility fallbacks (some sites use older BS or none at all) */
+.sf-wrap .d-none{ display:none !important; }
+.sf-wrap .visually-hidden{
+  position:absolute !important;
+  width:1px !important;
+  height:1px !important;
+  padding:0 !important;
+  margin:-1px !important;
+  overflow:hidden !important;
+  clip: rect(0,0,0,0) !important;
+  white-space:nowrap !important;
+  border:0 !important;
+}
+
+/* Normalize label/title sizes so host themes can't make them huge/tiny */
+.sf-wrap .sf-toolbar,
+.sf-wrap .sf-card-h,
+.sf-wrap .card-header{
+  font-size: var(--sf-ui-font-size, 1em);
+}
+.sf-wrap .sf-card-h{ font-weight: 700; font-size: calc(var(--sf-ui-font-size, 1em) * 1.05); }
+.sf-wrap .sf-muted-sm{ font-size: var(--sf-muted-font-size, .85em); }
+.sf-wrap .sf-post-meta{ font-size: var(--sf-meta-font-size, .9em); }
+.sf-wrap .form-label{ font-size: var(--sf-label-font-size, 14px) !important; font-weight: 600; margin-bottom: .35em; color: var(--sf-label-color, inherit) !important; }
+.sf-wrap .sf-h1{ font-size: calc(var(--sf-ui-font-size, 1em) * 1.35); }
+
+/* Voting + action buttons alignment (host themes often style forms/buttons) */
+.sf-wrap .sf-post-vote{
+  display:inline-flex;
+  align-items:center;
+  gap:.4em;
+}
+.sf-wrap .sf-post-vote form{ display:inline-flex; margin:0 !important; }
+.sf-wrap .sf-post-vote .sf-muted-sm{ min-width: 2.4em; text-align:center; }
+
+
+/* Vote column layout (keeps thumbs on the right on desktop) */
+.sf-wrap .sf-post-votecol{
+  display:flex;
+  flex-direction: column;
+  align-items:flex-end;
+  justify-content:flex-end;
+  padding-right: .5em;
+  padding-bottom: .5em;
+}
+.sf-wrap .sf-post-vote--vert{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  /* stick to the bottom of the post card on desktop */
+  justify-content:flex-end;
+  margin-top: auto;
+  gap:.35em;
+  min-width: 56px;
+}
+.sf-wrap .sf-post-vote--vert .btn{
+  padding: .25em .35em;
+  line-height: 1;
+}
+.sf-wrap .sf-vote-score{
+  min-width: 2.4em;
+  text-align:center;
+}
+
+.sf-wrap .sf-post-actions{ flex-wrap: wrap; justify-content:flex-end; }
+.sf-wrap .sf-post-actions > *{ margin-left: .45em; }
+.sf-wrap .sf-post-actions > *:first-child{ margin-left: 0; }
+.sf-wrap .sf-post-actions .btn,
+.sf-wrap .sf-post-actions .dropdown > .btn{
+  height: 32px;
+  min-width: 32px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.sf-wrap .sf-post-actions .dropdown-toggle::after{ display:none !important; }
+.sf-wrap .sf-dots-btn{ padding-left: .55em !important; padding-right: .55em !important; }
+.sf-wrap .sf-post-actions .dropdown{ display:inline-flex; }
+.sf-wrap .sf-post-actions .dropdown{ position: relative; }
+.sf-wrap .sf-post-actions .dropdown-menu{
+  position: absolute;
+  top: 100%;
+  right: 0;
+  left: auto;
+  margin-top: .35em;
+  z-index: 1065;
+}
+
+/* Prevent menu opening from shifting buttons (host themes sometimes set ul/li display/block badly) */
+.sf-wrap .sf-post-actions .dropdown-menu{ min-width: 12em; }
+.sf-wrap .sf-post-actions .dropdown-menu.show{ animation: sfDropIn .12s ease-out; transform-origin: top right; }
+@keyframes sfDropIn{ from{ opacity:0; transform: translateY(-4px) scale(.98);} to{ opacity:1; transform: translateY(0) scale(1);} }
+
+/* Moderator tools: keep spacing even on older Bootstrap builds that don't support flex gap */
+.sf-wrap .sf-mod-form > *{
+  margin-right: .5em;
+  margin-bottom: .5em;
+}
+
+/* Make moderator tools and reply headers readable across themes */
+.sf-wrap .sf-card-h{ line-height: 1.2; }
+
+/* Follow topic toggle (works even without Bootstrap) */
+.sf-wrap .sf-follow{
+  display:flex;
+  align-items:center;
+  gap:.55em;
+}
+.sf-wrap .sf-follow-label{
+  font-size: var(--sf-small-font-size, .95em);
+  margin:0;
+}
+.sf-wrap .sf-follow-desc{ opacity:.8; font-size: var(--sf-xs-font-size, .85em); }
+.sf-wrap .sf-toggle{
+  --sf-toggle-w: 44px;
+  --sf-toggle-h: 22px;
+  position: relative;
+  width: var(--sf-toggle-w);
+  height: var(--sf-toggle-h);
+}
+.sf-wrap .sf-toggle input{
+  opacity:0;
+  width:0;
+  height:0;
+  position:absolute;
+}
+.sf-wrap .sf-toggle .sf-toggle-track{
+  position:absolute;
+  inset:0;
+  background: rgba(0,0,0,.25);
+  border-radius: 999px;
+  transition: background .15s ease;
+}
+.sf-wrap .sf-toggle .sf-toggle-thumb{
+  position:absolute;
+  top: 2px;
+  left: 2px;
+  width: calc(var(--sf-toggle-h) - 4px);
+  height: calc(var(--sf-toggle-h) - 4px);
+  border-radius: 999px;
+  background: #fff;
+  transition: transform .15s ease;
+  box-shadow: 0 1px 3px rgba(0,0,0,.25);
+}
+.sf-wrap .sf-toggle input:checked + .sf-toggle-track{
+  background: rgba(13,110,253,.6);
+}
+.sf-wrap .sf-toggle input:checked + .sf-toggle-track .sf-toggle-thumb{
+  transform: translateX(calc(var(--sf-toggle-w) - var(--sf-toggle-h)));
+}
+
+/* Make tiny meta readable (host themes sometimes shrink small tags too much) */
+.sf-wrap .sf-muted-sm{ font-size: var(--sf-xs-font-size, .85em); }
+.sf-wrap .sf-post-meta{ font-size: var(--sf-small-font-size, .95em); }
+.sf-wrap .sf-toolbar .sf-muted-sm{ font-size: var(--sf-small-font-size, .92em); }
+.sf-wrap .sf-card-h,
+.sf-wrap .sf-mod-tools-title{ font-size: calc(var(--sf-ui-font-size, 1em) * 1.05); }
+
+/* Post meta text ("by ...") should never become unreadably small */
+.sf-wrap .sf-post-meta,
+.sf-wrap .sf-muted-sm{ font-size: var(--sf-small-font-size, .92em); }
+.sf-wrap .sf-post-id{ font-size: var(--sf-small-font-size, .92em); }
+
+/* Author column centering + avatar consistency */
+.sf-wrap .sf-post-authorcol .text-center{ display:flex; flex-direction:column; align-items:center; justify-content:flex-start; padding: .75em .5em; }
+.sf-wrap .sf-avatarbox{ display:flex; align-items:center; justify-content:center; }
+.sf-wrap .sf-avatarimg{ display:block; border-radius: .35em; }
+
+/* Follow toggle styling (works without Bootstrap's .form-switch) */
+.sf-wrap .sf-follow-toggle{ display:flex; align-items:center; gap:.5em; }
+.sf-wrap .sf-follow-toggle .sf-follow-label{ font-weight:600; font-size: var(--sf-ui-font-size, 1em); }
+.sf-wrap .sf-follow-toggle .sf-follow-desc{ font-size: var(--sf-small-font-size, .92em); opacity:.85; }
+.sf-wrap .sf-follow-toggle input[type="checkbox"]{
+  appearance:none;
+  -webkit-appearance:none;
+  width: 44px;
+  height: 24px;
+  border-radius: 999px;
+  background: rgba(255,255,255,.25);
+  border: 1px solid rgba(0,0,0,.25);
+  position: relative;
+  outline: none;
+  cursor: pointer;
+}
+.sf-wrap .sf-follow-toggle input[type="checkbox"]::after{
+  content:"";
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #fff;
+  position:absolute;
+  top: 2px;
+  left: 2px;
+  transition: transform .15s ease;
+}
+.sf-wrap .sf-follow-toggle input[type="checkbox"]:checked{ background: rgba(13,110,253,.55); }
+.sf-wrap .sf-follow-toggle input[type="checkbox"]:checked::after{ transform: translateX(20px); }
+
+/* Upload widget: hide native file input without breaking programmatic click() */
+.sf-wrap .sf-upload-input{
+  position:absolute !important;
+  left:-9999px !important;
+  width:1px !important;
+  height:1px !important;
+  opacity:0 !important;
+}
+
+/* Toolbars & inline search should remain usable even without Bootstrap flex utilities */
+.sf-wrap .sf-toolbar{ display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:.6em; }
+.sf-wrap .sf-search-inline{ display:flex; align-items:center; flex-wrap:wrap; gap:.5em; }
+.sf-wrap .sf-toolbar-spacer{ flex:1 1 auto; min-width:10px; }
+
+/* Topic list icon should be inline before title (host themes sometimes turn flex items into blocks) */
+.sf-wrap .sf-forum-icon{ flex: 0 0 auto; line-height: 1; margin-top: .15em; }
+
+.sf-quote-btn{
+  border-color: rgba(0,0,0,.18);
+  color: #333;
+  line-height: 1;
+  padding: .25em .45em;
+}
+.sf-quote-btn .sf-quote-icon{
+  font-size: 16px;
+  display:inline-block;
+  transform: translateY(-1px);
+}
+
+/* -------------------------------------------------
+   Post header action buttons (Quote + three-dots)
+   - keep buttons aligned
+   - prevent dropdown toggle caret from changing size
+   - prevent wrapping/jumping to second row
+   - make dropdown menu look consistent
+   ------------------------------------------------- */
+
+/* The container in topic/reply headers */
+.sf-wrap .sf-post-actions{
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: flex-end !important;
+  gap: 8px !important;
+  flex-wrap: nowrap !important;
+  white-space: nowrap !important;
+}
+
+/* Ensure the meta row doesn't allow the actions to wrap oddly */
+.sf-wrap .sf-post-meta{
+  display: flex !important;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: .5em;
+}
+
+/* Normalize both buttons (quote + dots) */
+.sf-wrap .sf-post-actions .sf-quote-btn,
+.sf-wrap .sf-post-actions .sf-dots-btn,
+.sf-wrap .sf-post-actions .sf-icon-btn{
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  height: 30px !important;
+  min-height: 30px !important;
+  line-height: 1 !important;
+  padding: 0 10px !important;
+}
+
+/* Quote is icon-only in your template – make it same width feel */
+.sf-wrap .sf-post-actions .sf-quote-btn{
+  width: 34px;
+  padding: 0 !important;
+}
+
+/* Three dots is icon-only too */
+.sf-wrap .sf-post-actions .sf-dots-btn{
+  width: 34px;
+  padding: 0 !important;
+}
+
+/* Bootstrap's dropdown-toggle adds a caret ::after which causes height/width changes */
+.sf-wrap .sf-dots-btn.dropdown-toggle::after{
+  display: none !important;
+}
+
+/* Make icons sit perfectly centered */
+.sf-wrap .sf-post-actions svg,
+.sf-wrap .sf-post-actions i{
+  vertical-align: middle !important;
+}
+
+/* Keep dropdown wrapper from affecting layout */
+.sf-wrap .sf-post-actions .dropdown{
+  display: inline-flex;
+}
+
+/* Dropdown styling */
+.sf-wrap .sf-post-menu.dropdown-menu{
+  min-width: 190px;
+  padding: 6px !important;
+  border-radius: 10px !important;
+  border: 1px solid rgba(0,0,0,.08) !important;
+  box-shadow: rgba(0, 0, 0, .15) 0px 10px 25px, rgba(0, 0, 0, .1) 0px 1px 2px !important;
+  background: #fff !important;
+  color: #222 !important;
+}
+
+.sf-wrap .sf-post-menu .dropdown-item{
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+  padding: 9px 10px !important;
+  border-radius: 8px !important;
+  font-size: 13px !important;
+  line-height: 1.2 !important;
+  color: rgba(0,0,0,.82) !important;
+  background: transparent !important;
+}
+
+.sf-wrap .sf-post-menu .dropdown-item:hover,
+.sf-wrap .sf-post-menu .dropdown-item:focus{
+  background: rgba(0,0,0,.06) !important;
+}
+
+.sf-wrap .sf-post-menu .dropdown-item.text-danger{
+  color: #b02a37 !important;
+}
+
+/* The report form wraps the button inside <form class='m-0 px-2 py-1'>; keep spacing tidy */
+.sf-wrap .sf-post-menu form{
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+
+/* Posted quotes styling */
+.sf-post-body blockquote.sf-quote{
+  margin: .75em 0;
+  padding: .5em .75em;
+  border-left: 4px solid rgba(0,0,0,.25);
+  background: rgba(0,0,0,.03);
+  border-radius: .25em;
+  position: relative;
+}
+.sf-post-body blockquote.sf-quote .sf-quote-meta{
+  font-size: .9em;
+  opacity: .85;
+  margin: 0 0 .35em 0;
+}
+.sf-post-body blockquote.sf-quote .sf-quote-body{
+  margin: 0;
+  max-height: none;
+  overflow: visible;
+  transition: max-height .25s ease;
+}
+.sf-post-body blockquote.sf-quote.sf-quote-collapsed .sf-quote-body{
+  max-height: 4.75em; /* ~3 lines */
+  overflow: hidden;
+}
+.sf-post-body blockquote.sf-quote.sf-quote-collapsed.is-expanded .sf-quote-body{
+  max-height: 4000px;
+  overflow: visible;
+}
+.sf-post-body blockquote.sf-quote .sf-quote-toggle{
+  display:inline-block;
+  margin-top:.35em;
+  font-size:.85em;
+  cursor:pointer;
+  user-select:none;
+  opacity:.85;
+}
+.sf-post-body blockquote.sf-quote .sf-quote-toggle:hover{ opacity:1; }
+
+
+/* Responsive images inside posts */
+.sf-post-body img,
+.sf-embed-img{
+  max-width:100%;
+  height:auto;
+}
+.sf-post-body a.sf-img-link,
+.sf-post-body a.sf-embed-link{ display:inline-block; }
+
+
+/* Sized image wrapper (defeats theme img{width:100%} rules and preserves user resize) */
+.sf-img-box{display:inline-block;max-width:100%;vertical-align:top;}
+.sf-img-box img{display:block;width:100%;height:auto;}
+/* Reply/create editor area */
+textarea.sf-wysiwyg{ min-height: 220px; }
+
+/* Author column alignment (prevents odd centering/offset caused by host CSS) */
+.sf-wrap .sf-post-authorcol .text-center{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.sf-wrap .sf-avatarbox{ display:flex; justify-content:center; }
+.sf-wrap .sf-avatarimg{ display:block; margin:0 auto; }
+
+
+/* CKEditor4 styling inside cards */
+.sf-card .cke{border:1px solid rgba(0,0,0,.18);border-radius:.25em;overflow:hidden;}
+.sf-card .cke_top{background:#f8fafc;border-bottom:1px solid rgba(0,0,0,.08);}
+.sf-card .cke_bottom{background:#f8fafc;border-top:1px solid rgba(0,0,0,.08);}
+
+/* CKEditor4 styling inside cards */
+.sf-card .cke{border:1px solid rgba(0,0,0,.18)!important;border-radius:.25em;overflow:hidden;}
+.sf-card .cke_top{background:#f8fafc!important;border-bottom:1px solid rgba(0,0,0,.08)!important;}
+.sf-card .cke_bottom{background:#f8fafc!important;border-top:1px solid rgba(0,0,0,.08)!important;}
+textarea.sf-wysiwyg{min-height:220px;}
+
+/* --- Bootstrap grid gutter override for NativeForum post cards ---
+   Fixes a visible left/right gap on replies when the host site uses Bootstrap 4
+   (no g-0 utility) or custom .row>* padding.
+*/
+.sf-wrap-bootstrap .sf-post-card > [class^="col"],
+.sf-wrap-bootstrap .sf-post-card > [class*=" col"],
+.sf-wrap-bootstrap .sf-post-card.row > [class^="col"],
+.sf-wrap-bootstrap .sf-post-card.row > [class*=" col"]{
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+/* Make sure the post footer/signature stays within the message column */
+.sf-wrap-bootstrap .sf-post-content{min-width:0;}
+.sf-post-signature{border-top:1px solid rgba(0,0,0,.08);margin-top:.75em;padding-top:.5em;font-size:.95em;opacity:.9;}
+
+/* Dark tooltip everywhere (Bootstrap tooltips) */
+.sf-tooltip-dark .tooltip-inner{background:#111 !important;color:#fff !important;}
+.sf-tooltip-dark.bs-tooltip-auto[data-popper-placement^=top] .tooltip-arrow::before,
+.sf-tooltip-dark.bs-tooltip-top .tooltip-arrow::before{border-top-color:#111 !important;}
+.sf-tooltip-dark.bs-tooltip-auto[data-popper-placement^=right] .tooltip-arrow::before,
+.sf-tooltip-dark.bs-tooltip-end .tooltip-arrow::before{border-right-color:#111 !important;}
+.sf-tooltip-dark.bs-tooltip-auto[data-popper-placement^=bottom] .tooltip-arrow::before,
+.sf-tooltip-dark.bs-tooltip-bottom .tooltip-arrow::before{border-bottom-color:#111 !important;}
+.sf-tooltip-dark.bs-tooltip-auto[data-popper-placement^=left] .tooltip-arrow::before,
+.sf-tooltip-dark.bs-tooltip-start .tooltip-arrow::before{border-left-color:#111 !important;}
+
+/* Quote expand state overrides */
+.sf-quote.sf-quote-collapsed.is-expanded .sf-quote-body{max-height:4000px;overflow:visible;}
+.sf-quote.sf-quote-collapsed.is-expanded .sf-quote-toggle{display:inline-block;}
+.sf-quote-toggle{font-size:.85em;}
+
+/* Icon-only action buttons (Edit / Delete / PM) */
+.sf-icon-btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  padding: .25em .4em;
+  line-height: 1;
+}
+.sf-icon-btn svg{
+  width: 16px;
+  height: 16px;
+  display:block;
+  fill: currentColor;
+}
+.sf-icon-btn i{
+  font-size: 16px;
+  line-height: 1;
+  display:block;
+}
+
+
+/* Upload widget */
+.sf-upload-widget{
+  border: 1px dashed rgba(0,0,0,.25);
+  border-radius: .75em;
+  padding: .75em;
+  background: rgba(0,0,0,.02);
+}
+.sf-upload-widget.is-drag{
+  background: rgba(0,0,0,.05);
+}
+.sf-upload-drop{
+  display:flex;
+  gap:.5em;
+  flex-wrap:wrap;
+  align-items:center;
+}
+.sf-upload-list{
+  display:flex;
+  flex-direction:column;
+  gap:.5em;
+}
+.sf-upload-row{
+  display:flex;
+  justify-content:space-between;
+  gap:.75em;
+  align-items:center;
+  border: 1px solid rgba(0,0,0,.08);
+  border-radius:.5em;
+  padding:.5em .6em;
+  background:#fff;
+}
+.sf-upload-name{
+  font-size:.9em;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+  max-width:60%;
+}
+.sf-upload-actions{
+  display:flex;
+  gap:.5em;
+  flex-wrap:wrap;
+}
+.sf-upload-status.is-error{ color: #b00020; }
+
+/* Uploaded file button + images */
+a.sf-file-link{
+  display:inline-block;
+  padding:.35em .6em;
+  border-radius:.5em;
+  border:1px solid rgba(0,0,0,.15);
+  text-decoration:none;
+}
+img.sf-img{
+  max-width:100%;
+  height:auto;
+  border-radius:.5em;
+  border:1px solid rgba(0,0,0,.12);
+}
+
+/* Simple lightbox */
+#sf-lightbox{
+  position:fixed;
+  inset:0;
+  display:none;
+  z-index:9999;
+}
+#sf-lightbox.is-open{ display:block; }
+#sf-lightbox .sf-lightbox-backdrop{
+  position:absolute;
+  inset:0;
+  background: rgba(0,0,0,.75);
+}
+#sf-lightbox .sf-lightbox-inner{
+  position:absolute;
+  inset:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:2em;
+}
+#sf-lightbox .sf-lightbox-img{
+  max-width:95vw;
+  max-height:90vh;
+  border-radius:.75em;
+  box-shadow: 0 8px 30px rgba(0,0,0,.4);
+  background:#fff;
+}
+
+
+/* Composer editor (contenteditable) */
+.sf-editor{
+  border: 1px solid rgba(0,0,0,.12);
+  border-radius: .6em;
+  padding: .75em;
+  min-height: 180px;
+  background: #fff;
+  line-height: 1.45;
+  white-space: pre-wrap;
+  outline: none;
+}
+.sf-editor:focus{ box-shadow: 0 0 0 .2em rgba(13,110,253,.15); border-color: rgba(13,110,253,.35); }
+
+.sf-embed{
+  display: inline-flex;
+  align-items: center;
+  gap: .4em;
+  padding: .2em .35em;
+  border-radius: .55em;
+  border: 1px solid rgba(0,0,0,.12);
+  background: rgba(0,0,0,.02);
+  vertical-align: middle;
+  user-select: none;
+}
+
+.sf-embed-img{ padding: .25em; }
+.sf-embed-img img{
+  display:block;
+  max-width: 320px;
+  max-height: 180px;
+  width:auto;
+  height:auto;
+  border-radius: .5em;
+  border: 1px solid rgba(0,0,0,.12);
+}
+
+.sf-embed-file{ padding: .25em .35em; }
+.sf-embed-file .sf-file-link{ margin: 0; }
+
+.sf-embed-x{
+  border:0;
+  background: transparent;
+  font-size: 16px;
+  line-height: 1;
+  opacity: .65;
+  cursor: pointer;
+  padding: 0 .2em;
+}
+.sf-embed-x:hover{ opacity: 1; }
+
+
+/* Attachment file button */
+.sf-file-btn{
+  display:inline-flex;
+  align-items:center;
+  gap:.35em;
+  padding:.35em .6em;
+  border:1px solid rgba(0,0,0,.15);
+  border-radius:.5em;
+  text-decoration:none;
+}
+.sf-file-btn:hover{ text-decoration:none; }
+.sf-file-icon{ font-weight:700; }
+
+
+/* Configurable forum spacing (set via CSS variables on .sf-wrap) */
+.sf-wrap{--sf-top-space:0px;--sf-bottom-space:0px;}
+/* top/bottom spacing: see sf-modern.css (.sf-wrap padding) */
+.sf-prepend{margin-bottom:1em;}
+.sf-append{margin-top:1em;}
+
+/* Force full width breakout even inside a contained template */
+.sf-wrap-bootstrap.sf-fullbleed .sf-container{position:relative;left:50%;right:50%;margin-left:-50vw;margin-right:-50vw;width:100vw;max-width:100vw;}
+.sf-wrap-bootstrap.sf-fullbleed .sf-container{padding-left:15px;padding-right:15px;}
+
+/* --- Bootstrap grid gutter override for NativeForum post cards ---
+   Fixes a visible left/right gap on replies when the host site uses Bootstrap 4
+   (no g-0 utility) or custom .row>* padding.
+*/
+.sf-wrap-bootstrap .sf-post-card > [class^="col"],
+.sf-wrap-bootstrap .sf-post-card > [class*=" col"],
+.sf-wrap-bootstrap .sf-post-card.row > [class^="col"],
+.sf-wrap-bootstrap .sf-post-card.row > [class*=" col"]{
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+/* Keep signature strictly inside the message column */
+.sf-wrap-bootstrap .sf-post-content .sf-post-signature{
+  width: 100%;
+  margin-top: .6em;
+}
+
+/* Dark tooltips across the forum (Bootstrap tooltip) */
+.sf-tooltip-dark .tooltip-inner{
+  background: rgba(0,0,0,.92);
+  color:#fff;
+}
+.sf-tooltip-dark.bs-tooltip-top .tooltip-arrow::before,
+.sf-tooltip-dark.bs-tooltip-bottom .tooltip-arrow::before,
+.sf-tooltip-dark.bs-tooltip-start .tooltip-arrow::before,
+.sf-tooltip-dark.bs-tooltip-end .tooltip-arrow::before{
+  border-top-color: rgba(0,0,0,.92);
+  border-bottom-color: rgba(0,0,0,.92);
+  border-left-color: rgba(0,0,0,.92);
+  border-right-color: rgba(0,0,0,.92);
+}
+
+/* ------------------------------------------------------------------
+   Bootstrap gutter overrides for post cards
+
+   Some sites load Bootstrap more than once or override `.row > *` padding.
+   Even with `g-0`, this can cause replies to appear offset compared to the
+   first post. We hard-reset the inner row paddings inside post cards.
+   ------------------------------------------------------------------ */
+
+.sf-wrap-bootstrap .sf-post-card > .row,
+.sf-wrap-bootstrap .sf-post-card .row {
+  --bs-gutter-x: 0 !important;
+  --bs-gutter-y: 0 !important;
+}
+
+.sf-wrap-bootstrap .sf-post-card > .row > *,
+.sf-wrap-bootstrap .sf-post-card .row > * {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+/* Keep signature inside the message column only */
+.sf-post-content .sf-signature {
+  display: block;
+  width: auto;
+  max-width: 100%;
+}
+
+/* Dark tooltip style used across the whole forum */
+.sf-tooltip-dark .tooltip-inner {
+  background: rgba(0,0,0,.92) !important;
+  color: #fff !important;
+  font-size: .875em;
+  padding: .35em .55em;
+  border-radius: .35em;
+}
+.sf-tooltip-dark.bs-tooltip-top .tooltip-arrow::before,
+.sf-tooltip-dark.bs-tooltip-bottom .tooltip-arrow::before,
+.sf-tooltip-dark.bs-tooltip-start .tooltip-arrow::before,
+.sf-tooltip-dark.bs-tooltip-end .tooltip-arrow::before {
+  border-top-color: rgba(0,0,0,.92) !important;
+  border-bottom-color: rgba(0,0,0,.92) !important;
+  border-left-color: rgba(0,0,0,.92) !important;
+  border-right-color: rgba(0,0,0,.92) !important;
+}
+
+/* --- Category list: aligned author avatars + last activity dot --- */
+.sf-author-avatar{ width:32px; height:32px; object-fit:cover; }
+.sf-author-avatar--empty{ display:inline-block; width:32px; height:32px; border-radius:50%; background: rgba(0,0,0,.08); }
+.sf-userhover a.sf-author-avatar-link{ display:inline-flex; line-height:0; }
+.sf-lastact-dot{ color: rgba(0,0,0,.35); font-weight:700; margin-left:.15em; cursor: help; }
+
+/* ------------------------------------------------------------------
+   Design variables (from module settings)
+   These rules apply to BOTH Simple and Bootstrap themes.
+   Values are injected as CSS variables on .sf-wrap.
+   ------------------------------------------------------------------ */
+
+.sf-wrap{
+  background: var(--sf-bg-forum, transparent);
+  color: var(--sf-text-forum, inherit);
+}
+
+/* Panels/cards (category panels, widgets, boxes) */
+.sf-wrap .sf-panel,
+.sf-wrap .sf-card,
+.sf-wrap .card.sf-panel,
+.sf-wrap .card.sf-card{
+  background-color: var(--sf-bg-panel, initial);
+  color: var(--sf-text-panel, inherit);
+}
+
+/* Topic rows in category lists */
+.sf-wrap .list-group-item,
+.sf-wrap .sf-topic-row,
+.sf-wrap .sf-cat-row{
+  background-color: var(--sf-bg-topicrow, initial);
+  color: var(--sf-text-topicrow, inherit);
+}
+
+/* Topic/reply post cards: distinguish by data-sf-kind */
+.sf-wrap .sf-post-card[data-sf-kind='topic']{
+  background-color: var(--sf-bg-topicpost, initial);
+  color: var(--sf-text-topicpost, inherit);
+}
+.sf-wrap .sf-post-card[data-sf-kind='reply']{
+  background-color: var(--sf-bg-reply, initial);
+  color: var(--sf-text-reply, inherit);
+}
+
+/* Ensure inner text inherits when user sets a text color */
+.sf-wrap .sf-post-card[data-sf-kind='topic'] .sf-post-body,
+.sf-wrap .sf-post-card[data-sf-kind='reply'] .sf-post-body{
+  color: inherit;
+}
+
+/* Make sure bootstrap header/footer sections follow panel colors when set */
+.sf-wrap-bootstrap .card-header,
+.sf-wrap-bootstrap .card-footer{
+  background-color: var(--sf-bg-panel, initial);
+  color: var(--sf-text-panel, inherit);
+}
+
+
+/* Index toolbar + New Topic modal */
+.sf-index-toolbar{display:flex;justify-content:flex-end;gap:12px;align-items:center;margin:0 0 14px;}
+.sf-viewtoggles{display:inline-flex;border-radius:10px;overflow:hidden;border:1px solid var(--sf-border,rgba(0,0,0,.12));background:var(--sf-surface,#fff);}
+.sf-viewbtn{border:0;background:transparent;padding:8px 10px;line-height:1;cursor:pointer;color:var(--sf-primary,#0d6efd);}
+.sf-viewbtn:hover{background:var(--sf-surface-2,rgba(0,0,0,.03));}
+.sf-viewbtn:focus{outline:none;box-shadow:0 0 0 3px var(--sf-focus-ring,rgba(13,110,253,.25));}
+
+.sf-forum-icon{width:44px;height:44px;border-radius:999px;display:flex;align-items:center;justify-content:center;background:var(--sf-primary,#0d6efd);color:var(--sf-primary-contrast,#fff);flex:0 0 44px;}
+.sf-forum-icon i{font-size:18px;line-height:1;}
+.sf-forum-icon svg{width:18px;height:18px;display:block;}
+
+
+.sf-modal{position:fixed;inset:0;z-index:1055;display:none;}
+.sf-modal.is-open{display:block;}
+.sf-modal-backdrop{position:absolute;inset:0;background:rgba(0,0,0,.45);}
+.sf-modal-dialog{position:relative;max-width:620px;margin:8vh auto 0;background:var(--sf-surface,#fff);border-radius:14px;box-shadow:0 20px 60px rgba(0,0,0,.25);overflow:hidden;}
+.sf-modal-header{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-bottom:1px solid var(--sf-border,rgba(0,0,0,.12));}
+.sf-modal-title{font-weight:700;font-size:18px;color:var(--sf-text,#111);}
+.sf-modal-close{border:0;background:transparent;font-size:22px;line-height:1;cursor:pointer;color:var(--sf-muted,#666);}
+.sf-modal-body{padding:16px 18px;}
+.sf-modal-footer{display:flex;justify-content:flex-end;gap:10px;padding:14px 18px;border-top:1px solid var(--sf-border,rgba(0,0,0,.12));}
+.sf-label{display:block;margin:0 0 6px;font-weight:600;color:var(--sf-text,#111);}
+.sf-select{width:100%;padding:10px 12px;border-radius:10px;border:1px solid var(--sf-input-border,var(--sf-border,rgba(0,0,0,.18)));background:var(--sf-input-bg,#fff);color:var(--sf-input-text,var(--sf-text,#111));}
+.sf-btn{border-radius:10px;padding:10px 14px;border:1px solid transparent;cursor:pointer;font-weight:600;}
+.sf-btn-primary{background:var(--sf-primary,#0d6efd);color:var(--sf-primary-contrast,#fff);}
+.sf-btn-secondary{background:transparent;border-color:var(--sf-border,rgba(0,0,0,.18));color:var(--sf-text,#111);}
+
+
+
+
+
+/* Index/category/topic row items: spacing + dividers (works in BOTH themes)
+   NOTE: Bootstrap's .list-group-item has its own padding/border rules, so we force these with !important. */
+.sf-forum-row,.sf-forum-rowitem,.sf-topic-rowitem{
+  padding:var(--sf-index-row-pad, 10px 10px 10px 10px) !important;
+  border-bottom:var(--sf-index-row-border, 1px solid var(--sf-border, rgba(255,255,255,.25))) !important;
+}
+/* Remove divider on the last item in each list */
+.sf-forum-table > .sf-forum-row:last-child{border-bottom:0 !important;}
+.list-group > .sf-forum-rowitem:last-child,.list-group > .sf-topic-rowitem:last-child{border-bottom:0 !important;}
+
+/* Forum index row grid (works in both themes, does not depend on Bootstrap grid) */
+.sf-forum-rowgrid{display:grid;grid-template-columns:minmax(0,1fr) 0px 260px;gap:16px;align-items:center;}
+.sf-forum-rowmain{display:flex;gap:12px;align-items:center;}
+.sf-forum-titlewrap{min-width:0;}
+.sf-forum-icon{width:44px;height:44px;border-radius:999px;display:inline-flex;align-items:center;justify-content:center;background:rgba(13,110,253,.10);color:var(--sf-primary, #0d6efd);flex:0 0 auto;}
+.sf-forum-icon i{font-size:18px;line-height:1;}
+.sf-forum-stats{display:flex;gap:14px;justify-content:center;}
+.sf-stat{display:flex;flex-direction:column;align-items:center;line-height:1.1;}
+.sf-stat-num{font-weight:700;}
+.sf-stat-lbl{font-size:12px;color:var(--sf-muted, #6c757d);}
+@media (max-width: 991px){
+  /* Stack forum index rows into a single column (category index + topic index) */
+  .sf-forum-rowgrid{grid-template-columns:1fr !important;gap:10px !important;}
+  .sf-forum-stats{justify-content:flex-start !important;}
+  /* Make sure title/summary can wrap naturally (avoid ultra-narrow shrinking) */
+  .sf-forum-rowmain{align-items:flex-start !important;}
+  .sf-forum-titlewrap{flex:1 1 auto !important;min-width:0 !important;}
+  .sf-index-title{display:block !important;white-space:normal !important;overflow:visible !important;text-overflow:clip !important;word-break:normal !important;overflow-wrap:anywhere !important;}
+  /* Indent secondary rows to align with title text (icon column) */
+  .sf-forum-stats, .sf-forum-last{padding-left:56px !important;}
+}
+@media (max-width: 640px){
+  /* Hard fallback: if any theme/host CSS interferes with grid, force a true one-column stack */
+  .sf-forum-rowgrid{display:block !important;}
+  .sf-forum-rowgrid > *{width:100% !important;}
+  .sf-forum-stats{gap:10px !important;flex-wrap:wrap !important;}
+  .sf-forum-last{padding-top:2px !important;}
+
+  .sf-forum-rowgrid{grid-template-columns:1fr !important;}
+  .sf-forum-rowmain{flex-direction:column !important;}
+  .sf-forum-icon{margin-bottom:6px !important;}
+}
+
+
+/* Sidebar stats: label left, number right (simple theme) */
+.sf-statlist li{display:flex;align-items:center;justify-content:space-between;gap:12px;}
+.sf-statlist li strong{text-align:right;white-space:nowrap;}
+
+/* Sidebar stats: enforce right-aligned numbers in Bootstrap theme too (protect against host CSS overrides) */
+.sf-statlist-bs .list-group-item{display:flex !important;align-items:center !important;justify-content:space-between !important;gap:12px;}
+.sf-statlist-bs strong{text-align:right;white-space:nowrap;}
+
+/* Inline search in toolbar: keep one line when possible */
+.sf-search-inline{flex:1 1 420px;}
+.sf-search-inline .input-group{max-width:640px;}
+@media (max-width: 575px){
+  .sf-search-inline{flex:1 1 100%;}
+  .sf-search-inline .input-group{max-width:100%;}
+}
+
+/* Index: make category title area wider, stats column hidden */
+.sf-forum-stats{ display:none !important; }
+  .sf-forum-last{max-width:100% !important;}
+  .sf-forum-last .sf-last-title{max-width:100% !important;}
+  .sf-forum-titlewrap a{word-break:normal !important;overflow-wrap:anywhere !important;}
+
+
+
+/* =========================
+   Profile page consistency
+   ========================= */
+.sf-wrap .sf-profile-page { max-width: 100%; }
+.sf-wrap .sf-profile-page .card,
+.sf-wrap .sf-profile-page .sf-card { max-width: 100%; overflow: hidden; }
+
+/* Tabs: make them look consistent even if site theme overrides bootstrap
+   Note: primary profile tabs are rendered in the card-header (outside .sf-profile-page) */
+.sf-wrap .sf-profile-tabs.nav.nav-tabs,
+.sf-wrap .sf-profile-page .nav.nav-tabs {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: .25em;
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+}
+.sf-wrap .sf-profile-tabs.nav.nav-tabs .nav-link,
+.sf-wrap .sf-profile-page .nav.nav-tabs .nav-link {
+  white-space: nowrap;
+}
+
+/* Fix Bootstrap row negative margins causing overflow/out-of-bounds in PM form */
+.sf-wrap .sf-profile-page form.row,
+.sf-wrap .sf-profile-page .card-body > .row,
+.sf-wrap .sf-profile-page .card-body > .row.g-0,
+.sf-wrap .sf-profile-page .card-body > .row.g-1,
+.sf-wrap .sf-profile-page .card-body > .row.g-2,
+.sf-wrap .sf-profile-page .card-body > .row.g-3 {
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+}
+.sf-wrap .sf-profile-page form.row > [class*="col-"],
+.sf-wrap .sf-profile-page .card-body > .row > [class*="col-"]{
+  padding-left: .5em !important;
+  padding-right: .5em !important;
+  min-width: 0; /* prevent overflow */
+}
+.sf-wrap .sf-profile-page textarea,
+.sf-wrap .sf-profile-page input,
+.sf-wrap .sf-profile-page select {
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+/* PM sub-tabs (sf-pill row) shouldn't wrap awkwardly */
+.sf-wrap .sf-profile-page .sf-pillbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .4em;
+}
+
+/* =========================
+   Topic/replies width safety
+   ========================= */
+.sf-wrap .sf-topic,
+.sf-wrap .sf-topic-header,
+.sf-wrap .sf-replies,
+.sf-wrap .sf-post-card,
+.sf-wrap .sf-post {
+  max-width: 100%;
+}
+.sf-wrap .sf-post-card .row,
+.sf-wrap .sf-post .row {
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+}
+.sf-wrap .sf-post-card .row > [class*="col-"],
+.sf-wrap .sf-post .row > [class*="col-"]{
+  padding-left: .5em !important;
+  padding-right: .5em !important;
+  min-width: 0;
+}
+
+
+/* =========================
+   Profile page polish
+   ========================= */
+.sf-wrap .sf-profile-page{
+  padding-top: .25em;
+}
+
+/* Normalize headings inside profile pages (avoid gigantic inherited H2/H3 styles) */
+.sf-wrap .sf-profile-page h2,
+.sf-wrap .sf-profile-page h3{
+  font-size: 1.05em;
+  line-height: 1.2;
+  margin: .75em 0 .5em 0;
+  font-weight: 700;
+}
+
+/* Profile header/card wrapper */
+.sf-wrap .sf-profile-card{ overflow: hidden; }
+.sf-wrap .sf-profile-header{
+  padding: .85em 1em;
+  background: rgba(0,0,0,.12);
+  border-bottom: 1px solid rgba(255,255,255,.10);
+}
+.sf-wrap.sf-theme-bootstrap .sf-profile-header{
+  /* Bootstrap sites sometimes inject bg-white; ensure it never becomes bright */
+  background: rgba(0,0,0,.12) !important;
+}
+.sf-wrap .sf-profile-subheader{
+  padding: .65em 1em;
+  background: rgba(0,0,0,.10);
+  border-bottom: 1px solid rgba(255,255,255,.10);
+}
+
+/* Primary tabs */
+.sf-wrap .sf-profile-tabs.nav.nav-tabs,
+.sf-wrap .sf-profile-page .nav.nav-tabs{
+  gap: .25em;
+  border-bottom: 1px solid rgba(255,255,255,.15);
+}
+.sf-wrap .sf-profile-tabs.nav.nav-tabs .nav-link,
+.sf-wrap .sf-profile-page .nav.nav-tabs .nav-link{
+  padding: .55em .85em;
+  border-radius: .6em .6em 0 0;
+  border: 1px solid transparent;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: .35em;
+  opacity: .9;
+}
+.sf-wrap .sf-profile-tabs.nav.nav-tabs .nav-link:hover,
+.sf-wrap .sf-profile-page .nav.nav-tabs .nav-link:hover{
+  opacity: 1;
+  background: rgba(255,255,255,.06);
+}
+.sf-wrap .sf-profile-tabs.nav.nav-tabs .nav-link.active,
+.sf-wrap .sf-profile-page .nav.nav-tabs .nav-link.active{
+  opacity: 1;
+  background: rgba(255,255,255,.10);
+  border-color: rgba(255,255,255,.18);
+  border-bottom-color: transparent;
+}
+
+/* Make sure "bg-white" from bootstrap doesn't flatten dark forums */
+.sf-wrap .sf-profile-card .card-header.bg-white{ background: rgba(0,0,0,.12) !important; }
+
+/* Secondary tabs inside messages (All/Inbox/Sent) */
+.sf-wrap .sf-profile-page .nav{
+  row-gap: .25em;
+}
+.sf-wrap .sf-profile-page .nav.nav-pills{
+  gap: .35em;
+  padding-bottom: .25em;
+}
+.sf-wrap .sf-profile-page .nav.nav-pills .nav-link{
+  padding: .45em .75em;
+  border: 1px solid rgba(255,255,255,.14);
+  background: rgba(255,255,255,.05);
+}
+.sf-wrap .sf-profile-page .nav.nav-pills .nav-link:hover{
+  background: rgba(255,255,255,.08);
+}
+.sf-wrap .sf-profile-page .nav.nav-pills .nav-link.active{
+  background: rgba(255,255,255,.12);
+  border-color: rgba(255,255,255,.20);
+}
+.sf-wrap .sf-profile-page .nav .nav-link{
+  border-radius: .6em;
+}
+.sf-wrap .sf-profile-page .nav:not(.nav-tabs) .nav-link.active{
+  background: rgba(255,255,255,.10);
+}
+
+/* Sections and cards in profile (Latest topics / Latest replies / Reactions) */
+.sf-wrap .sf-profile-page h5,
+.sf-wrap .sf-profile-page .h5{
+  margin: .4em 0 .6em 0;
+  font-weight: 700;
+}
+.sf-wrap .sf-profile-page .sf-card,
+.sf-wrap .sf-profile-page .card{
+  border-radius: .85em;
+}
+.sf-wrap .sf-profile-page .card-body{
+  padding: 1em;
+}
+
+/* List items inside profile: a bit more breathing room */
+.sf-wrap .sf-profile-page .list-group-item{
+  padding: .65em .75em;
+}
+
+/* Message form: keep send button aligned and inside bounds */
+.sf-wrap .sf-profile-page form .btn{
+  max-width: 100%;
+}
+.sf-wrap .sf-profile-page textarea{
+  min-height: 120px;
+}
+
+/* Simple theme: provide light Bootstrap-like defaults for cards/tabs/buttons used by profile template */
+.sf-wrap.sf-theme-simple .card{
+  background: rgba(0,0,0,.10);
+  border: 1px solid rgba(255,255,255,.12);
+}
+.sf-wrap.sf-theme-simple .card-header{
+  padding: .75em 1em;
+  background: rgba(0,0,0,.15);
+  border-bottom: 1px solid rgba(255,255,255,.10);
+}
+.sf-wrap.sf-theme-simple .nav{
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
+}
+.sf-wrap.sf-theme-simple .nav .nav-item{ display:inline-block; }
+.sf-wrap.sf-theme-simple .nav .nav-link{
+  color: inherit;
+}
+.sf-wrap.sf-theme-simple .btn{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: .55em .9em;
+  border-radius: .7em;
+  border: 1px solid rgba(255,255,255,.18);
+  background: rgba(255,255,255,.06);
+  color: inherit;
+  cursor: pointer;
+}
+.sf-wrap.sf-theme-simple .btn:hover{
+  background: rgba(255,255,255,.10);
+}
+.sf-wrap.sf-theme-simple .form-control{
+  width: 100%;
+  padding: .55em .7em;
+  border-radius: .65em;
+  border: 1px solid rgba(255,255,255,.18);
+  background: rgba(255,255,255,.05);
+  color: inherit;
+}
+.sf-wrap.sf-theme-simple .form-label{ display:block; margin-bottom:.25em; opacity:.9; }
+
+
+/* =========================
+   Profile page padding / spacing
+   ========================= */
+.sf-wrap .sf-profile-header,
+.sf-wrap .sf-profile-header.card-header {
+  padding: .9em 1em !important;
+}
+
+.sf-wrap .sf-profile-page,
+.sf-wrap .sf-profile-page .card-body,
+.sf-wrap .sf-profile-page .sf-card-body {
+  padding: 1em !important;
+}
+
+/* If any blocks use "p-0" or remove padding, restore comfortable spacing */
+.sf-wrap .sf-profile-page .p-0,
+.sf-wrap .sf-profile-page .px-0,
+.sf-wrap .sf-profile-page .py-0 {
+  padding: 1em !important;
+}
+
+/* Content sections inside profile pages */
+.sf-wrap .sf-profile-page .sf-section,
+.sf-wrap .sf-profile-page .sf-block,
+.sf-wrap .sf-profile-page .sf-panel {
+  padding: 1em !important;
+}
+
+/* Lists / rows spacing */
+.sf-wrap .sf-profile-page .list-group,
+.sf-wrap .sf-profile-page .list-group-item {
+  margin: 0;
+}
+.sf-wrap .sf-profile-page .list-group-item {
+  padding: .75em 1em !important;
+}
+
+/* Tables (if used) */
+.sf-wrap .sf-profile-page table {
+  width: 100%;
+}
+.sf-wrap .sf-profile-page th,
+.sf-wrap .sf-profile-page td {
+  padding: .6em .75em !important;
+  vertical-align: top;
+}
+
+/* Make headings not stick to edges */
+.sf-wrap .sf-profile-page h1,
+.sf-wrap .sf-profile-page h2,
+.sf-wrap .sf-profile-page h3,
+.sf-wrap .sf-profile-page h4 {
+  margin-top: 0;
+}
+.sf-wrap .sf-profile-page .sf-profile-grid,
+.sf-wrap .sf-profile-page .sf-profile-columns {
+  gap: 1em;
+}
+
+
+
+/* ===========================
+   NativeForum PW-style Quick Search (scoped)
+   Only affects .sf-pwqs widgets.
+   =========================== */
+.sf-pwqs{
+  --theme-text_light: 120,120,120;
+  --theme-area_background_reset: 255,255,255;
+  --box--radius: 10px;
+}
+.sf-pwqs{
+  background:#fff;
+  color:#222;
+  height:32px;
+  width:350px;
+  max-width:100%;
+  border-radius:50px;
+  position:relative;
+  font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+  font-size:14px;
+}
+.sf-sidebar .sf-pwqs{ width:100%; max-width:100%; }
+
+.sf-pwqs form{
+  display:flex;
+  height:100%;
+  border-radius:inherit;
+  align-items:stretch;
+}
+.sf-pwqs input[type="search"]{
+  flex:1 1 100%;
+  min-width:0;
+  background:transparent;
+  box-shadow:none;
+  font-size:inherit;
+  border:0;
+  padding:0 16px;
+  color:inherit;
+  max-width:none;
+  outline:none;
+}
+.sf-pwqs .sf-pwqs-field:not(:placeholder-shown) + .sf-pwqs-filter,
+.sf-pwqs:focus-within .sf-pwqs-filter,
+.sf-pwqs:hover .sf-pwqs-filter{
+  opacity:1;
+  transition-delay:0s;
+}
+.sf-pwqs .sf-pwqs-filter{
+  flex:0 0 auto;
+  color:rgb(var(--theme-text_light));
+  font-size:12px;
+  position:relative;
+  opacity:0;
+  transition:opacity .2s linear .35s;
+  display:flex;
+  align-items:stretch;
+  user-select:none;
+  pointer-events:none;
+}
+.sf-pwqs .sf-pwqs-field:not(:placeholder-shown) + .sf-pwqs-filter,
+.sf-pwqs:focus-within .sf-pwqs-filter,
+.sf-pwqs:hover .sf-pwqs-filter{
+  pointer-events:auto;
+}
+.sf-pwqs .sf-pwqs-filter summary{ list-style:none; outline:none; }
+.sf-pwqs .sf-pwqs-filter summary::-webkit-details-marker{ display:none; }
+
+.sf-pwqs .sf-pwqs-filter__text{
+  display:flex;
+  align-items:center;
+  padding:0 1em;
+  height:100%;
+  cursor:pointer;
+  position:relative;
+  border-left:1px solid rgba(0,0,0,.08);
+  gap:8px;
+}
+.sf-pwqs .sf-pwqs-filter__text::after{
+  content:"";
+  width:0;height:0;
+  border-left:4px solid transparent;
+  border-right:4px solid transparent;
+  border-top:5px solid rgba(0,0,0,.35);
+  transform:translateY(1px);
+  opacity:.9;
+}
+
+.sf-pwqs .sf-pwqs-menu{
+  list-style:none;
+  margin:0;
+  padding:6px;
+  position:absolute;
+  top:calc(100% + 10px);
+  right:0;
+  min-width:190px;
+  background:rgb(var(--theme-area_background_reset));
+  border-color:rgb(var(--theme-area_background_reset));
+  color:#222;
+  border-radius:var(--box--radius);
+  box-shadow:rgba(0,0,0,.15) 0 10px 25px, rgba(0,0,0,.1) 0 1px 2px;
+  white-space:nowrap;
+  opacity:0;
+  transform:translateY(-6px);
+  pointer-events:none;
+  transition:opacity .15s ease, transform .15s ease;
+  z-index:50;
+}
+.sf-pwqs .sf-pwqs-menu::before{
+  content:"";
+  position:absolute;
+  top:-7px;
+  right:16px;
+  width:14px;
+  height:14px;
+  background:rgb(var(--theme-area_background_reset));
+  transform:rotate(45deg);
+  box-shadow:rgba(0,0,0,.06) -1px -1px 1px;
+}
+.sf-pwqs details[open] .sf-pwqs-menu{
+  opacity:1;
+  transform:translateY(0);
+  pointer-events:auto;
+}
+.sf-pwqs .sf-pwqs-menu li{ border-radius:8px; overflow:hidden; }
+.sf-pwqs .sf-pwqs-menu label{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:9px 10px;
+  cursor:pointer;
+  border-radius:8px;
+}
+.sf-pwqs .sf-pwqs-menu label:hover{ background:rgba(0,0,0,.06); }
+.sf-pwqs .sf-pwqs-menu input[type="radio"]{ transform:translateY(1px); }
+.sf-pwqs .sf-pwqs-menuText{ display:inline-block; color:rgba(0,0,0,.82); font-size:13px; }
+
+.sf-pwqs .sf-pwqs-submit{
+  border:0;
+  background:transparent;
+  cursor:pointer;
+  padding:0 12px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:rgba(0,0,0,.55);
+  border-left:1px solid rgba(0,0,0,.08);
+  border-top-right-radius:inherit;
+  border-bottom-right-radius:inherit;
+}
+.sf-pwqs .sf-pwqs-submit:hover{ color:rgba(0,0,0,.8); }
+.sf-pwqs .sf-pwqs-submit svg{ width:16px; height:16px; display:block; }
+
+/* =========================================================
+   NativeForum: PW-style Quick Search (EXACT) - header + sidebar
+   Scoped to form.sf-csearch.sfqs so it cannot affect forum design.
+   ========================================================= */
+form.sf-csearch.sfqs{
+  background:#fff;
+  color:#222;
+  height:32px;
+  width:350px;
+  border-radius:50px;
+  position:relative;
+  font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+  font-size:14px;
+  display:flex;
+  align-items:stretch;
+}
+
+/* allow sidebar to be full width */
+.sf-sidebar form.sf-csearch.sfqs{ width:100%; max-width:350px; }
+
+form.sf-csearch.sfqs .sfqs-field{
+  flex:1 1 100%;
+  min-width:0;
+  background:transparent;
+  box-shadow:none;
+  font-size:inherit;
+  border:0;
+  padding:0 16px;
+  color:inherit;
+  max-width:none;
+  outline:none;
+}
+
+/* show filter on hover/focus/typed */
+form.sf-csearch.sfqs .sfqs-field:not(:placeholder-shown) + .cSearchFilter,
+form.sf-csearch.sfqs:focus-within .cSearchFilter,
+form.sf-csearch.sfqs:hover .cSearchFilter{
+  opacity:1;
+  transition-delay:0s;
+}
+
+form.sf-csearch.sfqs .cSearchFilter{
+  flex:0 0 auto;
+  color:rgb(var(--theme-text_light, 120,120,120));
+  font-size:12px;
+  position:relative;
+  opacity:0;
+  transition:opacity .2s linear .35s;
+  display:flex;
+  align-items:stretch;
+  user-select:none;
+  pointer-events:none;
+}
+form.sf-csearch.sfqs .sfqs-field:not(:placeholder-shown) + .cSearchFilter,
+form.sf-csearch.sfqs:focus-within .cSearchFilter,
+form.sf-csearch.sfqs:hover .cSearchFilter{
+  pointer-events:auto;
+}
+
+form.sf-csearch.sfqs .cSearchFilter summary{ list-style:none; outline:none; }
+form.sf-csearch.sfqs .cSearchFilter summary::-webkit-details-marker{ display:none; }
+
+form.sf-csearch.sfqs .cSearchFilter__text{
+  display:flex;
+  align-items:center;
+  padding:0 1em;
+  height:100%;
+  cursor:pointer;
+  position:relative;
+  border-left:1px solid rgba(0,0,0,.08);
+  gap:8px;
+}
+form.sf-csearch.sfqs .cSearchFilter__text::after{
+  content:"";
+  width:0;height:0;
+  border-left:4px solid transparent;
+  border-right:4px solid transparent;
+  border-top:5px solid rgba(0,0,0,.35);
+  transform:translateY(1px);
+  opacity:.9;
+}
+
+form.sf-csearch.sfqs .cSearchFilter__menu{
+  list-style:none;
+  margin:0;
+  padding:6px;
+  position:absolute;
+  top:calc(100% + 10px);
+  right:0;
+  min-width:190px;
+  background:rgb(var(--theme-area_background_reset, 255,255,255));
+  border-color:rgb(var(--theme-area_background_reset, 255,255,255));
+  color:#222;
+  border-radius:var(--box--radius, 10px);
+  box-shadow:rgba(0,0,0,.15) 0 10px 25px, rgba(0,0,0,.1) 0 1px 2px;
+  white-space:nowrap;
+  opacity:0;
+  transform:translateY(-6px);
+  pointer-events:none;
+  transition:opacity .15s ease, transform .15s ease;
+  z-index:50;
+}
+form.sf-csearch.sfqs .cSearchFilter__menu::before{
+  content:"";
+  position:absolute;
+  top:-7px;
+  right:16px;
+  width:14px;
+  height:14px;
+  background:rgb(var(--theme-area_background_reset, 255,255,255));
+  transform:rotate(45deg);
+  box-shadow:rgba(0,0,0,.06) -1px -1px 1px;
+}
+form.sf-csearch.sfqs .cSearchFilter[open] .cSearchFilter__menu{
+  opacity:1;
+  transform:translateY(0);
+  pointer-events:auto;
+}
+form.sf-csearch.sfqs .cSearchFilter__menu li{ border-radius:8px; overflow:hidden; }
+form.sf-csearch.sfqs .cSearchFilter__menu label{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:9px 10px;
+  cursor:pointer;
+  border-radius:8px;
+}
+form.sf-csearch.sfqs .cSearchFilter__menu label:hover{ background:rgba(0,0,0,.06); }
+form.sf-csearch.sfqs .cSearchFilter__menu input[type="radio"]{ transform:translateY(1px); }
+form.sf-csearch.sfqs .cSearchFilter__menuText{ display:inline-block; color:rgba(0,0,0,.82); font-size:13px; }
+
+/* Submit button */
+form.sf-csearch.sfqs .cSearchSubmit{
+  border:0;
+  background:transparent;
+  cursor:pointer;
+  padding:0 12px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:rgba(0,0,0,.55);
+  border-left:1px solid rgba(0,0,0,.08);
+  border-top-right-radius:inherit;
+  border-bottom-right-radius:inherit;
+}
+form.sf-csearch.sfqs .cSearchSubmit:hover{ color:rgba(0,0,0,.8); }
+form.sf-csearch.sfqs .cSearchSubmit svg{ width:16px; height:16px; display:block; }
+
+/* Sidebar block gap (Design Studio: layout.sidebarBlockGap) */
+.sf-wrap .sf-sidecard,
+.sf-wrap .sf-sidebox{
+  margin-bottom: var(--sf-side-block-gap, 12px) !important;
+}
+.sf-wrap .sf-sidecard:last-child,
+.sf-wrap .sf-sidebox:last-child{
+  margin-bottom: 0 !important;
+}
+.sf-wrap .sf-side > .sf-sidecard:last-child,
+.sf-wrap .sf-side > .sf-sidebox:last-child{
+  margin-bottom: 0 !important;
+}
+
+
+/* ============================
+   NativeForum – Messages root styling
+   Template: forum-messages-root
+   ============================ */
+.sf-wrap .sf-messages-page{max-width:100%;}
+.sf-wrap .sf-messages-card{background:var(--sf-card-bg,#fff);border-radius:var(--sf-card-radius,12px);box-shadow:var(--sf-card-shadow,0 1px 2px rgba(0,0,0,.06));overflow:hidden;}
+.sf-wrap .sf-messages-body{padding:14px 14px;}
+.sf-wrap .sf-message-row{display:flex;gap:12px;padding:10px 8px;border-bottom:1px solid rgba(0,0,0,.06);} 
+.sf-wrap .sf-message-row:last-child{border-bottom:0;}
+.sf-wrap .sf-message-avatar{flex:0 0 auto;}
+.sf-wrap .sf-message-content{flex:1 1 auto;min-width:0;}
+.sf-wrap .sf-message-title{font-weight:600;line-height:1.25;}
+.sf-wrap .sf-message-meta{font-size:12px;opacity:.7;margin-top:2px;}
+.sf-wrap .sf-message-actions{flex:0 0 auto;display:flex;align-items:center;gap:6px;}
+@media (max-width:768px){.sf-wrap .sf-message-row{flex-direction:column;}.sf-wrap .sf-message-actions{align-self:flex-end;}}
+
+
+/* Topic tags pills */
+.sf-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px;}
+.sf-tag{display:inline-flex;align-items:center;padding:2px 8px;border-radius:999px;font-size:12px;line-height:1.4;text-decoration:none;background:rgba(0,0,0,.06);color:inherit;}
+.sf-tag:hover{background:rgba(0,0,0,.10);text-decoration:none;}
+.sf-tags-topic{margin-top:8px;}
+
+
+/* ============================
+   NativeForum – Messages root styling
+   Template: forum-messages-root
+   ============================ */
+
+.sf-wrap .sf-messages-page { max-width: 100%; }
+.sf-wrap .sf-messages-card {
+  background: var(--sf-card-bg, #fff);
+  border-radius: var(--sf-card-radius, 12px);
+  box-shadow: var(--sf-card-shadow, 0 1px 2px rgba(0,0,0,.06));
+  overflow: hidden;
+}
+.sf-wrap .sf-messages-card .sf-card-h,
+.sf-wrap .sf-messages-card .card-header {
+  padding: var(--sf-header-pad, 10px 14px);
+}
+.sf-wrap .sf-messages-body { padding: 14px 14px; }
+
+.sf-wrap .sf-message-row {
+  display: flex;
+  gap: 12px;
+  padding: 10px 8px;
+  border-bottom: 1px solid rgba(0,0,0,.06);
+}
+.sf-wrap .sf-message-row:last-child { border-bottom: 0; }
+
+.sf-wrap .sf-message-avatar { flex: 0 0 auto; }
+.sf-wrap .sf-message-content { flex: 1 1 auto; min-width: 0; }
+.sf-wrap .sf-message-title { font-weight: 600; line-height: 1.25; }
+.sf-wrap .sf-message-meta { font-size: 12px; opacity: .7; margin-top: 2px; }
+.sf-wrap .sf-message-actions { flex: 0 0 auto; display: flex; align-items: center; gap: 6px; }
+
+@media (max-width: 768px) {
+  .sf-wrap .sf-message-row { flex-direction: column; }
+  .sf-wrap .sf-message-actions { align-self: flex-end; }
+}
+
+
+
+
+/* Author column position toggle (post cards) */
+@media (min-width:768px){
+  .sf-wrap-bootstrap .sf-author-right .sf-post-authorcol{order:2!important;}
+  .sf-wrap-bootstrap .sf-author-right .sf-post-content{order:1!important;}
+}

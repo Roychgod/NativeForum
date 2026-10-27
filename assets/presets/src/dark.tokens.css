@@ -1,0 +1,139 @@
+/* NativeForum preset: Dark — GitHub-like dark surfaces, blue accent, rounded corners. */
+:root, .sf-wrap{
+
+  --sf-bg:#0d1117;
+  --sf-text:#e6edf3;
+  --sf-card:var(--sf-bg-panel, var(--sf-surface));
+  --sf-text-panel:var(--sf-text);
+  --sf-border:rgba(240,246,252,.10);
+  --sf-muted:#8b949e;
+  --sf-link:#79b8ff;
+  --sf-link-hover:#4c8dff;
+  --sf-accent:var(--sf-primary);
+  --sf-primary:#4c8dff;
+
+  --sf-header-bg:#21262d;
+  --sf-header-color:#f0f6fc;
+  --sf-header-border:rgba(240,246,252,.10);
+  --sf-sidebar-header-bg:var(--sf-header-bg);
+
+  --sf-input-bg:#0d1117;
+  --sf-input-text:#e6edf3;
+
+  --sf-side-bg:var(--sf-bg-panel, var(--sf-surface));
+  --sf-side-text:#e6edf3;
+  --sf-side-border:rgba(240,246,252,.10);
+
+  --sf-btn-bg:#2d333b;
+  --sf-btn-text:#e6edf3;
+  --sf-btn-border:rgba(240,246,252,.14);
+  --sf-btn-outline-text:#e6edf3;
+  --sf-btn-primary-bg:var(--sf-primary);
+  --sf-btn-primary-text:#ffffff;
+  --sf-btn-primary-hover-bg:#6ea2ff;
+  --sf-btn-secondary-bg:#2d333b;
+  --sf-btn-secondary-text:#e6edf3;
+  --sf-btn-secondary-hover-bg:#373e47;
+
+  --sf-tag-bg:rgba(76,141,255,.16);
+  --sf-tag-text:#b6d1ff;
+  --sf-tag-hover-bg:var(--sf-primary);
+  --sf-tag-hover-text:#ffffff;
+
+  --sf-pinned-row-bg:rgba(251,191,36,.08);
+  --sf-pinned-row-text:#e6edf3;
+
+  --sf-surface:#161b22;
+  --sf-surface-2:#1c2129;
+  --sf-radius:10px;
+  --sf-card-header-padding:12px 16px;
+  --sf-header-pad:12px 16px;
+  --sf-card-header-font-size:1.05em;
+  --sf-sidebar-header-font-size:1.05em;
+  --sf-sidebar-header-padding:12px 16px;
+  --sf-btn-pad-y:8px;
+  --sf-btn-pad-x:16px;
+  --sf-btn-radius:8px;
+  --sf-focus:rgba(76,141,255,.35);
+  --sf-hover:rgba(240,246,252,.05);
+  --sf-border-strong:rgba(240,246,252,.14);
+  --sf-border-strong-2:rgba(240,246,252,.24);
+  --sf-ring:0 0 0 3px rgba(76,141,255,.35);
+  --sf-shadow:0 1px 0 rgba(0,0,0,.3);
+  --sf-userinfo-bg:#1c2129;
+  --sf-badge-pinned-bg:#fbbf24;
+  --sf-badge-pinned-color:#1f1500;
+  --sf-pm-box-bg:rgba(76,141,255,.16);
+  --sf-pm-box-hover-bg:rgba(76,141,255,.24);
+
+  /* skin tokens */
+  --sk-page-bg:#0d1117;
+  --sk-wrap-bg:#0d1117;
+  --sk-wrap-pad:20px 0;
+  --sk-wrap-radius:10px;
+  --sk-table-head:#1c2129;
+  --sk-scheme:dark;
+  --sk-heading:#f0f6fc;
+  --sk-on-header:#f0f6fc;
+  --sk-on-primary:#ffffff;
+  --sk-side-link:#f0f6fc;
+  --sk-content-link:#79b8ff;
+  --sk-pagehead-bg:var(--sf-surface);
+  --sk-page-item-bg:var(--sf-surface);
+  --sk-deep:#0d1117;
+  --sk-field-bg:#0d1117;
+  --sk-field-text:#e6edf3;
+  --sk-menu-bg:#161b22;
+  --sk-editor-bg:#0d1117;
+  --sk-editor-text:#e6edf3;
+  --sk-editor-link:#79b8ff;
+  --sk-editor-bar:#21262d;
+  --sk-cke-bar:#e6e9ed;
+  --sk-upload-bg:#0d1117;
+  --sk-avatar-bg:#2d333b;
+  --sk-avatar-text:#e6edf3;
+  --sk-yellow:#fbbf24;
+  --sk-on-yellow:#1f1500;
+  --sk-danger:#da3633;
+  --sk-primary-soft:rgba(76,141,255,.16);
+  --sk-primary-soft-text:#b6d1ff;
+  --sk-hover-soft:rgba(240,246,252,.05);
+  --sk-outline-hover:rgba(240,246,252,.05);
+  --sk-border-strong:rgba(240,246,252,.14);
+  --sk-border-strong-2:rgba(240,246,252,.24);
+  --sk-ok-bg:rgba(34,197,94,.14);
+  --sk-ok-border:rgba(34,197,94,.4);
+  --sk-ok-text:#bbf7d0;
+  --sk-err-bg:rgba(248,113,113,.14);
+  --sk-err-border:rgba(248,113,113,.45);
+  --sk-err-text:#fecaca;
+  --sk-toast-bg:#f8fafc;
+  --sk-toast-text:#0f172a;
+  --sk-radius:10px;
+  --sk-radius-sm:6px;
+  --sk-icon-radius:10px;
+  --sk-input-radius:8px;
+  --sk-badge-radius:999px;
+  --sk-badge-transform:none;
+  --sk-badge-spacing:0;
+  --sk-head-transform:none;
+  --sk-head-spacing:0;
+  --sk-head-weight:600;
+  --sk-head-size:1.02em;
+  --sk-title-weight:700;
+  --sk-btn-weight:600;
+  --sk-card-shadow:0 1px 0 rgba(0,0,0,.25);
+  --sk-post-border:1px solid rgba(240,246,252,.10);
+  --sk-btn-border:rgba(240,246,252,.14);
+  --sk-btn-border-hover:rgba(240,246,252,.22);
+  --sk-toggle-bg:rgba(240,246,252,.08);
+  --sk-toggle-text:#f0f6fc;
+  --sk-toggle-border:transparent;
+  --sk-activity-head-margin:-14px -16px 10px;
+  --sk-activity-head-radius:10px 10px 0 0;
+  --sk-danger-outline-text:#da3633;
+  --sk-danger-outline-border:#da3633;
+  --sk-danger-outline-hover-bg:#da3633;
+  --sk-danger-outline-hover-text:#ffffff;
+}
+.sf-wrap{ color-scheme:dark; }
