@@ -103,7 +103,7 @@ Design presets are generated from `assets/presets/src/` (`*.tokens.css` + `_skin
 
 ## Support
 
-- ProcessWire forum support thread: *Modules/Plugins* board on [processwire.com/talk](https://processwire.com/talk/)
+- Support thread: [Native Forum on the ProcessWire forum](https://processwire.com/talk/topic/32102-native-forum-%E2%80%93-a-complete-community-forum-for-processwire-free/)
 - Bugs and feature requests: GitHub issues of this repository
 
 ## Author
